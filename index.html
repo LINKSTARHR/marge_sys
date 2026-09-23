@@ -223,9 +223,42 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
 .imp-progress.show{display:block;}
 .imp-progress > div{height:100%;width:0;background:#0aa88f;transition:width .2s;}
 @media(max-width:760px){ .imp-grid{grid-template-columns:1fr;} .imp-body{padding:14px 14px 4px;} }
+/* ===== GRIEVANCE / LIKHIT JAWAB ===== */
+.entry-card .sec-h{grid-column:1/-1;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#0a8f7a;margin:4px 0 10px;padding-bottom:6px;border-bottom:1px dashed var(--border);}
+textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-family:inherit;}
+.due{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:12px;white-space:nowrap;}
+.due.ok{background:#e6f4ea;color:#1e6e3c;} .due.soon{background:#fff1d6;color:#a15c00;} .due.over{background:#fde2e2;color:#ba1a1a;} .due.done{background:#eef2f7;color:#43474e;}
+.gj-wrap{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:20px;padding:18px 22px 4px;align-items:start;}
+.gj-editor .form-group{margin-bottom:12px;}
+.gj-editor .form-group label{min-height:0;font-size:12.5px;}
+.gj-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gj-tpl{display:flex;gap:6px;}
+.gj-tpl select{flex:1;min-width:0;}
+.gj-tpl .btn{width:auto;padding:8px 12px;border-radius:8px;}
+#gj-body{min-height:260px;}
+.gj-note{font-size:12px;color:#a15c00;background:#fff8ec;border:1px solid #f5d9a8;border-radius:8px;padding:8px 10px;margin-top:4px;}
+.gj-check{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin:4px 0 10px;}
+.gj-preview-wrap{background:#e9edf2;border-radius:12px;padding:18px;position:sticky;top:12px;max-height:calc(100vh - 150px);overflow:auto;}
+.gj-paper{background:#fff;max-width:640px;margin:0 auto;padding:44px 42px 50px 50px;box-shadow:0 4px 18px rgba(0,0,0,.12);border-radius:2px;min-height:760px;}
+.gj-paper .lt{font-size:13.5px;}
+.gj-due{font-size:12.5px;color:var(--muted);margin-left:auto;font-weight:600;}
+@media(max-width:1100px){ .gj-wrap{grid-template-columns:1fr;} .gj-preview-wrap{position:static;max-height:none;} }
+@media(max-width:760px){ .gj-wrap{padding:14px;} .gj-paper{padding:24px 18px;} }
 /* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#10263f;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:4000;}
 #toast.show{opacity:1;transform:translate(-50%,0);}
+.lt{font-family:'Kalimati','Noto Sans Devanagari','Mangal','Nirmala UI',sans-serif;color:#000;font-size:15px;line-height:1.75;}
+  .lt-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:18px;}
+  .lt-head img{width:64px;height:64px;object-fit:contain;}
+  .lt-co{font-size:21px;font-weight:700;} .lt-co-en{font-size:13px;font-weight:700;letter-spacing:.04em;} .lt-co-sub{font-size:12.5px;}
+  .lt-date{text-align:right;margin-bottom:16px;}
+  .lt-to{margin-bottom:14px;}
+  .lt-sub{text-align:center;font-weight:700;margin:6px 0 14px;}
+  .lt-sal{margin-bottom:4px;}
+  .lt-body p{text-align:justify;margin:0 0 12px;}
+  .lt-enc{margin:6px 0 0;}
+  .lt-sign{margin-top:46px;}
+  .lt-line{margin-bottom:2px;letter-spacing:1px;}
 /* ===== PAGINATION ===== */
 .pager{display:flex;align-items:center;justify-content:flex-end;gap:22px;flex-wrap:wrap;padding:14px 4px 4px;border-top:1px solid var(--border);margin-top:4px;font-size:14px;color:var(--muted);}
 .pager:empty{display:none;}
@@ -324,6 +357,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg><span>Recruitment</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
       <div class="sub">
         <button class="item tab-btn" onclick="if(requireAccess(notShram(),'Applicants')){switchTab(event,'tab-leads');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg><span>Applicants</span></button>
+      </div>
+      <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg><span>Compliance</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+      <div class="sub">
+        <button class="item tab-btn" onclick="if(requireAccess(canGrievance(),'Grievance / Rescue')){switchTab(event,'tab-grievance');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>Grievance / Rescue</span></button>
       </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>Reporting</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
       <div class="sub">
@@ -592,6 +629,89 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
           <tbody id="p-table"></tbody></table>
         </div>
         <div class="pager" id="p-pager"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: GRIEVANCE / RESCUE (विभागको उजुरी + लिखित जवाफ) -->
+  <div id="tab-grievance" class="tab-content">
+    <datalist id="dl-branch"><option value="राहत, उद्धार तथा समन्वय शाखा"><option value="संस्था अनुगमन शाखा"><option value="उजुरी व्यवस्थापन शाखा"></datalist>
+    <div class="main-grid form-closed" id="g-grid">
+      <div class="card entry-card" id="g-entry">
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('g',false)">← Back to List</button><span id="g-entry-title">New Grievance Case</span></div>
+        <form id="g-form" autocomplete="off" onsubmit="grvSubmit(event)">
+          <div class="sec-h">DoFE Letter (विभागको पत्र)</div>
+          <div class="form-group"><label>Chalani No. (चलानी नं.) *</label><input type="text" id="g-chalani" class="form-control" placeholder="e.g. 2083/84-1444" ></div>
+          <div class="form-group"><label>P.S. No. (प.सं.)</label><input type="text" id="g-ps" class="form-control" placeholder="e.g. 2083/84" ></div>
+          <div class="form-group"><label>Letter Date — BS (पत्रको मिति) *</label><input type="text" id="g-letterbs" class="form-control" placeholder="2083-05-31" oninput="grvLetterHint()"><div class="lot-hint" id="g-letter-hint"></div></div>
+          <div class="form-group"><label>Received Date (प्राप्त मिति)</label><input type="date" id="g-received" class="form-control" placeholder="" ></div>
+          <div class="form-group"><label>Branch (शाखा)</label><input type="text" id="g-branch" class="form-control" placeholder="" list="dl-branch"></div>
+          <div class="form-group"><label>Complaint Date — BS (उजुरी मिति)</label><input type="text" id="g-complaintbs" class="form-control" placeholder="2083-05-30" ></div>
+          <div class="sec-h">Worker (पीडित कामदार)</div>
+          <div class="form-group"><label>Passport No.</label><input type="text" id="g-passport" class="form-control" placeholder="PA1234567" list="dl-wpass" oninput="this.value=cleanPassport(this.value);grvPassHint(true)"><div class="lot-hint" id="g-pass-hint"></div></div>
+          <div class="form-group"><label>Worker Name *</label><input type="text" id="g-name" class="form-control" placeholder="" ></div>
+          <div class="form-group"><label>Country</label><input type="text" id="g-country" class="form-control" placeholder="" list="dl-country"></div>
+          <div class="form-group"><label>Company</label><input type="text" id="g-company" class="form-control" placeholder="" list="dl-company"></div>
+          <div class="form-group"><label>Lot No.</label><input type="text" id="g-lotno" class="form-control" placeholder="" ></div>
+          <div class="sec-h">Complaint (उजुरी)</div>
+          <div class="form-group"><label>Complainant (निवेदक)</label><input type="text" id="g-applicant" class="form-control" placeholder="नाम" ></div>
+          <div class="form-group"><label>Complainant Phone</label><input type="text" id="g-phone" class="form-control" placeholder="98XXXXXXXX" ></div>
+          <div class="form-group"><label>Problem Type</label><select id="g-problem" class="form-control"><option value="">—</option><option>Rescue / Stranded (उद्धार / अलपत्र)</option><option>Salary / Facility not provided (तलब / सुविधा नपाएको)</option><option>Work different from contract (करार विपरीत काम)</option><option>Money / Fraud (रकम / ठगी)</option><option>Not departed after visa (भिसापछि उडान नभएको)</option><option>Illness / Treatment (बिरामी / उपचार)</option><option>Death (मृत्यु)</option><option>Other (अन्य)</option></select></div>
+          <div class="form-group full"><label>Complaint Details (उजुरीको प्रकृति)</label><textarea id="g-detail" class="form-control" placeholder="पत्रमा उल्लेखित उजुरीको प्रकृति"></textarea></div>
+          <div class="form-group full"><label>Demand / Claim (माग दाबी)</label><textarea id="g-demand" class="form-control" placeholder="जस्तै: उद्धार गरी नेपाल फर्काइदिनुहुन, क्षतिपूर्ति…"></textarea></div>
+          <div class="sec-h">Action &amp; Status</div>
+          <div class="form-group"><label>Status</label><select id="g-status" class="form-control"><option>New</option><option>In Progress</option><option>Reply Submitted</option><option>Settled</option><option>Closed</option></select></div>
+          <div class="form-group"><label>Compensation / Refund</label><input type="text" id="g-comp" class="form-control" placeholder="Amount" ></div>
+          <div class="form-group"><label>Closed Date</label><input type="date" id="g-closed" class="form-control" placeholder="" ></div>
+          <div class="form-group"><label>Remarks</label><input type="text" id="g-remarks" class="form-control" placeholder="" ></div>
+          <div class="form-group full"><label>Action Taken (गरिएको कारबाही)</label><textarea id="g-action" class="form-control" placeholder="कम्पनीसँग पत्राचार, टिकट, मिलापत्र…"></textarea></div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="g-del" style="margin-right:auto;color:#ba1a1a !important;" onclick="grvDelete()">Delete</button>
+            <button type="button" class="btn btn-ghost" onclick="toggleEntry('g',false)">Cancel</button>
+            <button type="submit" class="btn btn-ghost" data-jawab="1">Save &amp; Write Likhit Jawab</button>
+            <button type="submit" class="btn">Save</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card entry-card" id="gj-entry">
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('gj',false)">← Back to List</button><span>Likhit Jawab — <span id="gj-case"></span></span><span class="gj-due" id="gj-due"></span></div>
+        <div class="gj-wrap">
+          <div class="gj-editor" oninput="jwPreview()">
+            <div class="gj-row">
+              <div class="form-group"><label>Reply Date — BS (मिति)</label><input type="text" id="gj-date" class="form-control" placeholder="2083-06-08" ></div>
+              <div class="form-group"><label>Signer Name / Post (optional)</label><input type="text" id="gj-signer" class="form-control" placeholder="नाम, पद" ></div>
+            </div>
+            <div class="form-group"><label>Template (ढाँचा)</label><div class="gj-tpl"><select id="gj-template" class="form-control"><option value="in_job">कामदार विदेशमा — तलब/सुविधा नियमित</option><option value="conduct">कामदारको आचरण सम्बन्धी (आधारहीन आरोप)</option><option value="recent">भर्खर गएको — कम्पनीमा बुझ्दा समस्या समाधान</option><option value="not_departed">भिसापछि सम्पर्कविहीन — उडान बाँकी</option><option value="blank">खाली (परिचय अनुच्छेद मात्र)</option></select><button type="button" class="btn" onclick="jwInsertTemplate()">Insert</button></div></div>
+            <div class="form-group"><label>To (बोधार्थ / ठेगाना)</label><textarea id="gj-to" class="form-control" rows="4"></textarea></div>
+            <div class="form-group"><label>Subject (विषय)</label><input type="text" id="gj-subject" class="form-control" placeholder="" ></div>
+            <div class="form-group"><label>Body (व्यहोरा) — अनुच्छेद छुट्याउन खाली line राख्नुहोस्</label><textarea id="gj-body" class="form-control"></textarea></div>
+            <div class="form-group"><label>Enclosure (सम्लग्न प्रमाण)</label><input type="text" id="gj-enc" class="form-control" placeholder="जस्तै: सम्बन्धित देशको भिसा कपी" ></div>
+            <label class="gj-check"><input type="checkbox" id="gj-lh" onchange="jwPreview()"> Print with letterhead (company नाम/ठेगाना माथि)</label>
+            <div class="gj-note">⚠ यो draft हो — कानुनी व्यहोरा Manager/कानुनी सल्लाहकारले जाँचेर मात्र विभागमा पेश गर्नुहोस्। [ ] कोष्ठकभित्रको भाग आफ्नो विवरणले बदल्नुहोस्।</div>
+          </div>
+          <div class="gj-preview-wrap"><div class="gj-paper" id="gj-preview"></div></div>
+        </div>
+        <div class="form-actions" style="margin:12px 0 0;">
+          <button type="button" class="btn btn-ghost" onclick="jwSaveDraft()">Save Draft</button>
+          <button type="button" class="btn btn-ghost" onclick="jwMarkSubmitted()">Mark as Submitted</button>
+          <button type="button" class="btn" onclick="jwPrint()">🖨 Print / PDF</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title title-row"><span>Grievance / Rescue Cases</span><button type="button" class="entry-btn" onclick="openGrvForm(null)">+ New Case</button></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input type="text" id="g-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search case no., chalani, name, passport, company..." oninput="renderGrievances()">
+          <select id="g-status-filter" class="form-control" style="width:auto;min-width:170px;margin-bottom:15px;font-weight:600;" onchange="renderGrievances()">
+            <option value="">— All Status —</option><option value="__open">Open (New + In Progress)</option><option value="__due">⚠ Due ≤ 2 days / Overdue</option><option>New</option><option>In Progress</option><option>Reply Submitted</option><option>Settled</option><option>Closed</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table><thead><tr><th>Case / Letter</th><th>Worker</th><th>Country / Company</th><th>Problem</th><th>Deadline</th><th>Status</th><th></th></tr></thead>
+          <tbody id="g-table"></tbody></table>
+        </div>
+        <div class="pager" id="g-pager"></div>
       </div>
     </div>
   </div>
@@ -1108,6 +1228,7 @@ async function refreshData(blocking){
     workers = unpack(r.wcols, r.wrows, true);
     pres    = unpack(r.pcols, r.prows, false);
     leads   = (r.lcols && r.lrows) ? unpackLeads(r.lcols, r.lrows) : [];
+    grievances = (r.gcols && r.grows) ? unpack(r.gcols, r.grows, false) : [];
   } else if(r.workers){
     workers = r.workers.map(w=>unpack(Object.keys(w), [Object.values(w)], true)[0]);
     pres    = r.pres || [];
@@ -1115,7 +1236,7 @@ async function refreshData(blocking){
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
 }
-function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); fillLookups(); }
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); fillLookups(); }
 
 // ================= SIDEBAR (mobile toggle) =================
 function toggleSidebar(){
@@ -1159,7 +1280,7 @@ function switchTab(ev, id){
 
 // ================= ENTRY FORM (बटन थिचेपछि मात्र खुल्ने) =================
 let formHist = false, ignorePop = false;
-const PANEL_KEYS = ['w','l','p','wi'];
+const PANEL_KEYS = ['w','l','p','wi','g','gj'];
 function openEntryKey(){
   for(const k of PANEL_KEYS){ const c=document.getElementById(k+'-entry'); if(c && c.classList.contains('panel-on')) return k; }
   return null;
@@ -1242,8 +1363,8 @@ function normRec(o){
   if(o.company) o.company = normCompany(o.company);
   return o;
 }
-const NORM_FIELDS = { country:['w-country','l-country','p-country','e-country','le-country','pe-country'],
-                      company:['w-company','l-company','p-company','e-company','le-company','pe-company'] };
+const NORM_FIELDS = { country:['w-country','l-country','p-country','e-country','le-country','pe-country','g-country'],
+                      company:['w-company','l-company','p-company','e-company','le-company','pe-company','g-company'] };
 document.addEventListener('blur', function(ev){
   const el = ev.target; if(!el || !el.id) return;
   if(NORM_FIELDS.country.includes(el.id)) el.value = normCountry(el.value);
@@ -1276,6 +1397,7 @@ function fillLookups(){
   const uniq = arr => [...new Set(arr.filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   const all = [...workers, ...pres, ...(leads||[])];
   ensureDatalist('dl-country').innerHTML = uniq(all.map(x=>x.country)).map(v=>`<option value="${gsEsc(v)}">`).join('');
+  ensureDatalist('dl-wpass').innerHTML = workers.filter(w=>w.passport).map(w=>`<option value="${gsEsc(w.passport)}">${gsEsc(w.name)}</option>`).join('');
   ensureDatalist('dl-company').innerHTML = uniq(all.map(x=>x.company)).map(v=>`<option value="${gsEsc(v)}">`).join('');
   const today = new Date().toISOString().slice(0,10);
   const u = usedByLotMap();
@@ -1481,9 +1603,305 @@ async function impRun(){
   }
 }
 
+
+// ================= BS (बि.सं.) DATE HELPERS =================
+const NEP_DIG = '०१२३४५६७८९';
+function toNepDigits(v){ return String(v==null?'':v).replace(/[0-9]/g, d=>NEP_DIG[d]); }
+function toEngDigits(v){ return String(v==null?'':v).replace(/[०-९]/g, d=>NEP_DIG.indexOf(d)); }
+function parseBs(v){
+  const m = toEngDigits(v).trim().match(/^(\d{4})\D+(\d{1,2})\D+(\d{1,2})$/);
+  if(!m) return null;
+  const y=+m[1], mo=+m[2], d=+m[3];
+  if(!BS_START[y] || mo<1 || mo>12) return null;
+  if(d<1 || d>(BS_DAYS[y]||BS_DEFAULT)[mo-1]) return null;
+  return { y, m:mo, d };
+}
+function fmtBs(b){ return b ? b.y + '-' + String(b.m).padStart(2,'0') + '-' + String(b.d).padStart(2,'0') : ''; }
+function bsToAd(b){
+  if(!b) return null;
+  const yd = BS_DAYS[b.y] || BS_DEFAULT; let days = b.d - 1;
+  for(let i=0;i<b.m-1;i++) days += yd[i];
+  const s = BS_START[b.y]; return new Date(s.getFullYear(), s.getMonth(), s.getDate() + days);
+}
+function adToBsFull(dt){
+  const x = dt instanceof Date ? dt : new Date(dt); if(isNaN(x)) return null;
+  const t = new Date(x.getFullYear(), x.getMonth(), x.getDate());
+  for(const y of Object.keys(BS_START).map(Number).sort((a,b)=>b-a)){
+    if(t >= BS_START[y]){
+      let days = Math.round((t - BS_START[y]) / 86400000); const yd = BS_DAYS[y] || BS_DEFAULT;
+      for(let m=0;m<12;m++){ if(days < yd[m]) return { y, m:m+1, d:days+1 }; days -= yd[m]; }
+    }
+  }
+  return null;
+}
+function todayBs(){ return fmtBs(adToBsFull(new Date())); }
+function daysUntil(adStr){
+  if(!adStr) return null; const p = String(adStr).slice(0,10).split('-').map(Number); if(p.length<3 || !p[0]) return null;
+  const d = new Date(p[0], p[1]-1, p[2]); const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((d - t) / 86400000);
+}
+
+// ================= GRIEVANCE / RESCUE (उजुरी + लिखित जवाफ) =================
+let grievances = [];
+let editingGId = null, jawabGId = null;
+const GRV_STATUS = ['New','In Progress','Reply Submitted','Settled','Closed'];
+const GRV_STATUS_CLS = { 'New':'s-cancel', 'In Progress':'s-submitted', 'Reply Submitted':'s-upload', 'Settled':'s-approved', 'Closed':'s-entry' };
+const GRV_PROBLEMS = ['Rescue / Stranded (उद्धार / अलपत्र)','Salary / Facility not provided (तलब / सुविधा नपाएको)','Work different from contract (करार विपरीत काम)','Money / Fraud (रकम / ठगी)','Not departed after visa (भिसापछि उडान नभएको)','Illness / Treatment (बिरामी / उपचार)','Death (मृत्यु)','Other (अन्य)'];
+const GRV_BRANCHES = ['राहत, उद्धार तथा समन्वय शाखा','संस्था अनुगमन शाखा','उजुरी व्यवस्थापन शाखा'];
+const COUNTRY_NP = { 'UAE':'यू.ए.ई.', 'Malaysia':'मलेसिया', 'Saudi Arabia':'साउदी अरब', 'Qatar':'कतार', 'Kuwait':'कुवेत', 'Bahrain':'बहराइन', 'Oman':'ओमान',
+  'Jordan':'जोर्डन', 'Romania':'रोमानिया', 'Poland':'पोल्याण्ड', 'Croatia':'क्रोएसिया', 'Japan':'जापान', 'South Korea':'दक्षिण कोरिया', 'Maldives':'माल्दिभ्स',
+  'Turkey':'टर्की', 'Serbia':'सर्बिया', 'Cyprus':'साइप्रस', 'Malta':'माल्टा', 'Israel':'इजरायल', 'Portugal':'पोर्चुगल' };
+const LS_NAME_NP = 'लिंक स्टार मेनपावर सर्भिसेस प्रा. लि.';
+function canGrievance(){ return !!session && (session.role==='admin' || session.role==='shram'); }
+function grvOpen(g){ return g.caseStatus==='New' || g.caseStatus==='In Progress'; }
+function grvDue(g){
+  if(!grvOpen(g)) return { cls:'done', txt: g.caseStatus==='Reply Submitted' ? '✓ Submitted' : '—', n:null };
+  const n = daysUntil(g.deadlineDate);
+  if(n===null) return { cls:'', txt:'-', n };
+  if(n<0)  return { cls:'over', txt:`Overdue ${-n} day${-n>1?'s':''}`, n };
+  if(n===0) return { cls:'over', txt:'Due today', n };
+  if(n<=2) return { cls:'soon', txt:`${n} day${n>1?'s':''} left`, n };
+  return { cls:'ok', txt:`${n} days left`, n };
+}
+function grvDueCount(){ return grievances.filter(g=>{ const d=grvDue(g); return d.n!==null && d.n<=2; }).length; }
+function grvDeadlineFromBs(bsStr){ const ad = bsToAd(parseBs(bsStr)); if(!ad) return ''; ad.setDate(ad.getDate()+7); return fmtDate(ad); }
+function bsOfAd(adStr){ if(!adStr) return ''; const p=String(adStr).slice(0,10).split('-').map(Number); return fmtBs(adToBsFull(new Date(p[0],p[1]-1,p[2]))); }
+
+// ---------- LIST ----------
+let grvDueOnly = false;
+function renderGrievances(){
+  const tb = document.getElementById('g-table'); if(!tb) return;
+  const q = (document.getElementById('g-search').value||'').toLowerCase();
+  const sf = document.getElementById('g-status-filter').value;
+  let rows = grievances.filter(g=>{
+    if(q && ![g.caseNo,g.dofeChalaniNo,g.workerName,g.passport,g.company,g.country,g.applicantName,g.lotNo].some(v=>String(v||'').toLowerCase().includes(q))) return false;
+    if(sf==='__open') return grvOpen(g);
+    if(sf==='__due') { const d=grvDue(g); return d.n!==null && d.n<=2; }
+    return !sf || g.caseStatus===sf;
+  });
+  rows.sort((a,b)=>{
+    const oa=grvOpen(a)?0:1, ob=grvOpen(b)?0:1; if(oa!==ob) return oa-ob;
+    if(oa===0) return String(a.deadlineDate||'9').localeCompare(String(b.deadlineDate||'9'));
+    return String(b.createdAt||'').localeCompare(String(a.createdAt||''));
+  });
+  const pageRows = pageSlice('g', rows, [q, sf].join('|'));
+  tb.innerHTML = pageRows.map(g=>{
+    const d = grvDue(g);
+    return `<tr>
+      <td><b>${gsEsc(g.caseNo||'-')}</b><br><small style="color:var(--muted)">च.नं. ${gsEsc(g.dofeChalaniNo||'-')} · ${gsEsc(g.letterDateBs||'')}</small></td>
+      <td>${gsEsc(g.workerName||'-')}<br><small style="color:var(--muted)">${gsEsc(g.passport||'')}${g.lotNo?' · LOT '+gsEsc(g.lotNo):''}</small></td>
+      <td>${gsEsc(g.country||'-')}<br><small>${gsEsc(g.company||'')}</small></td>
+      <td><small>${gsEsc(String(g.problemType||'-').replace(/\s*\(.*\)$/,''))}</small></td>
+      <td><span class="due ${d.cls}">${d.txt}</span>${g.deadlineDate?`<br><small style="color:var(--muted)">${gsEsc(bsOfAd(g.deadlineDate))}</small>`:''}</td>
+      <td><span class="badge ${GRV_STATUS_CLS[g.caseStatus]||'s-entry'}">${gsEsc(g.caseStatus||'New')}</span></td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-ghost" onclick="openGrvForm('${g.id}')">Edit</button> <button class="btn btn-sm" onclick="openJawab('${g.id}')">Likhit Jawab</button></td>
+    </tr>`; }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted)">No cases found</td></tr>';
+}
+function openGrievanceDue(){
+  if(!requireAccess(canGrievance(),'Grievance / Rescue')) return;
+  switchTabById('tab-grievance');
+  document.getElementById('g-status-filter').value='__due'; renderGrievances();
+}
+
+// ---------- CASE FORM ----------
+const G_FIELDS = { dofeChalaniNo:'g-chalani', dofePsNo:'g-ps', letterDateBs:'g-letterbs', receivedDate:'g-received', branch:'g-branch', complaintDateBs:'g-complaintbs',
+  passport:'g-passport', workerName:'g-name', country:'g-country', company:'g-company', lotNo:'g-lotno', applicantName:'g-applicant', applicantPhone:'g-phone',
+  problemType:'g-problem', complaintDetail:'g-detail', demand:'g-demand', caseStatus:'g-status', compensation:'g-comp', closedDate:'g-closed', remarks:'g-remarks', actionTaken:'g-action' };
+function openGrvForm(id){
+  if(!requireAccess(canGrievance(),'Grievance / Rescue')) return;
+  editingGId = id || null;
+  const g = id ? grievances.find(x=>x.id===id) : null;
+  document.getElementById('g-form').reset();
+  for(const k in G_FIELDS){ const el=document.getElementById(G_FIELDS[k]); if(el) el.value = g ? (g[k]||'') : ''; }
+  if(!g){ document.getElementById('g-status').value='New'; document.getElementById('g-branch').value=GRV_BRANCHES[0]; document.getElementById('g-received').value=fmtDate(new Date()); }
+  document.getElementById('g-entry-title').textContent = g ? ('Edit Case — ' + (g.caseNo||'')) : 'New Grievance Case';
+  document.getElementById('g-del').style.display = (g && isAdmin()) ? '' : 'none';
+  grvLetterHint(); grvPassHint();
+  toggleEntry('g', true);
+}
+function grvLetterHint(){
+  const el = document.getElementById('g-letter-hint'); if(!el) return;
+  const v = document.getElementById('g-letterbs').value.trim();
+  if(!v){ el.className='lot-hint'; el.innerHTML=''; return; }
+  const b = parseBs(v);
+  if(!b){ el.className='lot-hint bad'; el.innerHTML='⛔ मिति मिलेन — ढाँचा: 2083-05-31 (बि.सं.)'; return; }
+  const dl = grvDeadlineFromBs(v), n = daysUntil(dl);
+  const st = n<0 ? `<b>Overdue ${-n} day${-n>1?'s':''}</b>` : n===0 ? '<b>Due today</b>' : `${n} day${n>1?'s':''} left`;
+  el.className = 'lot-hint ' + (n<=0 ? 'bad' : n<=2 ? 'warn' : 'ok');
+  el.innerHTML = `= ${fmtDate(bsToAd(b))} AD · ७ दिने म्याद: <b>${bsOfAd(dl)}</b> (${dl}) — ${st}`;
+}
+function grvPassHint(fill){
+  const el = document.getElementById('g-pass-hint'); if(!el) return;
+  const pp = cleanPassport(document.getElementById('g-passport').value);
+  if(!pp){ el.className='lot-hint'; el.innerHTML=''; return; }
+  const w = workers.find(x=>cleanPassport(x.passport)===pp);
+  if(!w){ el.className='lot-hint warn'; el.innerHTML='Master Record मा भेटिएन (हातैले भर्नुहोस्)'; return; }
+  el.className='lot-hint ok'; el.innerHTML = `✓ Master Record: <b>${gsEsc(w.name)}</b> · ${gsEsc(w.country||'')} · ${gsEsc(w.status||'')}`;
+  if(fill){
+    const set=(id,v)=>{ const e=document.getElementById(id); if(e && v) e.value=v; };
+    set('g-name', w.name); set('g-country', normCountry(w.country)); set('g-company', normCompany(w.company)); set('g-lotno', w.lotNo);
+  }
+}
+async function grvSubmit(e){
+  e.preventDefault();
+  if(!requireAccess(canGrievance(),'Grievance / Rescue')) return;
+  const f = {}; for(const k in G_FIELDS){ const el=document.getElementById(G_FIELDS[k]); f[k] = el ? String(el.value||'').trim() : ''; }
+  const b = parseBs(f.letterDateBs);
+  if(!f.dofeChalaniNo){ alert('⚠️ विभागको चलानी नं. भर्नुहोस्।'); return; }
+  if(!b){ alert('⚠️ पत्रको मिति (बि.सं.) मिलेन — जस्तै 2083-05-31'); return; }
+  if(f.complaintDateBs && !parseBs(f.complaintDateBs)){ alert('⚠️ उजुरी मिति (बि.सं.) मिलेन — जस्तै 2083-05-30'); return; }
+  if(!f.workerName){ alert('⚠️ कामदारको नाम भर्नुहोस्।'); return; }
+  f.letterDateBs = fmtBs(b);
+  if(f.complaintDateBs) f.complaintDateBs = fmtBs(parseBs(f.complaintDateBs));
+  f.deadlineDate = grvDeadlineFromBs(f.letterDateBs);
+  f.passport = cleanPassport(f.passport); f.country = normCountry(f.country); f.company = normCompany(f.company);
+  const w = f.passport ? workers.find(x=>cleanPassport(x.passport)===f.passport) : null; f.workerId = w ? w.id : '';
+  if(f.caseStatus==='Closed' && !f.closedDate) f.closedDate = fmtDate(new Date());
+  const old = editingGId ? grievances.find(x=>x.id===editingGId) : null;
+  const obj = Object.assign({}, old||{}, f); if(old) obj.id = old.id;
+  const r = await api(old ? 'updategrievance' : 'addgrievance', { grievance: obj }, null, true);
+  if(!r || !r.ok){ alert(r && r.error==='FORBIDDEN' ? '⛔ तपाईंलाई अनुमति छैन।' : '⚠️ Save भएन: ' + ((r&&r.error)||'')); return; }
+  const saved = r.grievance;
+  if(old){ const i=grievances.findIndex(x=>x.id===old.id); if(i>=0) grievances[i]=saved; } else grievances.push(saved);
+  renderAll();
+  const toJawab = e.submitter && e.submitter.dataset && e.submitter.dataset.jawab;
+  toast('✅ ' + saved.caseNo + ' saved');
+  if(toJawab) openJawab(saved.id); else toggleEntry('g', false);
+}
+async function grvDelete(){
+  if(!requireAccess(isAdmin(),'Case मेटाउने')) return;
+  const g = grievances.find(x=>x.id===editingGId); if(!g) return;
+  if(!confirm(g.caseNo + ' मेटाउने हो?')) return;
+  const r = await api('deletegrievance', { id:g.id }, null, true);
+  if(r && r.ok){ grievances = grievances.filter(x=>x.id!==g.id); renderAll(); toggleEntry('g', false); toast('🗑️ Deleted'); }
+  else alert('⚠️ भएन: ' + ((r&&r.error)||''));
+}
+
+// ---------- LIKHIT JAWAB (लिखित जवाफ) ----------
+function jwVars(g){
+  return {
+    ch: toNepDigits(g.dofeChalaniNo||'……'), ps: toNepDigits(g.dofePsNo||''), letterDate: toNepDigits(g.letterDateBs||'……'),
+    complaintDate: toNepDigits(g.complaintDateBs || g.letterDateBs || '……'), name: g.workerName||'……', pp: g.passport||'……',
+    country: COUNTRY_NP[g.country] || g.country || '……', company: g.company||'……', lot: g.lotNo||''
+  };
+}
+function jwIntro(v){
+  return `उपरोक्त विषयमा तहाँ विभागबाट प्राप्त${v.ps?' प.सं. '+v.ps+',':''} चलानी नं. ${v.ch} मिति ${v.letterDate} को पत्रानुसार निज ${v.name} (रा.नं. ${v.pp}) ${v.country} स्थित ${v.company} कम्पनीमा${v.lot?' लट नं. '+v.lot+' मा':''} यस प्रा.लि. बाट वैदेशिक रोजगारमा गएको साँचो हो।`;
+}
+const JW_TEMPLATES = {
+  in_job: { label:'कामदार विदेशमा — तलब/सुविधा नियमित', body:v=>[jwIntro(v),
+    'यस सम्बन्धमा सम्बन्धित कम्पनीसँग बुझ्दा, निज कामदारले करार बमोजिमको तलब तथा सेवा सुविधा नियमित पाइरहेका छन्। [कम्पनीबाट बुझिएको थप विवरण यहाँ लेख्नुहोस्।]',
+    'अतः उक्त व्यहोरा सादर अनुरोध गर्दै विभागको निर्देशन अनुसार यो लिखित जवाफ पेश गरिएको छ।'] },
+  conduct: { label:'कामदारको आचरण सम्बन्धी (आधारहीन आरोप)', body:v=>[jwIntro(v),
+    'यस सम्बन्धमा बुझ्दा, निज कामदारले करार बमोजिमको तलब तथा सेवा सुविधा नियमित पाइरहेका छन्। निजले व्यक्तिगत तथा घरायसी कारणले प्रा.लि. र कम्पनीमाथि आधारहीन आरोप लगाएका हुन्। [कामदारको आचरण सम्बन्धी विवरण यहाँ लेख्नुहोस्।]',
+    'वैदेशिक रोजगार नियमावली, २०६४ को नियम ४९(क) मा कामदारले पालना गर्नुपर्ने आचरणसम्बन्धी व्यवस्था भएकोमा निजले सोही नियम प्रतिकूल आचरण प्रदर्शन गरेको व्यहोरा सादर अनुरोध गर्दै विभागको निर्देशन अनुसार यो लिखित जवाफ पेश गरिएको छ।'] },
+  recent: { label:'भर्खर गएको — कम्पनीमा बुझ्दा समस्या समाधान भएको', body:v=>[jwIntro(v),
+    'निज कामदार छनोट प्रक्रियामा स्वयम् उपस्थित भई काममा मञ्जुर भई करार हस्ताक्षर गरी गएको [अवधि] मात्र भएकोमा निजले प्रा.लि.मा हालसम्म कुनै शिकायत नगरी एक्कासि विभागमा उजुरी गरेको र सम्बन्धित कम्पनीमा बुझ्दा हाल करार बमोजिम काम र तलब पाइरहेको र आगामी दिनमा पनि पाउने जानकारी भएको हुँदा निजलाई करार बमोजिम काम गर्न अनुरोध छ।'] },
+  not_departed: { label:'भिसापछि सम्पर्कविहीन — उडान बाँकी', enc:'सम्बन्धित देशको भिसा कपी', body:v=>[
+    `उपरोक्त विषयमा तहाँ विभागमा परेको उजुरी चलानी नं. ${v.ch} मिति ${v.complaintDate} गते सम्बन्धमा प्राप्त भएको पत्र अनुसार निज ${v.name} यस प्रा.लि.मा आई कामदार छनोट प्रक्रियामा स्वयम् सहभागी भई ${v.country} स्थित ${v.company} कम्पनीमा सबै प्रक्रिया पूरा गरी भिसा प्राप्त भइसकेको र भिसा प्राप्त पश्चात् निज सम्पर्कविहीन रहेको र एक्कासि विभागमा आई उजुरी गरेको जानकारी भएको हुँदा,`,
+    'निजलाई सबै प्रक्रिया निजले भने अनुरूप भएको हुँदा कार्यालयमा सम्पर्क गरी उडान गर्न सहयोग गरिदिनुहुन अनुरोध गर्दछु।',
+    'अतः रकम सम्बन्धी कुरा प्रा.लि.मा लेनदेन भएको नदेखिएको हुँदा, यदि सो भएमा निज प्रा.लि.मा आई छलफल गरी समाधान गर्न सहयोग गर्न अनुरोध छ।'] },
+  blank: { label:'खाली (परिचय अनुच्छेद मात्र)', body:v=>[jwIntro(v), '[व्यहोरा यहाँ लेख्नुहोस्।]', 'अतः उक्त व्यहोरा सादर अनुरोध गर्दै विभागको निर्देशन अनुसार यो लिखित जवाफ पेश गरिएको छ।'] }
+};
+function jwAddressee(branch){ return `श्रीमान् महानिर्देशक ज्यू,\nवैदेशिक रोजगार विभाग,\n(${branch||GRV_BRANCHES[0]}),\nताहाचल, काठमाडौं।`; }
+function openJawab(id){
+  if(!requireAccess(canGrievance(),'Likhit Jawab')) return;
+  const g = grievances.find(x=>x.id===id); if(!g) return;
+  jawabGId = id;
+  document.getElementById('gj-case').textContent = `${g.caseNo||''} · ${g.workerName||''}`;
+  document.getElementById('gj-date').value = g.replyDateBs || todayBs();
+  document.getElementById('gj-to').value = g.replyAddressee || jwAddressee(g.branch);
+  document.getElementById('gj-subject').value = g.replySubject || 'लिखित जवाफ पेश गरिएको सम्बन्धमा।';
+  document.getElementById('gj-body').value = g.replyBody || JW_TEMPLATES.blank.body(jwVars(g)).join('\n\n');
+  document.getElementById('gj-enc').value = g.replyEnclosure || '';
+  const dl = grvDue(g);
+  document.getElementById('gj-due').innerHTML = g.deadlineDate ? `<span class="due ${dl.cls}">${dl.txt}</span> · म्याद ${gsEsc(bsOfAd(g.deadlineDate))}` : '';
+  jwPreview();
+  toggleEntry('gj', true);
+}
+function jwInsertTemplate(){
+  const g = grievances.find(x=>x.id===jawabGId); if(!g) return;
+  const t = JW_TEMPLATES[document.getElementById('gj-template').value]; if(!t) return;
+  const body = document.getElementById('gj-body');
+  if(body.value.trim() && !confirm('हालको व्यहोरा हटाएर यो ढाँचा राख्ने हो?')) return;
+  body.value = t.body(jwVars(g)).join('\n\n');
+  if(t.enc && !document.getElementById('gj-enc').value) document.getElementById('gj-enc').value = t.enc;
+  jwPreview();
+}
+function jwCollect(){
+  return { date: document.getElementById('gj-date').value.trim(), to: document.getElementById('gj-to').value,
+    subject: document.getElementById('gj-subject').value.trim(), body: document.getElementById('gj-body').value,
+    enc: document.getElementById('gj-enc').value.trim(), signer: document.getElementById('gj-signer').value.trim(),
+    letterhead: document.getElementById('gj-lh').checked };
+}
+function jwLetterHTML(c){
+  const esc = gsEsc;
+  const to = String(c.to||'').split('\n').filter(l=>l.trim()).map((l,i)=> i===0 ? `<b>${esc(l)}</b>` : esc(l)).join('<br>');
+  const paras = String(c.body||'').split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
+  const logo = (document.querySelector('#sidebar .logo img')||{}).src || '';
+  const lh = c.letterhead ? `<div class="lt-head">${logo?`<img src="${logo}" alt="">`:''}<div><div class="lt-co">${LS_NAME_NP}</div><div class="lt-co-en">LINK STAR MANPOWER SERVICES PVT. LTD.</div><div class="lt-co-sub">टोखा-१०, काठमाडौं &nbsp;|&nbsp; इजाजत पत्र नं. १०२५/०६८/०६९</div></div></div>` : '';
+  return `${lh}
+    <div class="lt-date">मिति: ${esc(toNepDigits(c.date))}</div>
+    <div class="lt-to">${to}</div>
+    <div class="lt-sub">विषय: ${esc(c.subject)}</div>
+    <div class="lt-sal"><b>महोदय,</b></div>
+    <div class="lt-body">${paras}</div>
+    ${c.enc ? `<div class="lt-enc"><b>सम्लग्न प्रमाण:</b> ${esc(c.enc)}</div>` : ''}
+    <div class="lt-sign"><div class="lt-line">.............................................</div><b><u>निवेदक</u></b><br>${LS_NAME_NP}${c.signer?'<br>'+esc(c.signer):''}</div>`;
+}
+const JW_CSS = `
+  .lt{font-family:'Kalimati','Noto Sans Devanagari','Mangal','Nirmala UI',sans-serif;color:#000;font-size:15px;line-height:1.75;}
+  .lt-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:18px;}
+  .lt-head img{width:64px;height:64px;object-fit:contain;}
+  .lt-co{font-size:21px;font-weight:700;} .lt-co-en{font-size:13px;font-weight:700;letter-spacing:.04em;} .lt-co-sub{font-size:12.5px;}
+  .lt-date{text-align:right;margin-bottom:16px;}
+  .lt-to{margin-bottom:14px;}
+  .lt-sub{text-align:center;font-weight:700;margin:6px 0 14px;}
+  .lt-sal{margin-bottom:4px;}
+  .lt-body p{text-align:justify;margin:0 0 12px;}
+  .lt-enc{margin:6px 0 0;}
+  .lt-sign{margin-top:46px;}
+  .lt-line{margin-bottom:2px;letter-spacing:1px;}`;
+function jwPreview(){
+  const pv = document.getElementById('gj-preview'); if(!pv) return;
+  pv.innerHTML = `<div class="lt">${jwLetterHTML(jwCollect())}</div>`;
+}
+async function jwSave(extra, quiet){
+  const g = grievances.find(x=>x.id===jawabGId); if(!g) return null;
+  const c = jwCollect();
+  if(c.date && !parseBs(c.date)){ alert('⚠️ जवाफको मिति (बि.सं.) मिलेन — जस्तै ' + todayBs()); return null; }
+  const obj = Object.assign({}, g, { replyDateBs: c.date ? fmtBs(parseBs(c.date)) : '', replyAddressee: c.to, replySubject: c.subject, replyBody: c.body, replyEnclosure: c.enc }, extra||{});
+  if(obj.caseStatus==='New') obj.caseStatus = 'In Progress';
+  const r = await api('updategrievance', { grievance: obj }, null, quiet ? 'silent' : true);
+  if(!r || !r.ok){ alert('⚠️ Save भएन: ' + ((r&&r.error)||'')); return null; }
+  const i = grievances.findIndex(x=>x.id===g.id); if(i>=0) grievances[i] = r.grievance;
+  renderAll();
+  return r.grievance;
+}
+async function jwSaveDraft(){ if(await jwSave()) toast('✅ Draft saved'); }
+async function jwMarkSubmitted(){
+  if(!confirm('लिखित जवाफ विभागमा बुझाइसकियो? (Status: Reply Submitted, मिति आज)')) return;
+  const g = await jwSave({ caseStatus:'Reply Submitted', replySubmittedDate: fmtDate(new Date()) });
+  if(g){ toast('✅ Marked as submitted'); openJawab(g.id); }
+}
+async function jwPrint(){
+  const c = jwCollect();
+  const g = grievances.find(x=>x.id===jawabGId);
+  const win = window.open('', '_blank');
+  if(!win){ alert('Popup allow गर्नुहोस्।'); return; }
+  win.document.write(`<!DOCTYPE html><html lang="ne"><head><meta charset="UTF-8"><title>Likhit Jawab ${gsEsc(g?g.caseNo:'')}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>@page{size:A4;margin:22mm 20mm 20mm 25mm;} body{margin:0;} ${JW_CSS}</style></head>
+    <body><div class="lt">${jwLetterHTML(c)}</div>
+    <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.focus();window.print();},250);});<\/script>
+    </body></html>`);
+  win.document.close();
+  jwSave(null, true);   // draft पनि पछाडि save
+}
+
 // ================= PAGINATION (एक page मा १० row, default) =================
 const PAGER = {};
-const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres() };
+const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances() };
 // filter/search बदलिए page 1 मा फर्कने; save/refresh ले भने हालकै page राख्ने
 function pageSlice(key, rows, fkey){
   const st = PAGER[key] || (PAGER[key] = { page:1, size:10, fkey:null });
@@ -1689,6 +2107,8 @@ function renderActionCenter(){
     { n:departurePending, label:'✈️ Departure Pending', act:()=>openActionFilter('departurependingall','✈️ Departure Pending') },
     { n:lotExpiring, label:'⏰ Lot Expiring < 30 Days', act:()=>openLotExpiring() }
   ];
+  const grvDueN = canGrievance() ? grvDueCount() : 0;
+  if(canGrievance()) items.push({ n:grvDueN, label:'⚖️ Likhit Jawab Due (≤ 2 days)', act:()=>openGrievanceDue() });
   window._acActions = items.map(i=>i.act);   // onclick बाट index अनुसार बोलाउने
   el.innerHTML = items.map((it,i)=>
     `<div class="ac-item${it.n===0?' ac-zero':''}" onclick="_acActions[${i}]()" title="क्लिक गर्नुहोस् । सम्बन्धित सूची हेर्न">
@@ -1696,7 +2116,7 @@ function renderActionCenter(){
     </div>`
   ).join('');
   // ट्याब बटनमा मात्र कुल Action आवश्यक संख्या (header बाट दोहोरो badge हटाइयो)
-  const total = medicalPending + orientationPending + departurePending + lotExpiring;
+  const total = medicalPending + orientationPending + departurePending + lotExpiring + grvDueN;
   const badge = document.getElementById('alert-badge');
   if(badge){ badge.textContent = total > 99 ? '99+' : total; badge.style.display = total ? 'inline-flex' : 'none'; }
 }
