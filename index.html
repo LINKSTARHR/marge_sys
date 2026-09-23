@@ -3,6 +3,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <title>Link Star Manpower - RA व्यवस्थापन प्रणाली</title>
 <style>
 :root{
@@ -10,7 +13,7 @@
   --bg:#f7fafc; --card:#ffffff; --text:#181c1e; --muted:#43474e;
   --border:#c4c6cf; --success:#1e6e3c; --danger:#ba1a1a; --warning:#8a6a12; --info:#2d476f;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter','Segoe UI','Nirmala UI','Noto Sans Devanagari',system-ui,sans-serif;}
 body{background:var(--bg);color:var(--text);padding:0;line-height:1.6;}
 .app-shell{display:flex;min-height:100vh;}
 .sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:190;}
@@ -34,7 +37,8 @@ body{background:var(--bg);color:var(--text);padding:0;line-height:1.6;}
 .sidebar .brand .logo img{width:100%;height:100%;object-fit:contain;}
 .sidebar .brand-name{font-size:14px;font-weight:700;line-height:1.3;}
 .sidebar .brand-sub{font-size:11px;color:#adc7f7;margin-top:2px;text-transform:uppercase;letter-spacing:.03em;}
-.nav{padding:14px 12px;flex:1;overflow-y:auto;}
+.nav{padding:14px 12px;flex:1;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.nav::-webkit-scrollbar{display:none;}
 .nav button.item{width:100%;text-align:left;background:transparent;color:#f6f9fe;border:none;border-radius:8px;padding:11px 12px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:12px;margin-bottom:2px;}
 .nav button.item:hover{background:rgba(255,255,255,.08);}
 .nav button.item.active{background:#fff;color:var(--primary);font-weight:800;}
@@ -137,7 +141,7 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
   background:radial-gradient(ellipse at 15% 0%,rgba(30,70,130,.35) 0%,transparent 55%),linear-gradient(160deg,#061a3a 0%,#0a2349 55%,#0d2f5e 100%);}
 .login-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
 .login-card{width:100%;max-width:470px;background:#fff;border-radius:18px;padding:40px 34px 44px;box-shadow:0 24px 60px rgba(0,0,0,.35);}
-.login-card h1{font-family:'Inter','Public Sans','Segoe UI',sans-serif;font-size:28px;font-weight:700;color:#181c1e;text-align:center;letter-spacing:-.01em;margin-bottom:6px;}
+.login-card h1{font-family:'Inter','Segoe UI',sans-serif;font-size:28px;font-weight:700;color:#181c1e;text-align:center;letter-spacing:-.01em;margin-bottom:6px;}
 .login-sub{text-align:center;color:#43474e;font-size:15px;margin-bottom:28px;}
 .login-field{margin-bottom:18px;}
 .login-field label{display:block;font-size:14px;font-weight:700;color:#2b2f33;margin-bottom:8px;}
@@ -150,7 +154,7 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
 .pw-toggle{position:absolute;top:50%;right:7px;transform:translateY(-50%);width:40px;height:40px;border:none;background:transparent;border-radius:8px;cursor:pointer;color:#5b616b;display:flex;align-items:center;justify-content:center;}
 .pw-toggle:hover{background:#f1f3f6;color:#181c1e;}
 .pw-toggle:focus-visible{outline:2px solid #002045;outline-offset:1px;}
-.login-btn{width:100%;height:54px;margin-top:8px;border:none;border-radius:10px;background:#002045;color:#fff;font-family:'Inter','Public Sans','Segoe UI',sans-serif;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;}
+.login-btn{width:100%;height:54px;margin-top:8px;border:none;border-radius:10px;background:#002045;color:#fff;font-family:'Inter','Segoe UI',sans-serif;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;}
 .login-btn:hover{background:#001330;}
 .login-btn:disabled{background:#43597a;cursor:wait;}
 .login-spin{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:loginspin .8s linear infinite;}
@@ -163,6 +167,30 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
 #loading-overlay .spinner{display:flex;align-items:center;gap:12px;background:var(--secondary);color:#fff;padding:14px 26px;border-radius:30px;font-weight:700;font-size:15px;letter-spacing:.02em;box-shadow:0 10px 30px rgba(0,19,48,.3);}
 .ld-ring{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:loginspin .8s linear infinite;flex-shrink:0;}
 #sync-badge .ld-ring{width:13px;height:13px;border-width:2px;display:inline-block;vertical-align:-2px;margin-right:7px;}
+/* ===== ENTRY FORM TOGGLE ===== */
+.title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.entry-btn{display:inline-flex;align-items:center;gap:6px;width:auto;padding:8px 14px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.entry-btn:hover{background:var(--primary-dark);}
+.entry-btn.is-open{background:#eef2f7;color:var(--text);border:1px solid var(--border);}
+.entry-close{background:transparent;border:none;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:6px;}
+.entry-close:hover{background:#eef2f7;color:var(--text);}
+.main-grid.form-closed{grid-template-columns:1fr !important;}
+.main-grid.form-closed > .entry-card{display:none;}
+/* ===== PAGINATION ===== */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:22px;flex-wrap:wrap;padding:14px 4px 4px;border-top:1px solid var(--border);margin-top:4px;font-size:14px;color:var(--muted);}
+.pager:empty{display:none;}
+.pg-nums{display:flex;align-items:center;gap:4px;}
+.pg-nums button{min-width:34px;height:34px;padding:0 8px;border:none;background:transparent;border-radius:8px;font-size:15px;font-weight:700;color:#5b616b;cursor:pointer;}
+.pg-nums button:hover:not(:disabled){background:#eef2f7;color:var(--primary);}
+.pg-nums button.cur{color:#0aa88f;cursor:default;}
+.pg-nums button.arr{background:#0aa88f;color:#fff;font-size:16px;}
+.pg-nums button.arr:hover:not(:disabled){background:#08927c;color:#fff;}
+.pg-nums button:disabled.arr{background:#cfd8e3;cursor:default;}
+.pg-nums .dots{padding:0 4px;color:#9aa3ad;}
+.pg-size{display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.pg-size select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:14px;color:var(--text);cursor:pointer;}
+.pg-info{white-space:nowrap;}
+@media(max-width:700px){ .pager{justify-content:center;gap:12px;} }
 /* ===== PAGE HEAD: Global Search + FY ===== */
 .pagehead{background:#fff;border-bottom:1px solid var(--border);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .gsearch{position:relative;display:flex;align-items:center;gap:8px;max-width:460px;width:100%;flex:1 1 260px;border:1.5px solid #0aa88f;border-radius:10px;padding:9px 12px;background:#fff;color:var(--muted);}
@@ -198,10 +226,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 
 <div id="setup-screen" style="display:none;">
   <div class="card">
-    <div class="card-title">🔗 Server URL सेटअप</div>
-    <p style="font-size:13px;margin-bottom:15px;">Apps Script deploy गरेपछि पाएको <b>Web App URL</b> paste गर्नुहोस्:</p>
+    <div class="card-title">Server URL Setup</div>
+    <p style="font-size:13px;margin-bottom:15px;">Paste the <b>Web App URL</b> from your Apps Script deployment:</p>
     <div class="form-group"><input type="text" id="setup-url" class="form-control" placeholder="https://script.google.com/macros/s/XXXX/exec"></div>
-    <button class="btn" onclick="saveApiUrl()">सुरक्षित गर्नुहोस्</button>
+    <button class="btn" onclick="saveApiUrl()">Save</button>
     <p id="setup-error" style="color:var(--danger);font-size:13px;margin-top:8px;"></p>
   </div>
 </div>
@@ -251,7 +279,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <div class="sub">
         <button class="item tab-btn" onclick="if(requireAccess(notReceptionist(),'Report')){switchTab(event,'tab-report');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span>Report</span></button>
         <button class="item" onclick="if(requireAccess(notReceptionist(),'Full Report')){printAuditReport();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg><span>Full Report</span></button>
-        <button class="item" onclick="if(requireAccess(notReceptionist(),'अनुसूची ६')){printAnusuchi6();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg><span>अनुसूची ६</span></button>
+        <button class="item" onclick="if(requireAccess(notReceptionist(),'Anusuchi 6')){printAnusuchi6();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg><span>Anusuchi 6</span></button>
         <button class="item" onclick="if(requireAccess(notReceptionist(),'Auditor Print')){printAuditorList();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect width="12" height="8" x="6" y="14" rx="1"/></svg><span>Auditor Print</span></button>
       </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg><span>Administration</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
@@ -259,10 +287,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         <button class="item" onclick="if(requireAccess(isAdmin(),'User Management')){manageUsers();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></svg><span>User Management</span></button>
         <button class="item" onclick="if(requireAccess(isAdmin(),'Backup')){exportBackup();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg><span>Backup</span></button>
         <button class="item" onclick="if(requireAccess(isAdmin(),'Archive')){runArchiveNow();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg><span>Archive</span></button>
-        <button class="item" onclick="if(requireAccess(canManageClient(),'पुरानो खोज')){searchArchive();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>पुरानो खोज</span></button>
+        <button class="item" onclick="if(requireAccess(canManageClient(),'Archive Search')){searchArchive();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Archive Search</span></button>
       </div>
     </nav>
-    <div class="sidebar-foot"><button class="side-tool" onclick="refreshData(true)" title="Google Sheet बाट नयाँ डाटा ल्याउने"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><span>Refresh</span></button></div>
+    <div class="sidebar-foot"><button class="side-tool" onclick="refreshData(true)" title="Reload latest data from Google Sheet"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><span>Refresh</span></button></div>
   </aside>
 
   <div class="main-col">
@@ -284,7 +312,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       </div>
     </header>
 
-    <button id="back-fab" class="back-fab" onclick="goBack()" title="Dashboard मा फर्कने"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span>BACK</span></button>
+    <button id="back-fab" class="back-fab" onclick="goBack()" title="Back to Dashboard"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span>BACK</span></button>
     <div class="pagehead">
       <div class="gsearch">
         <svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -301,42 +329,42 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <!-- TAB 0: DASHBOARD -->
   <div id="tab-dashboard" class="tab-content active">
     <div class="dashboard-grid">
-      <div class="stat-card c-pre clickable-card" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){cardFilter('pre');}" title="क्लिक गर्नुहोस् — यसै आ.व.को पूर्व स्वीकृति हेर्न"><h3>Pre-Permission</h3><div class="value" id="d-pre-total">0</div><div class="sub" id="d-pre-sub">&nbsp;</div></div>
-      <div class="stat-card c-app clickable-card" onclick="cardFilter('approved')" title="क्लिक गर्नुहोस् — यसै आ.व. श्रम स्वीकृति लिएका हेर्न"><h3>Final Approval</h3><div class="value" id="d-approved">0</div><div class="sub" id="d-app-sub">&nbsp;</div></div>
-      <div class="stat-card c-fly clickable-card" onclick="cardFilter('departed')" title="क्लिक गर्नुहोस् — यसै आ.व. उडेका हेर्न"><h3>✈ Departure</h3><div class="value" id="d-flown">0</div><div class="sub" id="d-flown-sub">&nbsp;</div></div>
-      <div class="stat-card c-rem clickable-card" onclick="cardFilter('pending')" title="क्लिक गर्नुहोस् — उड्न बाँकी हेर्न"><h3>⏳ Departure Pending</h3><div class="value" id="d-remaining">0</div><div class="sub" id="d-rem-sub">&nbsp;</div></div>
-      <div class="stat-card c-can clickable-card" onclick="cardFilter('cancel')" title="क्लिक गर्नुहोस् — यसै आ.व.का Cancel हेर्न"><h3>⊘ Cancel</h3><div class="value" id="d-cancel">0</div><div class="sub">&nbsp;</div></div>
-      <div class="stat-card c-can clickable-card" onclick="cardFilter('rejected')" title="क्लिक गर्नुहोस् — यसै आ.व.का Rejected हेर्न"><h3>✗ Rejected</h3><div class="value" id="d-rejected">0</div><div class="sub" id="d-rej-sub">&nbsp;</div></div>
+      <div class="stat-card c-pre clickable-card" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){cardFilter('pre');}" title="Click to view this FY pre-permissions"><h3>Pre-Permission</h3><div class="value" id="d-pre-total">0</div><div class="sub" id="d-pre-sub">&nbsp;</div></div>
+      <div class="stat-card c-app clickable-card" onclick="cardFilter('approved')" title="Click to view this FY final approvals"><h3>Final Approval</h3><div class="value" id="d-approved">0</div><div class="sub" id="d-app-sub">&nbsp;</div></div>
+      <div class="stat-card c-fly clickable-card" onclick="cardFilter('departed')" title="Click to view this FY departures"><h3>✈ Departure</h3><div class="value" id="d-flown">0</div><div class="sub" id="d-flown-sub">&nbsp;</div></div>
+      <div class="stat-card c-rem clickable-card" onclick="cardFilter('pending')" title="Click to view pending departures"><h3>⏳ Departure Pending</h3><div class="value" id="d-remaining">0</div><div class="sub" id="d-rem-sub">&nbsp;</div></div>
+      <div class="stat-card c-can clickable-card" onclick="cardFilter('cancel')" title="Click to view this FY cancellations"><h3>⊘ Cancel</h3><div class="value" id="d-cancel">0</div><div class="sub">&nbsp;</div></div>
+      <div class="stat-card c-can clickable-card" onclick="cardFilter('rejected')" title="Click to view this FY rejections"><h3>✗ Rejected</h3><div class="value" id="d-rejected">0</div><div class="sub" id="d-rej-sub">&nbsp;</div></div>
     </div>
   </div>
 
     <!-- TAB 1: WORKERS -->
   <div id="tab-workers" class="tab-content">
-    <div class="main-grid">
-      <div class="card">
-        <div class="card-title">New Worker Entry</div>
-        <div class="field-lock-note" id="intake-lock-note" style="display:none;">🔒 यो भूमिकाबाट नयाँ Worker दर्ता गर्न मिल्दैन — Receptionist/Admin ले मात्र दर्ता गर्छन्।</div>
-        <div class="field-lock-note" id="doc-field-lock-note" style="display:none;">🔒 News/Issue Date, भिसा नं, Visa/Demand Profession, Orientation, Medical — यी field हरु Receptionist ले भर्न मिल्दैन (grey देखिन्छन्), पछि Documentation/Admin ले भर्नेछन्।</div>
+    <div class="main-grid form-closed" id="w-grid">
+      <div class="card entry-card" id="w-entry">
+        <div class="card-title title-row"><span>New Worker Entry</span><button type="button" class="entry-close" onclick="toggleEntry('w',false)" title="Close">×</button></div>
+        <div class="field-lock-note" id="intake-lock-note" style="display:none;">🔒 Your role cannot register new workers — only Receptionist/Admin can.</div>
+        <div class="field-lock-note" id="doc-field-lock-note" style="display:none;">🔒 News/Issue Date, Visa No., Visa/Demand Profession, Orientation and Medical are filled later by Documentation/Admin (greyed out for Receptionist).</div>
         <form id="worker-form">
-          <div class="form-group"><label>नाम *</label><input type="text" id="w-name" class="form-control" required=""></div>
+          <div class="form-group"><label>Name *</label><input type="text" id="w-name" class="form-control" required=""></div>
           <div class="form-row">
-            <div class="form-group"><label>पासपोर्ट *</label><input type="text" id="w-passport" class="form-control" required=""></div>
-            <div class="form-group"><label>उमेर</label><input type="number" id="w-age" class="form-control" min="18" max="70"></div>
+            <div class="form-group"><label>Passport No. *</label><input type="text" id="w-passport" class="form-control" required=""></div>
+            <div class="form-group"><label>Age</label><input type="number" id="w-age" class="form-control" min="18" max="70"></div>
           </div>
           <div class="form-row">
             <div class="form-group"><label>Gender *</label>
               <select id="w-gender" class="form-control" required=""><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select>
             </div>
-            <div class="form-group"><label>लट नं</label><input type="text" id="w-lotno" class="form-control"></div>
+            <div class="form-group"><label>Lot No.</label><input type="text" id="w-lotno" class="form-control"></div>
           </div>
           <div class="form-row doc-only-field">
             <div class="form-group"><label>News Date</label><input type="date" id="w-newsdate" class="form-control"></div>
             <div class="form-group"><label>Issue Date</label><input type="date" id="w-issuedate" class="form-control"></div>
           </div>
-          <div class="form-group doc-only-field"><label>भिसा नं</label><input type="text" id="w-visano" class="form-control"></div>
+          <div class="form-group doc-only-field"><label>Visa No.</label><input type="text" id="w-visano" class="form-control"></div>
           <div class="form-row">
-            <div class="form-group"><label>देश *</label><input type="text" id="w-country" class="form-control" required=""></div>
-            <div class="form-group"><label>कम्पनी *</label><input type="text" id="w-company" class="form-control" required=""></div>
+            <div class="form-group"><label>Country *</label><input type="text" id="w-country" class="form-control" required=""></div>
+            <div class="form-group"><label>Company *</label><input type="text" id="w-company" class="form-control" required=""></div>
           </div>
           <div class="form-row doc-only-field">
             <div class="form-group"><label>Visa Profession</label><input type="text" id="w-visaprof" class="form-control"></div>
@@ -347,92 +375,94 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>Medical</label><select id="w-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="w-nepal-addr" class="form-control" placeholder="जस्तै: Mahottari"></div>
-            <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="w-contact-addr" class="form-control"></div>
+            <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="w-nepal-addr" class="form-control" placeholder="e.g. Mahottari"></div>
+            <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="w-contact-addr" class="form-control"></div>
           </div>
-          <button type="submit" class="btn">दर्ता गर्नुहोस्</button>
+          <button type="submit" class="btn">Register</button>
         </form>
       </div>
       <div class="card">
-        <div class="card-title">Worker List</div>
+        <div class="card-title title-row"><span>Worker List</span><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Worker Entry</button></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 नाम, पासपोर्ट, देश, कम्पनी, भिसा नं, लट नं..." oninput="onManualFilter()">
+          <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, visa no., lot no..." oninput="onManualFilter()">
           <select id="w-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="onManualFilter()"><option value="">— All Status —</option><option>Entry</option><option>Upload</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Cancel</option></select>
         </div>
         <div class="card-filter-banner" id="card-filter-banner">
           <span id="card-filter-label"></span>
-          <button onclick="clearCardFilter()" title="फिल्टर हटाउनुहोस् (सबै हेर्न)">✕</button>
+          <button onclick="clearCardFilter()" title="Clear filter">✕</button>
         </div>
         <div id="bulk-bar" class="shram-only-field" style="display:none;background:#eff6ff;border:2px solid var(--primary);border-radius:8px;padding:10px 14px;margin-bottom:12px;align-items:center;gap:10px;flex-wrap:wrap;">
-          <b id="bulk-count">0 जना छानिए</b>
-          <label style="font-size:13px;font-weight:600;">नयाँ Status:</label>
+          <b id="bulk-count">0 selected</b>
+          <label style="font-size:13px;font-weight:600;">New Status:</label>
           <select id="bulk-status" class="form-control" style="width:auto;" onchange="onBulkStatusChange()"></select>
-          <label style="font-size:13px;font-weight:600;">स्वीकृति मिति:</label>
+          <label style="font-size:13px;font-weight:600;">Approval Date:</label>
           <input type="date" id="bulk-approvedate" class="form-control" style="width:auto;">
-          <button class="btn btn-sm" style="width:auto;background:var(--success);" onclick="applyBulkUpdate()">✅ लागू गर्नुहोस्</button>
+          <button class="btn btn-sm" style="width:auto;background:var(--success);" onclick="applyBulkUpdate()">✅ Apply</button>
           <span style="border-left:1px solid #94a3b8;height:26px;margin:0 2px;"></span>
-          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField('medical','Yes','Medical')">🩺 Medical Done (सबैलाई)</button>
-          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField('orientation','Yes','Orientation')">📘 Orientation Done (सबैलाई)</button>
-          <label style="font-size:13px;font-weight:600;">✈️ उडान मिति:</label>
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField('medical','Yes','Medical')">🩺 Mark Medical Done</button>
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField('orientation','Yes','Orientation')">📘 Mark Orientation Done</button>
+          <label style="font-size:13px;font-weight:600;">✈️ Departure Date:</label>
           <input type="date" id="bulk-departdate" class="form-control" style="width:auto;">
-          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkDepartDate()">✈️ लागू गर्नुहोस् (सबैलाई)</button>
-          <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="clearSelection()">✕ छानिएका हटाउने</button>
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkDepartDate()">✈️ Apply Departure</button>
+          <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="clearSelection()">✕ Clear Selection</button>
         </div>
         <div style="overflow-x:auto;">
-          <table><thead><tr><th class="shram-only-field" style="width:26px;"><input type="checkbox" id="w-select-all" onchange="toggleSelectAllVisible(this.checked)" title="देखिएका सबै छान्ने/हटाउने"></th><th>Name (Passport)</th><th>Country / Company</th><th>Job Title</th><th>Status</th><th>Approval Date</th><th>Departure Date</th><th></th></tr></thead>
+          <table><thead><tr><th class="shram-only-field" style="width:26px;"><input type="checkbox" id="w-select-all" onchange="toggleSelectAllVisible(this.checked)" title="Select / unselect all on this page"></th><th>Name (Passport)</th><th>Country / Company</th><th>Job Title</th><th>Status</th><th>Approval Date</th><th>Departure Date</th><th></th></tr></thead>
           <tbody id="w-table"></tbody></table>
         </div>
+        <div class="pager" id="w-pager"></div>
       </div>
     </div>
   </div>
 
   <!-- TAB APPLICANTS: श्रम स्वीकृति अघिको पहिलो चरण; code भित्र 'lead' नामबाटै चिनिन्छ -->
   <div id="tab-leads" class="tab-content hide-for-shram">
-    <div class="main-grid">
-      <div class="card">
-        <div class="card-title">New Applicant Entry</div>
+    <div class="main-grid form-closed" id="l-grid">
+      <div class="card entry-card" id="l-entry">
+        <div class="card-title title-row"><span>New Applicant Entry</span><button type="button" class="entry-close" onclick="toggleEntry('l',false)" title="Close">×</button></div>
         <form id="lead-form">
-          <div class="form-group"><label>नाम *</label><input type="text" id="l-name" class="form-control" required=""></div>
+          <div class="form-group"><label>Name *</label><input type="text" id="l-name" class="form-control" required=""></div>
           <div class="form-row">
-            <div class="form-group"><label>पासपोर्ट *</label><input type="text" id="l-passport" class="form-control" required=""></div>
-            <div class="form-group"><label>उमेर</label><input type="number" id="l-age" class="form-control" min="18" max="70"></div>
+            <div class="form-group"><label>Passport No. *</label><input type="text" id="l-passport" class="form-control" required=""></div>
+            <div class="form-group"><label>Age</label><input type="number" id="l-age" class="form-control" min="18" max="70"></div>
           </div>
           <div class="form-row">
             <div class="form-group"><label>Gender *</label>
               <select id="l-gender" class="form-control" required=""><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select>
             </div>
-            <div class="form-group"><label>लट नं (थाहा भए)</label><input type="text" id="l-lotno" class="form-control"></div>
+            <div class="form-group"><label>Lot No. (if known)</label><input type="text" id="l-lotno" class="form-control"></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>देश *</label><input type="text" id="l-country" class="form-control" required=""></div>
-            <div class="form-group"><label>कम्पनी *</label><input type="text" id="l-company" class="form-control" required=""></div>
+            <div class="form-group"><label>Country *</label><input type="text" id="l-country" class="form-control" required=""></div>
+            <div class="form-group"><label>Company *</label><input type="text" id="l-company" class="form-control" required=""></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Job Title</label><input type="text" id="l-jobtitle" class="form-control" placeholder="Applicant ले आवेदन दिएको काम"></div>
-            <div class="form-group"><label>फोन नं</label><input type="text" id="l-phone" class="form-control" placeholder="Follow-up को लागि"></div>
+            <div class="form-group"><label>Job Title</label><input type="text" id="l-jobtitle" class="form-control" placeholder="Job applied for"></div>
+            <div class="form-group"><label>Phone No.</label><input type="text" id="l-phone" class="form-control" placeholder="For follow-up"></div>
           </div>
           <div class="form-row">
             <div class="form-group"><label>Orientation</label><select id="l-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
             <div class="form-group"><label>Medical</label><select id="l-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="l-nepal-addr" class="form-control"></div>
-            <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="l-contact-addr" class="form-control"></div>
+            <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="l-nepal-addr" class="form-control"></div>
+            <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="l-contact-addr" class="form-control"></div>
           </div>
-          <div class="form-group"><label>कैफियत</label><input type="text" id="l-remarks" class="form-control"></div>
-          <button type="submit" class="btn">Applicant दर्ता गर्नुहोस्</button>
+          <div class="form-group"><label>Remarks</label><input type="text" id="l-remarks" class="form-control"></div>
+          <button type="submit" class="btn">Register Applicant</button>
         </form>
       </div>
       <div class="card">
-        <div class="card-title">Applicant List</div>
+        <div class="card-title title-row"><span>Applicant List</span><button type="button" class="entry-btn" id="l-entry-btn" onclick="toggleEntry('l')">+ New Applicant</button></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <input type="text" id="l-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 नाम, पासपोर्ट, देश, कम्पनी, फोन..." oninput="renderLeads()">
+          <input type="text" id="l-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, phone..." oninput="renderLeads()">
           <select id="l-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="renderLeads()"><option value="">— All Status —</option><option>New</option><option>Document Received</option><option>Shortlisted</option><option>Interview</option><option>Interview Passed</option><option>Medical</option><option>Medical Fit</option><option>Selected</option><option>Offer Letter</option><option>Offer Accepted</option><option>Ready For Labor Approval</option><option>Interview Failed</option><option>Medical Unfit</option><option>Offer Rejected</option><option>Cancelled</option><option>Rejected</option></select>
         </div>
         <div style="overflow-x:auto;">
           <table><thead><tr><th>Name (Passport)</th><th>Country / Company</th><th>Status</th><th></th></tr></thead>
           <tbody id="l-table"></tbody></table>
         </div>
+        <div class="pager" id="l-pager"></div>
       </div>
     </div>
   </div>
@@ -447,46 +477,47 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 
   <!-- TAB 2: PRE-APPROVAL -->
   <div id="tab-pre" class="tab-content hide-for-receptionist hide-for-documentation">
-    <div class="main-grid">
-      <div class="card">
-        <div class="card-title">नयाँ पूर्व स्वीकृति इन्ट्री</div>
+    <div class="main-grid form-closed" id="p-grid">
+      <div class="card entry-card" id="p-entry">
+        <div class="card-title title-row"><span>New Pre-Permission Entry</span><button type="button" class="entry-close" onclick="toggleEntry('p',false)" title="Close">×</button></div>
         <form id="pre-form">
-          <div class="form-group"><label>स्वीकृति मिति *</label><input type="date" id="p-date" class="form-control" required=""></div>
-          <div class="form-group"><label>लट नं</label><input type="text" id="p-lotno" class="form-control"></div>
+          <div class="form-group"><label>Approval Date *</label><input type="date" id="p-date" class="form-control" required=""></div>
+          <div class="form-group"><label>Lot No.</label><input type="text" id="p-lotno" class="form-control"></div>
           <div class="form-row">
-            <div class="form-group"><label>देश *</label><input type="text" id="p-country" class="form-control" required=""></div>
-            <div class="form-group"><label>कम्पनी *</label><input type="text" id="p-company" class="form-control" required=""></div>
+            <div class="form-group"><label>Country *</label><input type="text" id="p-country" class="form-control" required=""></div>
+            <div class="form-group"><label>Company *</label><input type="text" id="p-company" class="form-control" required=""></div>
           </div>
 
-          <label style="font-weight:700;display:block;margin:6px 0 4px;">पदहरू (माग विवरण)</label>
+          <label style="font-weight:700;display:block;margin:6px 0 4px;">Positions (Demand Details)</label>
           <div id="p-positions"></div>
-          <button type="button" class="btn btn-sm" style="background:#0284c7;margin-bottom:8px;" onclick="addPositionRow()">➕ अर्को पद थप्नुहोस्</button>
+          <button type="button" class="btn btn-sm" style="background:#0284c7;margin-bottom:8px;" onclick="addPositionRow()">+ Add Position</button>
 
           <div class="form-row" style="background:#f1f5f9;padding:8px;border-radius:6px;">
-            <div class="form-group" style="margin:0;"><label>जम्मा माग: पुरुष</label><input type="number" id="p-male" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
-            <div class="form-group" style="margin:0;"><label>जम्मा माग: महिला</label><input type="number" id="p-female" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
+            <div class="form-group" style="margin:0;"><label>Total Demand: Male</label><input type="number" id="p-male" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
+            <div class="form-group" style="margin:0;"><label>Total Demand: Female</label><input type="number" id="p-female" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
           </div>
 
           <div class="form-row" style="margin-top:8px;">
-            <div class="form-group"><label>Expiry मिति</label><input type="date" id="p-expiry" class="form-control"></div>
-            <div class="form-group"><label>करार अवधि (वर्ष)</label><input type="text" id="p-contract-years" class="form-control" value="2"></div>
+            <div class="form-group"><label>Expiry Date</label><input type="date" id="p-expiry" class="form-control"></div>
+            <div class="form-group"><label>Contract Period (Years)</label><input type="text" id="p-contract-years" class="form-control" value="2"></div>
           </div>
-          <div class="form-group"><label>लागत खर्च</label><input type="text" id="p-cost" class="form-control" placeholder="रकम वा 0"></div>
-          <div class="form-group"><label>कैफियत</label><input type="text" id="p-remarks" class="form-control"></div>
-          <button type="submit" class="btn">दर्ता गर्नुहोस्</button>
+          <div class="form-group"><label>Cost</label><input type="text" id="p-cost" class="form-control" placeholder="Amount or 0"></div>
+          <div class="form-group"><label>Remarks</label><input type="text" id="p-remarks" class="form-control"></div>
+          <button type="submit" class="btn">Register</button>
         </form>
       </div>
       <div class="card">
-        <div class="card-title">पूर्व स्वीकृति सूची</div>
-        <input type="text" id="p-search" class="search-control" placeholder="🔍 देश, कम्पनी वा लट नंबाट खोज्नुहोस्..." oninput="onPreManualSearch()">
+        <div class="card-title title-row"><span>Pre-Permission List</span><button type="button" class="entry-btn" id="p-entry-btn" onclick="toggleEntry('p')">+ New Pre-Permission</button></div>
+        <input type="text" id="p-search" class="search-control" placeholder="Search by country, company or lot no..." oninput="onPreManualSearch()">
         <div class="card-filter-banner" id="pre-filter-banner">
           <span id="pre-filter-label"></span>
-          <button onclick="clearPreFilter()" title="फिल्टर हटाउनुहोस् (सबै हेर्न)">✕</button>
+          <button onclick="clearPreFilter()" title="Clear filter">✕</button>
         </div>
         <div style="overflow-x:auto;">
           <table><thead><tr><th>Date</th><th>Lot No</th><th>Country</th><th>Company</th><th>M</th><th>F</th><th>Total</th><th>Available</th><th>Expiry</th><th></th></tr></thead>
           <tbody id="p-table"></tbody></table>
         </div>
+        <div class="pager" id="p-pager"></div>
       </div>
     </div>
   </div>
@@ -494,18 +525,18 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <!-- TAB 3: REPORT -->
   <div id="tab-report" class="tab-content">
     <div class="card">
-      <div class="card-title">📊 Report (आ.व. <span id="rpt-fy">2083-84</span>)</div>
+      <div class="card-title">📊 Report (FY <span id="rpt-fy">2083-84</span>)</div>
       <div id="report-area"></div>
     </div>
   </div>
 
   <div id="tab-quota" class="tab-content">
     <div class="card">
-      <div class="card-title">🎫 Quota Details — लट अनुसार कोटा विवरण (म्याद नसकिएका)</div>
+      <div class="card-title">🎫 Quota Details — Lot-wise Quota (Active Lots)</div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
-        <input type="text" id="quota-lot-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 लट नं खोज्नुहोस् (जस्तै LOT-2082-0471)..." oninput="renderQuotaArea()" onkeydown="if(event.key==='Enter'){event.preventDefault();renderQuotaArea();}">
+        <input type="text" id="quota-lot-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search lot no. or company..." oninput="renderQuotaArea()" onkeydown="if(event.key==='Enter'){event.preventDefault();renderQuotaArea();}">
         <button class="btn btn-sm" style="width:auto;" onclick="renderQuotaArea()">Open Lot</button>
-        <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="document.getElementById('quota-lot-search').value='';renderQuotaArea();" title="खोज हटाउनुहोस् (सबै लट हेर्न)">✕</button>
+        <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="document.getElementById('quota-lot-search').value='';renderQuotaArea();" title="Clear search">✕</button>
       </div>
       <div id="quota-area"></div>
     </div>
@@ -517,55 +548,55 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 <!-- WORKER MODAL -->
 <div class="modal" id="w-modal">
   <div class="modal-content">
-    <div class="modal-header"><h2 id="w-modal-title">कामदार विवरण</h2><span class="close-modal" onclick="closeWModal()">×</span></div>
+    <div class="modal-header"><h2 id="w-modal-title">Worker Details</h2><span class="close-modal" onclick="closeWModal()">×</span></div>
     <div class="edit-grid">
-      <div class="form-group"><label>नाम</label><input type="text" id="e-name" class="form-control"></div>
-      <div class="form-group"><label>पासपोर्ट</label><input type="text" id="e-passport" class="form-control"></div>
-      <div class="form-group"><label>उमेर</label><input type="number" id="e-age" class="form-control"></div>
+      <div class="form-group"><label>Name</label><input type="text" id="e-name" class="form-control"></div>
+      <div class="form-group"><label>Passport No.</label><input type="text" id="e-passport" class="form-control"></div>
+      <div class="form-group"><label>Age</label><input type="number" id="e-age" class="form-control"></div>
       <div class="form-group"><label>Gender</label><select id="e-gender" class="form-control"><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
-      <div class="form-group"><label>लट नं</label><input type="text" id="e-lotno" class="form-control"></div>
+      <div class="form-group"><label>Lot No.</label><input type="text" id="e-lotno" class="form-control"></div>
       <div class="form-group"><label>News Date</label><input type="date" id="e-newsdate" class="form-control"></div>
       <div class="form-group"><label>Issue Date</label><input type="date" id="e-issuedate" class="form-control"></div>
-      <div class="form-group"><label>भिसा नं</label><input type="text" id="e-visano" class="form-control"></div>
-      <div class="form-group"><label>देश</label><input type="text" id="e-country" class="form-control"></div>
-      <div class="form-group"><label>कम्पनी</label><input type="text" id="e-company" class="form-control"></div>
+      <div class="form-group"><label>Visa No.</label><input type="text" id="e-visano" class="form-control"></div>
+      <div class="form-group"><label>Country</label><input type="text" id="e-country" class="form-control"></div>
+      <div class="form-group"><label>Company</label><input type="text" id="e-company" class="form-control"></div>
       <div class="form-group"><label>Visa Profession</label><input type="text" id="e-visaprof" class="form-control"></div>
       <div class="form-group"><label>Demand Profession</label><input type="text" id="e-demandprof" class="form-control"></div>
       <div class="form-group"><label>Orientation</label><select id="e-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group"><label>Medical</label><select id="e-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group shram-only-field"><label>⚙️ Labor Approval Status</label>
         <select id="e-status" class="form-control" style="font-weight:700;" onchange="onStatusChange()">
-          <option value="Entry">Entry (दर्ता मात्र)</option>
-          <option value="Upload">Upload (FEIMS मा)</option>
-          <option value="Submitted">Submitted (पेश गरिएको)</option>
-          <option value="Approved">Approved (श्रम स्वीकृति)</option>
+          <option value="Entry">Entry (Registered)</option>
+          <option value="Upload">Upload (FEIMS)</option>
+          <option value="Submitted">Submitted</option>
+          <option value="Approved">Approved (Labour Approval)</option>
           <option value="Rejected">Rejected</option>
           <option value="Cancel">Cancel</option>
         </select>
       </div>
-      <div class="form-group shram-only-field"><label>स्वीकृति मिति (Approve Date)</label><input type="date" id="e-approvedate" class="form-control"></div>
-      <div class="form-group"><label>कैफियत</label><input type="text" id="e-remarks" class="form-control"></div>
+      <div class="form-group shram-only-field"><label>Approval Date</label><input type="date" id="e-approvedate" class="form-control"></div>
+      <div class="form-group"><label>Remarks</label><input type="text" id="e-remarks" class="form-control"></div>
     </div>
     <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px 16px;margin-bottom:15px;">
-      <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:10px;">✈️ उडान/ठेगाना विवरण (Approved पछि पनि सम्पादन मिल्ने)</div>
+      <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:10px;">✈️ Departure / Address Details (editable after approval)</div>
       <div class="form-row">
-        <div class="form-group"><label>उडान/टिकट मिति (Departure)</label><input type="date" id="e-departdate" class="form-control"></div>
-        <div class="form-group"><label>विदेश पुगेको मिति</label><input type="date" id="e-arriveddate" class="form-control"></div>
+        <div class="form-group"><label>Departure / Ticket Date</label><input type="date" id="e-departdate" class="form-control"></div>
+        <div class="form-group"><label>Arrival Date (Abroad)</label><input type="date" id="e-arriveddate" class="form-control"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="e-nepal-addr" class="form-control"></div>
-        <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="e-contact-addr" class="form-control"></div>
+        <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="e-nepal-addr" class="form-control"></div>
+        <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="e-contact-addr" class="form-control"></div>
       </div>
     </div>
     <div id="w-modal-meta" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
     <div id="w-lock-note-wrap" style="display:none;margin:-8px 0 12px;">
-      <span id="w-lock-badge" onclick="toggleLockNote()" style="cursor:pointer;font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:3px 9px;display:inline-block;">🔒 सम्पादन सीमित (थप हेर्न क्लिक गर्नुहोस्)</span>
+      <span id="w-lock-badge" onclick="toggleLockNote()" style="cursor:pointer;font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:3px 9px;display:inline-block;">🔒 Editing limited (click for details)</span>
       <div id="w-lock-note" style="display:none;font-size:13px;color:var(--muted);margin-top:6px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:8px 10px;"></div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
-      <button class="btn" style="width:auto;background:var(--success);" onclick="saveWorker()">💾 सुरक्षित गर्नुहोस्</button>
+      <button class="btn" style="width:auto;background:var(--success);" onclick="saveWorker()">💾 Save</button>
       <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="printWorker()">🖨️ Print</button>
-      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteWorker()">🗑️ मेटाउनुहोस्</button>
+      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteWorker()">🗑️ Delete</button>
     </div>
     <div class="card-title" style="font-size:15px;">📜 History</div>
     <div class="history-box" id="w-history"></div>
@@ -575,17 +606,17 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 <!-- LEAD MODAL -->
 <div class="modal" id="l-modal">
   <div class="modal-content">
-    <div class="modal-header"><h2 id="l-modal-title">Applicant विवरण</h2><span class="close-modal" onclick="closeLModal()">×</span></div>
+    <div class="modal-header"><h2 id="l-modal-title">Applicant Details</h2><span class="close-modal" onclick="closeLModal()">×</span></div>
     <div class="edit-grid">
-      <div class="form-group"><label>नाम</label><input type="text" id="le-name" class="form-control"></div>
-      <div class="form-group"><label>पासपोर्ट</label><input type="text" id="le-passport" class="form-control"></div>
-      <div class="form-group"><label>उमेर</label><input type="number" id="le-age" class="form-control"></div>
+      <div class="form-group"><label>Name</label><input type="text" id="le-name" class="form-control"></div>
+      <div class="form-group"><label>Passport No.</label><input type="text" id="le-passport" class="form-control"></div>
+      <div class="form-group"><label>Age</label><input type="number" id="le-age" class="form-control"></div>
       <div class="form-group"><label>Gender</label><select id="le-gender" class="form-control"><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
-      <div class="form-group"><label>लट नं</label><input type="text" id="le-lotno" class="form-control"></div>
-      <div class="form-group"><label>देश</label><input type="text" id="le-country" class="form-control"></div>
-      <div class="form-group"><label>कम्पनी</label><input type="text" id="le-company" class="form-control"></div>
+      <div class="form-group"><label>Lot No.</label><input type="text" id="le-lotno" class="form-control"></div>
+      <div class="form-group"><label>Country</label><input type="text" id="le-country" class="form-control"></div>
+      <div class="form-group"><label>Company</label><input type="text" id="le-company" class="form-control"></div>
       <div class="form-group"><label>Job Title</label><input type="text" id="le-jobtitle" class="form-control"></div>
-      <div class="form-group"><label>फोन नं</label><input type="text" id="le-phone" class="form-control"></div>
+      <div class="form-group"><label>Phone No.</label><input type="text" id="le-phone" class="form-control"></div>
       <div class="form-group"><label>Orientation</label><select id="le-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group"><label>Medical</label><select id="le-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group"><label>⚙️ Applicant Status</label>
@@ -601,7 +632,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <option value="Selected">Selected</option>
             <option value="Offer Letter">Offer Letter</option>
             <option value="Offer Accepted">Offer Accepted</option>
-            <option value="Ready For Labor Approval">Ready For Labor Approval (श्रम स्वीकृतिका लागि तयार)</option>
+            <option value="Ready For Labor Approval">Ready For Labor Approval</option>
           </optgroup>
           <optgroup label="असफल / बन्द">
             <option value="Interview Failed">Interview Failed</option>
@@ -613,16 +644,16 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </select>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="le-nepal-addr" class="form-control"></div>
-        <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="le-contact-addr" class="form-control"></div>
+        <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="le-nepal-addr" class="form-control"></div>
+        <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="le-contact-addr" class="form-control"></div>
       </div>
-      <div class="form-group"><label>कैफियत</label><input type="text" id="le-remarks" class="form-control"></div>
+      <div class="form-group"><label>Remarks</label><input type="text" id="le-remarks" class="form-control"></div>
     </div>
     <div id="l-modal-meta" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
     <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
-      <button class="btn" id="l-save-btn" style="width:auto;background:var(--success);" onclick="saveLead()">💾 सुरक्षित गर्नुहोस्</button>
-      <button class="btn" id="l-convert-btn" style="width:auto;background:#7c3aed;" onclick="convertLead()">➡️ Worker मा सार्नुहोस्</button>
-      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteLead()">🗑️ मेटाउनुहोस्</button>
+      <button class="btn" id="l-save-btn" style="width:auto;background:var(--success);" onclick="saveLead()">💾 Save</button>
+      <button class="btn" id="l-convert-btn" style="width:auto;background:#7c3aed;" onclick="convertLead()">➡️ Move to Worker</button>
+      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteLead()">🗑️ Delete</button>
     </div>
     <div class="card-title" style="font-size:15px;">📜 History</div>
     <div class="history-box" id="l-history"></div>
@@ -632,22 +663,22 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 <!-- PRE MODAL -->
 <div class="modal" id="p-modal">
   <div class="modal-content" style="max-width:640px;">
-    <div class="modal-header"><h2>पूर्व स्वीकृति संशोधन</h2><span class="close-modal" onclick="closePModal()">×</span></div>
+    <div class="modal-header"><h2>Edit Pre-Permission</h2><span class="close-modal" onclick="closePModal()">×</span></div>
     <div class="edit-grid">
-      <div class="form-group"><label>स्वीकृति मिति</label><input type="date" id="pe-date" class="form-control"></div>
-      <div class="form-group"><label>लट नं</label><input type="text" id="pe-lotno" class="form-control"></div>
-      <div class="form-group"><label>देश</label><input type="text" id="pe-country" class="form-control"></div>
-      <div class="form-group"><label>कम्पनी</label><input type="text" id="pe-company" class="form-control"></div>
-      <div class="form-group"><label>माग: पुरुष</label><input type="number" id="pe-male" class="form-control" min="0"></div>
-      <div class="form-group"><label>माग: महिला</label><input type="number" id="pe-female" class="form-control" min="0"></div>
+      <div class="form-group"><label>Approval Date</label><input type="date" id="pe-date" class="form-control"></div>
+      <div class="form-group"><label>Lot No.</label><input type="text" id="pe-lotno" class="form-control"></div>
+      <div class="form-group"><label>Country</label><input type="text" id="pe-country" class="form-control"></div>
+      <div class="form-group"><label>Company</label><input type="text" id="pe-company" class="form-control"></div>
+      <div class="form-group"><label>Demand: Male</label><input type="number" id="pe-male" class="form-control" min="0"></div>
+      <div class="form-group"><label>Demand: Female</label><input type="number" id="pe-female" class="form-control" min="0"></div>
       <div class="form-group"><label>Expiry</label><input type="date" id="pe-expiry" class="form-control"></div>
-      <div class="form-group"><label>लागत खर्च</label><input type="text" id="pe-cost" class="form-control" placeholder="रकम वा 0"></div>
-      <div class="form-group"><label>कैफियत</label><input type="text" id="pe-remarks" class="form-control"></div>
+      <div class="form-group"><label>Cost</label><input type="text" id="pe-cost" class="form-control" placeholder="Amount or 0"></div>
+      <div class="form-group"><label>Remarks</label><input type="text" id="pe-remarks" class="form-control"></div>
     </div>
     <div id="pe-breakdown-wrap" style="margin:6px 0 16px;"></div>
     <div style="display:flex;gap:10px;">
-      <button class="btn" style="background:var(--success);" onclick="savePre()">💾 सुरक्षित</button>
-      <button class="btn btn-danger" onclick="deletePre()">🗑️ मेटाउने</button>
+      <button class="btn" style="background:var(--success);" onclick="savePre()">💾 Save</button>
+      <button class="btn btn-danger" onclick="deletePre()">🗑️ Delete</button>
     </div>
   </div>
 </div>
@@ -811,7 +842,7 @@ function setPwVisible(show){
   if(!inp || !btn) return;
   inp.type = show ? 'text' : 'password';
   btn.innerHTML = show ? EYE_OFF : EYE_ON;
-  btn.title = show ? 'Password लुकाउने' : 'Password देखाउने';
+  btn.title = show ? 'Hide password' : 'Show password';
   btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
 }
 function togglePw(){
@@ -1048,6 +1079,64 @@ function switchTab(ev, id){
 }
 
 
+
+
+
+// ================= ENTRY FORM (बटन थिचेपछि मात्र खुल्ने) =================
+const ENTRY_LABEL = { w:'New Worker Entry', l:'New Applicant', p:'New Pre-Permission' };
+function toggleEntry(key, force){
+  const grid = document.getElementById(key + '-grid'); if(!grid) return;
+  const open = (typeof force === 'boolean') ? force : grid.classList.contains('form-closed');
+  grid.classList.toggle('form-closed', !open);
+  const b = document.getElementById(key + '-entry-btn');
+  if(b){ b.textContent = open ? '✕ Close Form' : '+ ' + ENTRY_LABEL[key]; b.classList.toggle('is-open', open); }
+  if(open){
+    const card = document.getElementById(key + '-entry');
+    if(card){ card.scrollIntoView({ behavior:'smooth', block:'start' }); const f = card.querySelector('input:not([disabled]),select:not([disabled])'); if(f) setTimeout(()=>f.focus({preventScroll:true}), 250); }
+  }
+}
+
+// ================= PAGINATION (एक page मा १० row, default) =================
+const PAGER = {};
+const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres() };
+// filter/search बदलिए page 1 मा फर्कने; save/refresh ले भने हालकै page राख्ने
+function pageSlice(key, rows, fkey){
+  const st = PAGER[key] || (PAGER[key] = { page:1, size:10, fkey:null });
+  if(st.fkey !== fkey){ st.page = 1; st.fkey = fkey; }
+  const total = rows.length, pages = Math.max(1, Math.ceil(total / st.size));
+  if(st.page > pages) st.page = pages;
+  const start = (st.page - 1) * st.size;
+  renderPager(key, total, pages);
+  return rows.slice(start, start + st.size);
+}
+function renderPager(key, total, pages){
+  const el = document.getElementById(key + '-pager'); if(!el) return;
+  if(!total){ el.innerHTML = ''; return; }
+  const st = PAGER[key], cur = st.page;
+  const nums = [];
+  for(let i=1;i<=pages;i++){
+    if(i===1 || i===pages || Math.abs(i-cur)<=1) nums.push(i);
+    else if(nums[nums.length-1] !== '…') nums.push('…');
+  }
+  const btns = nums.map(n => n==='…' ? '<span class="dots">…</span>'
+    : `<button class="${n===cur?'cur':''}" ${n===cur?'disabled':''} onclick="gotoPage('${key}',${n})">${n}</button>`).join('');
+  el.innerHTML =
+    `<div class="pg-nums">
+       ${pages>1 ? `<button class="arr" ${cur===1?'disabled':''} onclick="gotoPage('${key}',${cur-1})" title="Previous">‹</button>` : ''}
+       ${btns}
+       ${pages>1 ? `<button class="arr" ${cur===pages?'disabled':''} onclick="gotoPage('${key}',${cur+1})" title="Next">›</button>` : ''}
+     </div>
+     <div class="pg-size">View Per Page:
+       <select onchange="setPageSize('${key}',this.value)">${[10,25,50,100].map(n=>`<option ${n===st.size?'selected':''}>${n}</option>`).join('')}</select>
+     </div>
+     <div class="pg-info">Page ${cur} of ${pages} · ${total} results</div>`;
+}
+function gotoPage(key, p){
+  PAGER[key].page = p; PAGER_RENDER[key]();
+  const card = document.getElementById(key + '-pager').closest('.card');
+  if(card) card.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function setPageSize(key, v){ PAGER[key].size = Number(v) || 10; PAGER[key].page = 1; PAGER_RENDER[key](); }
 
 // ================= SIDEBAR AUTO-HIDE + BACK =================
 // Dashboard बाहेक अरू page खोल्दा (ठूलो screen मा) sidebar आफै लुक्छ र काम गर्ने ठाउँ चौडा हुन्छ।
@@ -1320,7 +1409,7 @@ function cardFilter(type){
   // banner देखाउने + कार्ड हाइलाइट
   const b = document.getElementById('card-filter-banner');
   document.getElementById('card-filter-label').innerHTML =
-    `<b>${labels[type]}</b> — आ.व. <b>${fy.label}</b> मा`;
+    `<b>${labels[type]}</b> — FY <b>${fy.label}</b>`;
   b.classList.add('show');
   document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
   event && event.currentTarget && event.currentTarget.classList.add('card-active');
@@ -1432,10 +1521,11 @@ function renderWorkers(){
     const fy = currentFY();
     document.getElementById('card-filter-label').innerHTML = activeCardFilter.allTime
       ? `<b>${activeCardFilter.label}</b>`
-      : `<b>${activeCardFilter.label}</b> — आ.व. <b>${fy.label}</b> मा`;
+      : `<b>${activeCardFilter.label}</b> — FY <b>${fy.label}</b>`;
   }
-  lastVisibleWIds = rows.map(w=>w.id);
-  document.getElementById('w-table').innerHTML = rows.map(w=>`
+  const pageRows = pageSlice('w', rows, [q, sf, activeCardFilter ? activeCardFilter.type : '', currentFY().label].join('|'));
+  lastVisibleWIds = pageRows.map(w=>w.id);
+  document.getElementById('w-table').innerHTML = pageRows.map(w=>`
     <tr>
       <td class="shram-only-field"><input type="checkbox" ${selectedWIds.has(w.id)?'checked':''} onchange="toggleSelect('${w.id}', this.checked)"></td>
       <td>${w.name}<br><small style="color:var(--muted)">${w.passport}${w.gender?' • '+gShort(w.gender):''}${w.age?' • '+w.age:''}</small></td>
@@ -1445,11 +1535,11 @@ function renderWorkers(){
       <td>${w.approveDate ? w.approveDate+'<br><small style="color:var(--info)">'+nepaliMonth(w.approveDate)+'</small>' : '-'}</td>
       <td>${w.departDate ? w.departDate + (isCarryOver(w) ? '<br><span class="carry-tag" title="अघिल्लो आ.व.मा श्रम स्वीकृति लिएर यस आ.व. उडेको — कर अघिल्लै आ.व.मा">⏮ Prev FY Approval</span>' : '') : '-'}</td>
       <td><button class="btn btn-sm" onclick="openWModal('${w.id}')">View</button></td>
-    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted)">कुनै रेकर्ड छैन</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted)">No records found</td></tr>';
   const selAllEl = document.getElementById('w-select-all');
   if(selAllEl){
-    const allSel = rows.length>0 && rows.every(w=>selectedWIds.has(w.id));
-    const someSel = rows.some(w=>selectedWIds.has(w.id));
+    const allSel = pageRows.length>0 && pageRows.every(w=>selectedWIds.has(w.id));
+    const someSel = pageRows.some(w=>selectedWIds.has(w.id));
     selAllEl.checked = allSel;
     selAllEl.indeterminate = !allSel && someSel;
   }
@@ -1482,9 +1572,9 @@ function updateBulkBar(){
   const n = selectedWIds.size;
   if(n===0){ bar.style.display='none'; return; }
   bar.style.display='flex';
-  document.getElementById('bulk-count').textContent = n + ' जना छानिए';
+  document.getElementById('bulk-count').textContent = n + ' selected';
   const sel = document.getElementById('bulk-status');
-  const STATUS_LABELS = {Entry:'Entry (दर्ता मात्र)', Upload:'Upload (FEIMS मा)', Submitted:'Submitted (पेश गरिएको)', Approved:'Approved (श्रम स्वीकृति)', Rejected:'Rejected', Cancel:'Cancel'};
+  const STATUS_LABELS = {Entry:'Entry (Registered)', Upload:'Upload (FEIMS)', Submitted:'Submitted', Approved:'Approved (Labour Approval)', Rejected:'Rejected', Cancel:'Cancel'};
   const cur = sel.value;
   sel.innerHTML = '<option value="">— नयाँ Status छान्नुहोस् —</option>' + allowedStatuses().map(s=>`<option value="${s}">${STATUS_LABELS[s]}</option>`).join('');
   if(cur) sel.value = cur;
@@ -1593,7 +1683,7 @@ function openWModal(id){
   editingWId = id;
   const w = workers.find(x=>x.id===id);
   if(!w) return;
-  document.getElementById('w-modal-title').textContent = w.name + ' — विवरण / संशोधन';
+  document.getElementById('w-modal-title').textContent = w.name + ' — Details / Edit';
   document.getElementById('e-name').value = w.name;
   document.getElementById('e-passport').value = w.passport;
   document.getElementById('e-age').value = w.age||'';
@@ -1609,7 +1699,7 @@ function openWModal(id){
   document.getElementById('e-orientation').value = w.orientation||'';
   document.getElementById('e-medical').value = w.medical||'';
   // भूमिका अनुसार Status dropdown मा उपलब्ध विकल्प (हालको status सधैँ देखिन्छ)
-  const STATUS_LABELS = {Entry:'Entry (दर्ता मात्र)', Upload:'Upload (FEIMS मा)', Submitted:'Submitted (पेश गरिएको)', Approved:'Approved (श्रम स्वीकृति)', Rejected:'Rejected', Cancel:'Cancel'};
+  const STATUS_LABELS = {Entry:'Entry (Registered)', Upload:'Upload (FEIMS)', Submitted:'Submitted', Approved:'Approved (Labour Approval)', Rejected:'Rejected', Cancel:'Cancel'};
   const curStatus = w.status||'Entry';
   const allowedSet = new Set(allowedStatuses()); allowedSet.add(curStatus);
   const statusSel = document.getElementById('e-status');
@@ -1632,7 +1722,7 @@ function openWModal(id){
   const roleLocked = !canManageClient();
   document.getElementById('e-status').disabled = roleLocked;
   document.getElementById('e-approvedate').disabled = roleLocked;
-  document.getElementById('w-modal-meta').textContent = 'दर्ता: ' + (w.createdAt||'');
+  document.getElementById('w-modal-meta').textContent = 'Registered: ' + (w.createdAt||'');
   const lockMsgs = [];
   if(roleLocked) lockMsgs.push('🔒 Labor Approval Status/स्वीकृति मिति तपाईंको भूमिकाबाट बदल्न मिल्दैन — श्रम प्रतिनिधि/Admin ले मात्र बदल्छन्।');
   if(postApprovalLocked) lockMsgs.push('🔒 Approved भइसकेकाले नाम/पासपोर्ट/देश-कम्पनी आदि अब सम्पादन गर्न मिल्दैन — उडान मिति/विदेश पुगेको मिति/नेपाल ठेगाना/सम्पर्क व्यक्ति मात्र भर्न सकिन्छ।');
@@ -1657,13 +1747,13 @@ function onStatusChange(){
 }
 
 async function loadHistory(id){
-  document.getElementById('w-history').innerHTML = '<div style="color:var(--muted)">लोड हुँदैछ...</div>';
+  document.getElementById('w-history').innerHTML = '<div style="color:var(--muted)">Loading...</div>';
   const r = await api('getlog', { id });
   if(editingWId !== id) return;
   const log = (r.ok && r.log ? r.log : []).reverse();
   document.getElementById('w-history').innerHTML = log.map(l=>
     `<div class="history-item"><b>${l.time}</b> (${l.user}) — ${l.action}: ${l.detail}</div>`
-  ).join('') || '<div style="color:var(--muted)">कुनै इतिहास छैन</div>';
+  ).join('') || '<div style="color:var(--muted)">No history yet</div>';
 }
 
 function saveWorker(){
@@ -1741,19 +1831,20 @@ function renderLeads(){
     if(ca && cb && ca!==cb) return cb.localeCompare(ca);
     return String(b.id||'').localeCompare(String(a.id||''));
   });
-  document.getElementById('l-table').innerHTML = rows.map(l=>`
+  const pageRows = pageSlice('l', rows, [q, sf].join('|'));
+  document.getElementById('l-table').innerHTML = pageRows.map(l=>`
     <tr>
       <td>${l.name}<br><small style="color:var(--muted)">${l.passport}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+l.phone:''}</small></td>
       <td>${l.country}<br><small>${l.company}</small></td>
       <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span></td>
       <td><button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
-    </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">कुनै Applicant छैन</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">No applicants found</td></tr>';
 }
 function openLModal(id){
   editingLId = id;
   const l = leads.find(x=>x.id===id);
   if(!l) return;
-  document.getElementById('l-modal-title').textContent = l.name + ' — Applicant विवरण / संशोधन';
+  document.getElementById('l-modal-title').textContent = l.name + ' — Applicant Details / Edit';
   document.getElementById('le-name').value = l.name;
   document.getElementById('le-passport').value = l.passport;
   document.getElementById('le-age').value = l.age||'';
@@ -1770,7 +1861,7 @@ function openLModal(id){
   document.getElementById('le-contact-addr').value = l.contactAddress||'';
   document.getElementById('le-remarks').value = l.remarks||'';
   const converted = !!l.convertedWorkerId;
-  document.getElementById('l-modal-meta').textContent = 'दर्ता: ' + (l.createdAt||'') +
+  document.getElementById('l-modal-meta').textContent = 'Registered: ' + (l.createdAt||'') +
     (converted ? ' | ✅ Worker मा सारिएको (id: ' + l.convertedWorkerId + ', ' + (l.convertedAt||'') + ')' : '');
   ['le-name','le-passport','le-age','le-gender','le-lotno','le-country','le-company','le-jobtitle','le-phone','le-orientation','le-medical','le-status','le-nepal-addr','le-contact-addr','le-remarks'].forEach(id=>{
     document.getElementById(id).disabled = converted;
@@ -1782,13 +1873,13 @@ function openLModal(id){
 }
 function closeLModal(){ document.getElementById('l-modal').style.display='none'; editingLId=null; }
 async function loadLeadHistory(id){
-  document.getElementById('l-history').innerHTML = '<div style="color:var(--muted)">लोड हुँदैछ...</div>';
+  document.getElementById('l-history').innerHTML = '<div style="color:var(--muted)">Loading...</div>';
   const r = await api('getlog', { id });
   if(editingLId !== id) return;
   const log = (r.ok && r.log ? r.log : []).reverse();
   document.getElementById('l-history').innerHTML = log.map(x=>
     `<div class="history-item"><b>${x.time}</b> (${x.user}) — ${x.action}: ${x.detail}</div>`
-  ).join('') || '<div style="color:var(--muted)">कुनै इतिहास छैन</div>';
+  ).join('') || '<div style="color:var(--muted)">No history yet</div>';
 }
 function saveLead(){
   const l = leads.find(x=>x.id===editingLId);
@@ -1880,11 +1971,11 @@ function addPositionRow(name, m, f, salary){
   div.id = 'pos-'+id;
   div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
   div.innerHTML = `
-    <input type="text" class="form-control pos-name" placeholder="पद" value="${name||''}" style="flex:2;margin:0;">
-    <input type="number" class="form-control pos-m" placeholder="पु" min="0" value="${m||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="पुरुष">
-    <input type="number" class="form-control pos-f" placeholder="म" min="0" value="${f||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="महिला">
-    <input type="text" class="form-control pos-salary" placeholder="तलब" value="${salary||''}" style="flex:1;margin:0;" title="मासिक तलब">
-    <button type="button" onclick="removePositionRow(${id})" style="background:#dc2626;color:#fff;border:none;border-radius:5px;width:30px;height:34px;cursor:pointer;" title="हटाउने">✕</button>`;
+    <input type="text" class="form-control pos-name" placeholder="Position" value="${name||''}" style="flex:2;margin:0;">
+    <input type="number" class="form-control pos-m" placeholder="M" min="0" value="${m||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="Male">
+    <input type="number" class="form-control pos-f" placeholder="F" min="0" value="${f||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="Female">
+    <input type="text" class="form-control pos-salary" placeholder="Salary" value="${salary||''}" style="flex:1;margin:0;" title="Monthly salary">
+    <button type="button" onclick="removePositionRow(${id})" style="background:#dc2626;color:#fff;border:none;border-radius:5px;width:30px;height:34px;cursor:pointer;" title="Remove">✕</button>`;
   document.getElementById('p-positions').appendChild(div);
 }
 function removePositionRow(id){
@@ -1938,7 +2029,7 @@ function renderPres(){
   // preCardFY सेट भए त्यही आ.व.को मात्र; नभए सबै (POA expiry हेर्न) — नयाँ माथि
   const banner = document.getElementById('pre-filter-banner');
   if(preCardFY){
-    document.getElementById('pre-filter-label').innerHTML = `<b>Pre-Permission</b> — आ.व. <b>${preCardFY.label}</b> मा`;
+    document.getElementById('pre-filter-label').innerHTML = `<b>Pre-Permission</b> — FY <b>${preCardFY.label}</b>`;
     banner.classList.add('show');
   } else if(preExpiringOnly){
     document.getElementById('pre-filter-label').innerHTML = `<b>⏰ Lot Expiring &lt; 30 Days</b>`;
@@ -1960,7 +2051,8 @@ function renderPres(){
     if(!usedByLot[L]) usedByLot[L]={M:0,F:0};
     if(w.gender==='Female') usedByLot[L].F++; else usedByLot[L].M++;
   });
-  document.getElementById('p-table').innerHTML = rows.map(p=>{
+  const pageRows = pageSlice('p', rows, [q, preCardFY ? preCardFY.label : '', preExpiringOnly].join('|'));
+  document.getElementById('p-table').innerHTML = pageRows.map(p=>{
     const L=normLot(p.lotNo);
     const dM=Number(p.maleCount)||0, dF=Number(p.femaleCount)||0;
     const u=usedByLot[L]||{M:0,F:0};
@@ -1975,7 +2067,7 @@ function renderPres(){
       <td>${expiryCell(p.expiryDate)}</td>
       <td><button class="btn btn-sm" onclick="openPModal('${p.id}')">View</button></td>
     </tr>`;
-  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted)">कुनै रेकर्ड छैन</td></tr>';
+  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted)">No records found</td></tr>';
 }
 function openPModal(id){
   editingPId = id;
