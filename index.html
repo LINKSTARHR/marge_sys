@@ -193,6 +193,36 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
 .btn-ghost:hover{background:#e3e8ef !important;}
 .pos-block{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px 12px 4px;margin-bottom:14px;}
 @media(max-width:760px){ .entry-card form{padding:14px 14px 0;} .entry-card > .entry-head{padding:12px 14px;font-size:16px;} .form-actions{margin:6px -14px 0;padding:10px 14px;flex-wrap:nowrap;} .form-actions .btn{flex:1;white-space:nowrap;padding:10px 8px;} .form-actions .btn[onclick]{display:none;} }
+/* panel system: List / Entry / Import मध्ये एक मात्र देखिने */
+.main-grid > .entry-card:not(.panel-on){display:none !important;}
+.main-grid.form-open > .card:not(.panel-on){display:none !important;}
+/* ===== LOT HINT ===== */
+.lot-hint{font-size:12px;line-height:1.4;margin-top:5px;min-height:0;}
+.lot-hint:empty{display:none;}
+.lot-hint.ok{color:#1e6e3c;} .lot-hint.warn{color:#a15c00;} .lot-hint.bad{color:#ba1a1a;}
+.lot-hint b{font-weight:700;}
+/* ===== PASTE IMPORT ===== */
+.btn-outline{display:inline-flex;align-items:center;gap:6px;width:auto;padding:8px 14px;border:1px solid var(--primary);border-radius:8px;background:#fff;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-outline:hover{background:#f2f5fa;}
+.title-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.imp-body{padding:18px 22px 4px;}
+.imp-grid{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:18px;align-items:start;margin-bottom:12px;}
+.imp-help{background:#f5f8fc;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#3d434b;line-height:1.55;}
+.imp-help code{background:#e8eef6;border-radius:4px;padding:1px 5px;font-size:12px;}
+#imp-text{width:100%;min-height:150px;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.5;resize:vertical;white-space:pre;}
+.imp-sum{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 8px;font-size:13px;font-weight:700;}
+.imp-sum span{padding:4px 10px;border-radius:20px;}
+.imp-sum .s-ok{background:#e6f4ea;color:#1e6e3c;} .imp-sum .s-warn{background:#fff4e0;color:#a15c00;} .imp-sum .s-bad{background:#fde8e8;color:#ba1a1a;}
+.imp-table-wrap{overflow:auto;max-height:420px;border:1px solid var(--border);border-radius:10px;}
+.imp-table{margin:0;font-size:12.5px;}
+.imp-table th{position:sticky;top:0;z-index:1;}
+.imp-table td,.imp-table th{padding:7px 9px;white-space:nowrap;}
+.imp-table tr.r-bad{background:#fff5f5;} .imp-table tr.r-warn{background:#fffaf0;} .imp-table tr.r-done{background:#f0faf3;}
+.imp-st{font-weight:700;} .imp-st.ok{color:#1e6e3c;} .imp-st.warn{color:#a15c00;} .imp-st.bad{color:#ba1a1a;}
+.imp-progress{height:6px;background:#e8edf3;border-radius:6px;overflow:hidden;margin:4px 0 10px;display:none;}
+.imp-progress.show{display:block;}
+.imp-progress > div{height:100%;width:0;background:#0aa88f;transition:width .2s;}
+@media(max-width:760px){ .imp-grid{grid-template-columns:1fr;} .imp-body{padding:14px 14px 4px;} }
 /* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#10263f;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:4000;}
 #toast.show{opacity:1;transform:translate(-50%,0);}
@@ -401,8 +431,32 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
           <div class="form-actions"><button type="button" class="btn btn-ghost" onclick="toggleEntry('w',false)">Cancel</button><button type="submit" class="btn btn-ghost" data-again="1">Save &amp; Add Another</button><button type="submit" class="btn">Save</button></div>
         </form>
       </div>
+      <div class="card entry-card" id="wi-entry">
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('wi',false)">← Back to List</button><span>Paste Import — Workers</span></div>
+        <div class="imp-body">
+          <div class="imp-grid">
+            <div>
+              <div class="form-group"><label>Default Lot No. (optional)</label><input type="text" id="imp-lotno" class="form-control" placeholder="e.g. 347436" autocomplete="off" oninput="impPreview()"></div>
+              <div class="lot-hint" id="imp-lot-hint"></div>
+            </div>
+            <div class="imp-help">
+              Excel / Google Sheet बाट rows <b>copy</b> गरेर तल <b>paste</b> गर्नुहोस्। पहिलो row मा header (Name, Passport…) भए column जुनसुकै क्रममा भए पनि हुन्छ।<br>
+              Header नभए यही क्रम: <code>Name</code> <code>Passport</code> <code>Gender</code> <code>Age</code> <code>Lot No</code> <code>Country</code> <code>Company</code> <code>Profession</code> <code>District</code> <code>Contact Person</code><br>
+              Default Lot छानेमा Lot/Country/Company column खाली छोड्न सकिन्छ — Lot बाट आफै भरिन्छ।
+            </div>
+          </div>
+          <textarea id="imp-text" class="form-control" placeholder="Ram Thapa&#9;PA1234567&#9;M&#9;28&#10;Sita Rai&#9;PA7654321&#9;F&#9;25" oninput="impPreviewDebounced()"></textarea>
+          <div class="imp-sum" id="imp-sum"></div>
+          <div class="imp-progress" id="imp-progress"><div></div></div>
+          <div class="imp-table-wrap" id="imp-table-wrap" style="display:none;"><table class="imp-table"><thead><tr><th>#</th><th>Name</th><th>Passport</th><th>Gender</th><th>Age</th><th>Lot No.</th><th>Country</th><th>Company</th><th>Profession</th><th>District</th><th>Status</th></tr></thead><tbody id="imp-rows"></tbody></table></div>
+        </div>
+        <div class="form-actions" style="margin:12px 0 0;">
+          <button type="button" class="btn btn-ghost" onclick="impClear()">Clear</button>
+          <button type="button" class="btn" id="imp-go" onclick="impRun()" disabled>Import</button>
+        </div>
+      </div>
       <div class="card">
-        <div class="card-title title-row"><span>Worker List</span><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Worker Entry</button></div>
+        <div class="card-title title-row"><span>Worker List</span><span class="title-actions"><button type="button" class="btn-outline" onclick="openImport()" title="Excel / Google Sheet बाट धेरै जना एकैचोटि">⇪ Paste Import</button><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Worker Entry</button></span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, visa no., lot no..." oninput="onManualFilter()">
           <select id="w-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="onManualFilter()"><option value="">— All Status —</option><option>Entry</option><option>Upload</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Cancel</option></select>
@@ -1058,9 +1112,10 @@ async function refreshData(blocking){
     workers = r.workers.map(w=>unpack(Object.keys(w), [Object.values(w)], true)[0]);
     pres    = r.pres || [];
   }
+  workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
 }
-function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); }
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); fillLookups(); }
 
 // ================= SIDEBAR (mobile toggle) =================
 function toggleSidebar(){
@@ -1104,31 +1159,35 @@ function switchTab(ev, id){
 
 // ================= ENTRY FORM (बटन थिचेपछि मात्र खुल्ने) =================
 let formHist = false, ignorePop = false;
+const PANEL_KEYS = ['w','l','p','wi'];
 function openEntryKey(){
-  for(const k of ['w','l','p']){ const g=document.getElementById(k+'-grid'); if(g && g.classList.contains('form-open')) return k; }
+  for(const k of PANEL_KEYS){ const c=document.getElementById(k+'-entry'); if(c && c.classList.contains('panel-on')) return k; }
   return null;
 }
 // form खोल्दा List लुक्छ र form पूरा page मा देखिन्छ; बन्द गर्दा List फर्किन्छ
 // fromPop=true → browser/phone Back बाट आएको (history नछुने)
 function toggleEntry(key, force, fromPop){
-  const grid = document.getElementById(key + '-grid'); if(!grid) return;
-  const isOpen = grid.classList.contains('form-open');
+  const card = document.getElementById(key + '-entry'); if(!card) return;
+  const grid = card.closest('.main-grid');
+  const isOpen = card.classList.contains('panel-on');
   const open = (typeof force === 'boolean') ? force : !isOpen;
   if(open === isOpen) return;
+  if(open) grid.querySelectorAll('.entry-card.panel-on').forEach(c=>c.classList.remove('panel-on'));
+  card.classList.toggle('panel-on', open);
   grid.classList.toggle('form-open', open);
   grid.classList.toggle('form-closed', !open);
   const fab = document.getElementById('back-fab'); if(fab) fab.style.visibility = open ? 'hidden' : '';
   window.scrollTo(0,0);
   if(open){
     try{ history.pushState({raForm:key}, ''); formHist = true; }catch(e){}
-    const f = grid.querySelector('.entry-card form input:not([disabled]):not([readonly]), .entry-card form select:not([disabled])');
+    const f = card.querySelector('input:not([disabled]):not([readonly]), select:not([disabled]), textarea');
     if(f) setTimeout(()=>f.focus({preventScroll:true}), 120);
   } else if(formHist){
     formHist = false;
     if(!fromPop){ ignorePop = true; history.back(); }
   }
 }
-function closeAllEntries(){ ['w','l','p'].forEach(k=>toggleEntry(k,false,true)); }
+function closeAllEntries(){ PANEL_KEYS.forEach(k=>toggleEntry(k,false,true)); }
 function toast(msg){
   let t = document.getElementById('toast');
   if(!t){ t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
@@ -1145,6 +1204,280 @@ function entrySaved(key, e){
   } else {
     toast('✅ Saved successfully');
     toggleEntry(key, false);
+  }
+}
+
+
+// ================= NAME NORMALIZE (Country / Company — हरेक शब्दको पहिलो अक्षर ठूलो) =================
+// Dropdown होइन — नयाँ देश/कम्पनी जुनसुकै बेला टाइप गर्न मिल्छ; save गर्दा र देखाउँदा एकरूप बन्छ।
+const KEEP_UPPER = new Set(['UAE','USA','UK','KSA','LLC','L.L.C','WLL','W.L.L','SDN','BHD','KSC','K.S.C','K.S.C.C','FZE','FZCO','FZ','LLP','DMCC','JLT','QSC','SPC','SAOC','HR','IT','AC','GCC','II','III','IV','PVT','PLC','JSC','OPC','SPA','SRL','GMBH','AB','AS','KK']);
+const COUNTRY_ALIAS = {
+  UAE:'UAE', UNITEDARABEMIRATES:'UAE', EMIRATES:'UAE',
+  SAUDI:'Saudi Arabia', SAUDIARABIA:'Saudi Arabia', KSA:'Saudi Arabia', KINGDOMOFSAUDIARABIA:'Saudi Arabia',
+  MALAYSIA:'Malaysia', MALASIYA:'Malaysia', MALASIA:'Malaysia', MALAYASIA:'Malaysia',
+  QATAR:'Qatar', QATER:'Qatar', KUWAIT:'Kuwait', KUWIAT:'Kuwait', BAHRAIN:'Bahrain', BAHARAIN:'Bahrain', BEHRAIN:'Bahrain',
+  OMAN:'Oman', JORDAN:'Jordan', ROMANIA:'Romania', ROMANIYA:'Romania', POLAND:'Poland', CROATIA:'Croatia',
+  SOUTHKOREA:'South Korea', KOREA:'South Korea', REPUBLICOFKOREA:'South Korea', JAPAN:'Japan', MALDIVES:'Maldives',
+  TURKEY:'Turkey', TURKIYE:'Turkey', SERBIA:'Serbia', CYPRUS:'Cyprus', MALTA:'Malta', ISRAEL:'Israel', PORTUGAL:'Portugal'
+};
+function titleWords(v){
+  return String(v==null?'':v).replace(/\s+/g,' ').trim().split(' ').map(w=>{
+    if(!w) return w;
+    const bare = w.toUpperCase().replace(/[.,()]+$/,'').replace(/^\(/,'');
+    if(KEEP_UPPER.has(bare) || KEEP_UPPER.has(bare.replace(/\.$/,''))) return w.toUpperCase();
+    if(/^([A-Za-z]\.){2,}[A-Za-z]?\.?$/.test(w)) return w.toUpperCase();          // A.W. / L.L.C.
+    if(/\d/.test(w) && /^[A-Z0-9-]+$/i.test(w)) return w.toUpperCase();            // 3RD / A1
+    return w.toLowerCase().replace(/(^|[-/(&])([a-z\u00C0-\u024F])/g,(m,a,b)=>a+b.toUpperCase());
+  }).join(' ');
+}
+function normCountry(v){
+  const t = String(v==null?'':v).trim(); if(!t) return '';
+  const key = t.toUpperCase().replace(/[^A-Z]/g,'');
+  return COUNTRY_ALIAS[key] || titleWords(t);
+}
+function normCompany(v){ return titleWords(v); }
+function normRec(o){
+  if(!o) return o;
+  if(o.country) o.country = normCountry(o.country);
+  if(o.company) o.company = normCompany(o.company);
+  return o;
+}
+const NORM_FIELDS = { country:['w-country','l-country','p-country','e-country','le-country','pe-country'],
+                      company:['w-company','l-company','p-company','e-company','le-company','pe-company'] };
+document.addEventListener('blur', function(ev){
+  const el = ev.target; if(!el || !el.id) return;
+  if(NORM_FIELDS.country.includes(el.id)) el.value = normCountry(el.value);
+  else if(NORM_FIELDS.company.includes(el.id)) el.value = normCompany(el.value);
+}, true);
+
+// ================= LOOKUPS (टाइप गर्दा सुझाव — dropdown होइन) =================
+function lotKey(v){ return String(v==null?'':v).trim().replace(/\.0+$/,''); }
+function lotPositions(p){ try{ const a = JSON.parse(p.professions||'[]'); return Array.isArray(a) ? a : []; }catch(e){ return []; } }
+function usedByLotMap(){
+  const u = {};
+  workers.forEach(w=>{ if(w.status!=='Approved') return; const L=lotKey(w.lotNo); if(!L) return;
+    (u[L] = u[L] || {M:0,F:0})[w.gender==='Female'?'F':'M']++; });
+  return u;
+}
+function lotInfo(lot){
+  const L = lotKey(lot); if(!L) return null;
+  const p = pres.find(x=>lotKey(x.lotNo)===L); if(!p) return { missing:true, lot:L };
+  const u = usedByLotMap()[L] || {M:0,F:0};
+  const avM = Math.max(0,(Number(p.maleCount)||0)-u.M), avF = Math.max(0,(Number(p.femaleCount)||0)-u.F);
+  let days = null; if(p.expiryDate){ const d=new Date(p.expiryDate); if(!isNaN(d)) days = Math.floor((d-new Date())/86400000); }
+  return { p, lot:L, avM, avF, days, expired: days!==null && days<0, positions: lotPositions(p) };
+}
+function ensureDatalist(id){
+  let d = document.getElementById(id);
+  if(!d){ d = document.createElement('datalist'); d.id = id; document.body.appendChild(d); }
+  return d;
+}
+function fillLookups(){
+  const uniq = arr => [...new Set(arr.filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const all = [...workers, ...pres, ...(leads||[])];
+  ensureDatalist('dl-country').innerHTML = uniq(all.map(x=>x.country)).map(v=>`<option value="${gsEsc(v)}">`).join('');
+  ensureDatalist('dl-company').innerHTML = uniq(all.map(x=>x.company)).map(v=>`<option value="${gsEsc(v)}">`).join('');
+  const today = new Date().toISOString().slice(0,10);
+  const u = usedByLotMap();
+  ensureDatalist('dl-lot').innerHTML = pres.filter(p=>p.lotNo && (!p.expiryDate || p.expiryDate>=today))
+    .sort((a,b)=>String(b.approvalDate||'').localeCompare(String(a.approvalDate||'')))
+    .map(p=>{ const L=lotKey(p.lotNo), x=u[L]||{M:0,F:0};
+      const aM=Math.max(0,(+p.maleCount||0)-x.M), aF=Math.max(0,(+p.femaleCount||0)-x.F);
+      return `<option value="${gsEsc(L)}">${gsEsc(p.company||'')} · ${gsEsc(p.country||'')} — ${aM}M / ${aF}F available</option>`; }).join('');
+}
+// ---- Lot No. छान्दा Country / Company / पद आफै भरिने ----
+const LOT_FIELDS = {
+  w:  { country:'w-country',  company:'w-company',  prof:'w-demandprof', gender:'w-gender' },
+  e:  { country:'e-country',  company:'e-company',  prof:'e-demandprof', gender:'e-gender' },
+  l:  { country:'l-country',  company:'l-company',  prof:'l-jobtitle',   gender:'l-gender' },
+  le: { country:'le-country', company:'le-company', prof:'le-jobtitle',  gender:'le-gender' }
+};
+function lotHintHTML(info, gender){
+  if(!info) return ['',''];
+  if(info.missing) return ['warn', `⚠ Lot <b>${gsEsc(info.lot)}</b> Pre-Permission मा भेटिएन`];
+  const p = info.p;
+  const base = `<b>${gsEsc(p.company||'-')}</b> · ${gsEsc(p.country||'-')} — Available <b>${info.avM}M / ${info.avF}F</b>` + (p.expiryDate ? ` · Exp ${gsEsc(p.expiryDate)}` : '');
+  if(info.expired) return ['bad', '⛔ Lot expired — ' + base];
+  const g = gender==='Female' ? info.avF : gender==='Male' ? info.avM : null;
+  if(g===0) return ['warn', `⚠ ${gender} quota सकिएको — ` + base];
+  if(info.days!==null && info.days<=30) return ['warn', `⏰ ${info.days} days left — ` + base];
+  return ['ok', '✓ ' + base];
+}
+function lotHint(key){
+  const inp = document.getElementById(key + '-lotno'), hint = document.getElementById(key + '-lot-hint');
+  if(!inp || !hint) return null;
+  const f = LOT_FIELDS[key], info = lotInfo(inp.value);
+  const g = f && f.gender ? (document.getElementById(f.gender)||{}).value : '';
+  const [cls, html] = lotHintHTML(info, g);
+  hint.className = 'lot-hint ' + cls; hint.innerHTML = html;
+  return info;
+}
+function applyLot(key){
+  const info = lotHint(key); const f = LOT_FIELDS[key];
+  if(!f || !info || info.missing) return;
+  const set = (id,v)=>{ const el=document.getElementById(id); if(el && v && !el.disabled) el.value = v; };
+  set(f.country, normCountry(info.p.country));
+  set(f.company, normCompany(info.p.company));
+  const pos = info.positions.filter(x=>x && x.name);
+  const profEl = document.getElementById(f.prof);
+  if(profEl){
+    const dl = ensureDatalist('dl-prof-' + key);
+    dl.innerHTML = pos.map(x=>`<option value="${gsEsc(x.name)}">${gsEsc((x.salary?'Salary '+x.salary:''))}</option>`).join('');
+    profEl.setAttribute('list', 'dl-prof-' + key);
+    if(pos.length===1 && !profEl.value && !profEl.disabled) profEl.value = pos[0].name;
+  }
+}
+(function setupLookups(){
+  const attach = (id, list)=>{ const el=document.getElementById(id); if(el){ el.setAttribute('list', list); el.setAttribute('autocomplete','off'); } };
+  NORM_FIELDS.country.forEach(id=>attach(id,'dl-country'));
+  NORM_FIELDS.company.forEach(id=>attach(id,'dl-company'));
+  Object.keys(LOT_FIELDS).forEach(key=>{
+    const inp = document.getElementById(key + '-lotno'); if(!inp) return;
+    attach(key + '-lotno', 'dl-lot');
+    const hint = document.createElement('div'); hint.className = 'lot-hint'; hint.id = key + '-lot-hint';
+    inp.insertAdjacentElement('afterend', hint);
+    inp.addEventListener('input', ()=>applyLot(key));
+    const g = document.getElementById(LOT_FIELDS[key].gender); if(g) g.addEventListener('change', ()=>lotHint(key));
+  });
+  ['p-lotno','pe-lotno'].forEach(id=>{ const el=document.getElementById(id); if(el) el.setAttribute('autocomplete','off'); });
+  ['worker-form','lead-form'].forEach(fid=>{ const f=document.getElementById(fid); if(f) f.addEventListener('reset', ()=>setTimeout(()=>{ lotHint('w'); lotHint('l'); },0)); });
+  attach('imp-lotno','dl-lot');
+})();
+// modal खोल्दा हालको lot को hint देखाउने
+const _openWModal = openWModal; openWModal = function(id){ _openWModal(id); lotHint('e'); };
+const _openLModal = openLModal; openLModal = function(id){ _openLModal(id); lotHint('le'); };
+
+// ================= PASTE IMPORT (धेरै Worker एकैचोटि) =================
+const IMP_HEAD = {
+  name:['name','full name','worker name','candidate name','candidate','नाम'],
+  passport:['passport','passport no','passport number','pp','pp no','राहदानी','राहदानी नं','पासपोर्ट'],
+  gender:['gender','sex','m/f','लिङ्ग'],
+  age:['age','उमेर'],
+  lotNo:['lot','lot no','lot number','लट','लट नं'],
+  country:['country','देश'],
+  company:['company','employer','company name','कम्पनी'],
+  demandProfession:['profession','job','job title','position','demand profession','trade','post','पद'],
+  nepalAddress:['district','address','nepal address','जिल्ला','ठेगाना'],
+  contactAddress:['contact','contact person','सम्पर्क','सम्पर्क व्यक्ति'],
+  visaNo:['visa','visa no','visa number','भिसा नं']
+};
+const IMP_ORDER = ['name','passport','gender','age','lotNo','country','company','demandProfession','nepalAddress','contactAddress'];
+let impRows = [], impBusy = false;
+function openImport(){
+  if(!requireAccess(canIntakeClient(), 'Paste Import')) return;
+  toggleEntry('wi', true);
+}
+function impGender(v){
+  const g = String(v||'').trim().toLowerCase();
+  if(['m','male','पुरुष','पु','man'].includes(g)) return 'Male';
+  if(['f','female','महिला','म','woman'].includes(g)) return 'Female';
+  return '';
+}
+function impParse(text){
+  const lines = String(text||'').replace(/\r/g,'').split('\n').filter(l=>l.trim());
+  if(!lines.length) return [];
+  const delim = lines.some(l=>l.includes('\t')) ? '\t' : (lines.some(l=>l.includes(',')) ? ',' : '\t');
+  const grid = lines.map(l=>l.split(delim).map(c=>c.trim().replace(/^"(.*)"$/,'$1').trim()));
+  const clean = c => c.toLowerCase().replace(/[.*:#]/g,'').replace(/\s+/g,' ').trim();
+  const head = grid[0].map(clean);
+  const map = {};
+  head.forEach((h,i)=>{ for(const k in IMP_HEAD){ if(!(k in map) && IMP_HEAD[k].some(s=>h===s || h.startsWith(s+' '))){ map[k]=i; break; } } });
+  let body = grid, cols;
+  if('name' in map && 'passport' in map){ body = grid.slice(1); cols = map; }
+  else { cols = {}; IMP_ORDER.forEach((k,i)=>cols[k]=i); }
+  return body.map(r=>{ const o={}; for(const k in cols) o[k] = r[cols[k]] || ''; return o; })
+             .filter(o=>Object.values(o).some(v=>String(v).trim()));
+}
+function impValidate(){
+  const defLot = lotKey(document.getElementById('imp-lotno').value);
+  const existing = new Map(workers.map(w=>[cleanPassport(w.passport), w.name]));
+  const seen = new Set(), used = {};
+  impRows = impParse(document.getElementById('imp-text').value).map(r=>{
+    const x = {
+      name: titleCase(r.name), passport: cleanPassport(r.passport), gender: impGender(r.gender),
+      age: parseInt(r.age,10) > 0 && parseInt(r.age,10) < 100 ? parseInt(r.age,10) : '',
+      lotNo: lotKey(r.lotNo) || defLot, country: normCountry(r.country), company: normCompany(r.company),
+      demandProfession: String(r.demandProfession||'').trim(), nepalAddress: titleWords(r.nepalAddress),
+      contactAddress: String(r.contactAddress||'').trim(), visaNo: String(r.visaNo||'').trim(),
+      errs: [], warns: [], done:false
+    };
+    const info = x.lotNo ? lotInfo(x.lotNo) : null;
+    if(info && !info.missing){
+      if(!x.country) x.country = normCountry(info.p.country);
+      if(!x.company) x.company = normCompany(info.p.company);
+      const pos = info.positions.filter(p=>p && p.name);
+      if(!x.demandProfession && pos.length===1) x.demandProfession = pos[0].name;
+      if(info.expired) x.warns.push('Lot expired');
+      if(x.gender){
+        const k = x.lotNo + '|' + x.gender; used[k] = (used[k]||0) + 1;
+        if(used[k] > (x.gender==='Female' ? info.avF : info.avM)) x.warns.push('Over quota');
+      }
+    } else if(info && info.missing) x.warns.push('Lot not found');
+    if(!x.name) x.errs.push('Name missing');
+    if(!x.passport) x.errs.push('Passport missing');
+    else if(!validPassport(x.passport)) x.errs.push('Invalid passport');
+    else if(existing.has(x.passport)) x.errs.push('Already registered (' + existing.get(x.passport) + ')');
+    else if(seen.has(x.passport)) x.errs.push('Duplicate in paste');
+    if(x.passport) seen.add(x.passport);
+    if(!x.gender) x.errs.push('Gender missing (M/F)');
+    if(!x.country) x.errs.push('Country missing');
+    if(!x.company) x.errs.push('Company missing');
+    return x;
+  });
+}
+function impRender(){
+  const tb = document.getElementById('imp-rows'), wrap = document.getElementById('imp-table-wrap'), sum = document.getElementById('imp-sum'), go = document.getElementById('imp-go');
+  if(!impRows.length){ wrap.style.display='none'; sum.innerHTML=''; go.disabled = true; go.textContent='Import'; return; }
+  wrap.style.display = '';
+  tb.innerHTML = impRows.map((x,i)=>{
+    const st = x.done ? `<span class="imp-st ok">✓ Imported</span>`
+      : x.errs.length ? `<span class="imp-st bad">✗ ${gsEsc(x.errs.join(', '))}</span>`
+      : x.warns.length ? `<span class="imp-st warn">⚠ ${gsEsc(x.warns.join(', '))}</span>`
+      : `<span class="imp-st ok">✓ Ready</span>`;
+    const cls = x.done ? 'r-done' : x.errs.length ? 'r-bad' : x.warns.length ? 'r-warn' : '';
+    return `<tr class="${cls}"><td>${i+1}</td><td>${gsEsc(x.name)}</td><td>${gsEsc(x.passport)}</td><td>${x.gender?gShort(x.gender):'-'}</td><td>${x.age||'-'}</td><td>${gsEsc(x.lotNo||'-')}</td><td>${gsEsc(x.country||'-')}</td><td>${gsEsc(x.company||'-')}</td><td>${gsEsc(x.demandProfession||'-')}</td><td>${gsEsc(x.nepalAddress||'-')}</td><td>${st}</td></tr>`;
+  }).join('');
+  const ready = impRows.filter(x=>!x.errs.length && !x.done).length;
+  const warn = impRows.filter(x=>!x.errs.length && x.warns.length && !x.done).length;
+  const bad = impRows.filter(x=>x.errs.length).length;
+  const done = impRows.filter(x=>x.done).length;
+  sum.innerHTML = `<span class="s-ok">${ready} ready</span>` + (warn?`<span class="s-warn">${warn} with warning</span>`:'') + (bad?`<span class="s-bad">${bad} error (skipped)</span>`:'') + (done?`<span class="s-ok">${done} imported</span>`:'');
+  if(!impBusy){ go.disabled = ready===0; go.textContent = ready ? `Import ${ready} Worker${ready>1?'s':''}` : 'Import'; go.onclick = impRun; }
+}
+function impPreview(){ if(impBusy) return; lotHint('imp'); impValidate(); impRender(); }
+const impPreviewDebounced = (function(){ let t; return ()=>{ clearTimeout(t); t=setTimeout(impPreview, 250); }; })();
+function impClear(){ if(impBusy) return; document.getElementById('imp-text').value=''; document.getElementById('imp-lotno').value=''; document.getElementById('imp-lot-hint').innerHTML=''; impRows=[]; impRender(); document.getElementById('imp-progress').classList.remove('show'); }
+async function impRun(){
+  if(impBusy) return;
+  if(!requireAccess(canIntakeClient(), 'Paste Import')) return;
+  impPreview();
+  const todo = impRows.filter(x=>!x.errs.length && !x.done);
+  if(!todo.length) return;
+  const warnN = todo.filter(x=>x.warns.length).length;
+  if(!confirm(todo.length + ' जना Worker दर्ता गर्ने हो?' + (warnN ? '\n(' + warnN + ' जनामा चेतावनी छ — Lot/Quota जाँच्नुहोस्)' : ''))) return;
+  impBusy = true;
+  const go = document.getElementById('imp-go'), txt = document.getElementById('imp-text'), bar = document.getElementById('imp-progress');
+  go.disabled = true; txt.disabled = true; bar.classList.add('show');
+  let ok = 0, fail = 0;
+  for(let i=0;i<todo.length;i++){
+    const x = todo[i];
+    go.textContent = `Importing ${i+1} / ${todo.length}...`;
+    bar.firstElementChild.style.width = Math.round(i/todo.length*100) + '%';
+    const w = { name:x.name, passport:x.passport, age:x.age, gender:x.gender, lotNo:x.lotNo, newsDate:'', issueDate:'', visaNo:x.visaNo,
+      country:x.country, company:x.company, visaProfession:'', demandProfession:x.demandProfession, orientation:'', medical:'',
+      nepalAddress:x.nepalAddress, contactAddress:x.contactAddress, status:'Entry', approveDate:'', departDate:'', remarks:'' };
+    const r = await api('addworker', { worker:w }, null, 'silent');
+    if(r && r.ok){ x.done = true; ok++; if(r.worker) workers.push(normRec(r.worker)); }
+    else { fail++; x.errs.push(r && r.error==='DUPLICATE_PASSPORT' ? 'Already registered (' + (r.workerName||'') + ')' : r && r.error==='NETWORK' ? 'Network error' : (r && r.error) || 'Failed'); }
+    impRender();
+  }
+  bar.firstElementChild.style.width = '100%';
+  impBusy = false; txt.disabled = false;
+  renderAll(); impRender();
+  toast(`✅ ${ok} imported` + (fail ? ` · ${fail} failed` : ''));
+  if(ok && !impRows.some(x=>!x.errs.length && !x.done)){
+    go.disabled = false; go.textContent = 'Done — Back to List';
+    go.onclick = ()=>{ impClear(); toggleEntry('wi', false); };
   }
 }
 
