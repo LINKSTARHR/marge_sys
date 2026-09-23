@@ -1,0 +1,2306 @@
+<!DOCTYPE html>
+<html lang="ne"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Link Star Manpower - RA व्यवस्थापन प्रणाली</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#002045; --primary-dark:#001330; --secondary:#001330;
+  --bg:#f7fafc; --card:#ffffff; --text:#181c1e; --muted:#43474e;
+  --border:#c4c6cf; --success:#1e6e3c; --danger:#ba1a1a; --warning:#8a6a12; --info:#2d476f; --accent:#0aa88f;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Public Sans','Segoe UI',Tahoma,sans-serif;}
+.brand-name,.topbar-titles h1,.card-title,.stat-card .value,.btn{font-family:'Inter','Public Sans','Segoe UI',sans-serif;}
+body{background:var(--bg);color:var(--text);padding:0;line-height:1.6;}
+.app-shell{display:flex;min-height:100vh;}
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:190;}
+.sidebar-backdrop.show{display:block;}
+.sidebar{width:254px;flex-shrink:0;background:linear-gradient(180deg,#001330,#002045);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:200;transition:transform .25s ease;}
+.sidebar-brand{padding:22px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;}
+.sidebar-brand .brand-logo{width:46px;height:46px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:3px;flex-shrink:0;}
+.sidebar-brand .brand-logo img{width:100%;height:100%;object-fit:contain;}
+.sidebar-brand .brand-name{font-size:14.5px;font-weight:700;line-height:1.3;}
+.sidebar-brand .brand-sub{font-size:11px;color:#bfdbfe;margin-top:2px;}
+.sidebar-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.12);flex-shrink:0;}
+.main-col{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh;margin-left:250px;}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:100;}
+.sidebar-toggle-btn{display:none;background:transparent;border:none;font-size:22px;cursor:pointer;color:var(--text);padding:2px 6px;flex-shrink:0;}
+.topbar-titles{flex:1;min-width:180px;}
+.topbar-titles h1{font-size:18px;color:var(--secondary);margin-bottom:2px;}
+.topbar-titles p{font-size:12.5px;color:var(--muted);}
+.content-scroll{padding:22px;flex:1;max-width:1500px;width:100%;margin:0 auto;}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.header-actions button{padding:8px 14px;font-size:13px;font-weight:600;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:#f2f5fa;color:var(--primary);}
+.header-actions button:hover{background:#dbeafe;}
+.header-more-wrap{position:relative;display:inline-block;}
+.header-more-menu{display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);min-width:190px;z-index:60;overflow:hidden;}
+.header-more-menu.show{display:block;}
+.header-more-menu button{display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:#fff;color:#1e293b;font-size:13px;font-weight:600;cursor:pointer;border-radius:0;}
+.header-more-menu button:hover{background:#f1f5f9;}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main-col{margin-left:0;}
+  .sidebar-toggle-btn{display:inline-block;}
+}
+.fy-bar{background:#eefaf7;border:2px solid var(--accent);border-radius:10px;padding:12px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.fy-bar label{font-weight:700;font-size:15px;}
+.fy-bar select{padding:8px 14px;font-size:15px;font-weight:700;border:2px solid var(--accent);border-radius:8px;background:#fff;color:var(--primary);}
+.fy-bar .range{font-size:13px;color:var(--muted);}
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:15px;margin-bottom:22px;}
+.stat-card{background:var(--card);padding:18px;border-radius:10px;border:1px solid var(--border);border-top:4px solid var(--primary);}
+.stat-card h3{font-size:12px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;}
+.stat-card .value{font-size:24px;font-weight:700;color:var(--secondary);}
+.stat-card .sub{font-size:12px;color:var(--muted);margin-top:4px;}
+.stat-card.c-pre{border-top-color:#7c2d12;} .stat-card.c-pre .value{color:#7c2d12;}
+.stat-card.c-app{border-top-color:var(--success);} .stat-card.c-app .value{color:var(--success);}
+.stat-card.c-fly{border-top-color:var(--info);} .stat-card.c-fly .value{color:var(--info);}
+.stat-card.c-rem{border-top-color:var(--warning);} .stat-card.c-rem .value{color:var(--warning);}
+.stat-card.c-can{border-top-color:var(--danger);} .stat-card.c-can .value{color:var(--danger);}
+.ac-item{display:flex;align-items:center;gap:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;}
+.ac-item:hover{background:#fee2e2;}
+.ac-item .ac-count{background:var(--danger);color:#fff;border-radius:12px;padding:2px 10px;font-size:13px;font-weight:700;}
+.ac-item.ac-zero{opacity:0.45;cursor:default;background:#f8fafc;border-color:var(--border);}
+.ac-item.ac-zero .ac-count{background:#94a3b8;}
+.clickable-card{cursor:pointer;transition:transform .1s,box-shadow .1s;}
+.clickable-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12);}
+.clickable-card.card-active{box-shadow:0 0 0 3px var(--primary);}
+.card-filter-banner{background:#eff6ff;border:1px solid var(--primary);border-radius:8px;padding:10px 16px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between;font-size:14px;}
+.card-filter-banner.show{display:flex;}
+.card-filter-banner b{color:var(--primary);}
+.card-filter-banner button{background:var(--danger);color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;}
+.sidebar-nav{display:flex;flex-direction:column;gap:4px;padding:16px 12px;flex:1;}
+.tab-btn{display:block;width:100%;text-align:left;padding:12px 14px;font-size:15px;font-weight:600;background:transparent;border:none;border-radius:8px;cursor:pointer;color:#e6ecf5;}
+.tab-btn:hover{background:rgba(255,255,255,.08);}
+.tab-btn.active{background:#fff;color:var(--primary);}
+.tab-content{display:none;} .tab-content.active{display:block;}
+.main-grid{display:grid;grid-template-columns:1fr;gap:22px;}
+@media(min-width:1024px){.main-grid{grid-template-columns:370px 1fr;}}
+.card{background:var(--card);border-radius:10px;border:1px solid var(--border);padding:20px;margin-bottom:20px;}
+.card-title{font-size:17px;font-weight:600;margin-bottom:15px;color:var(--secondary);border-bottom:2px solid var(--border);padding-bottom:8px;}
+.search-control{width:100%;box-sizing:border-box;padding:10px 14px;border:2px solid var(--accent);border-radius:8px;font-size:14px;background:#fff;margin-bottom:15px;}
+.form-group{margin-bottom:13px;min-width:0;} .form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:4px;line-height:1.3;min-height:2.2em;}
+.form-control{width:100%;box-sizing:border-box;padding:9px;border:1px solid var(--border);border-radius:6px;font-size:14px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.btn{display:inline-block;width:100%;padding:11px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;text-align:center;}
+.btn:hover{background:var(--primary-dark);}
+.btn-secondary{background:var(--muted);} .btn-danger{background:var(--danger);}
+.btn-sm{width:auto;padding:6px 12px;font-size:12px;}
+.badge{display:inline-block;padding:3px 8px;font-size:12px;font-weight:600;border-radius:4px;white-space:nowrap;}
+.s-entry{background:#e0e7ff;color:#4338ca;} .s-upload{background:#e0f2fe;color:#0369a1;}
+.s-submitted{background:#fef3c7;color:#b45309;} .s-approved{background:#dcfce7;color:#15803d;}
+.carry-tag{display:inline-block;background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:600;margin-top:3px;}
+.s-rejected{background:#f3e8ff;color:#7e22ce;} .s-cancel{background:#fee2e2;color:#b91c1c;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:12px;}
+th{background:#f1f5f9;padding:9px 10px;font-weight:600;border-bottom:2px solid var(--border);text-align:left;}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;justify-content:center;align-items:center;padding:20px;}
+.modal-content{background:#fff;border-radius:12px;max-width:860px;width:100%;max-height:92vh;overflow-y:auto;padding:25px;}
+.modal-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:18px;}
+.close-modal{font-size:24px;cursor:pointer;}
+.edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin-bottom:15px;}
+.history-box{background:#f8fafc;border:1px solid var(--border);padding:12px;border-radius:8px;max-height:160px;overflow-y:auto;font-size:13px;}
+.history-item{padding:5px 0;border-bottom:1px dashed var(--border);}
+#setup-screen{max-width:440px;margin:80px auto;padding:0 16px;}
+/* ===== LOGIN SCREEN ===== */
+#login-screen{position:fixed;inset:0;z-index:3000;overflow-y:auto;
+  background:radial-gradient(ellipse at 15% 0%,rgba(30,70,130,.35) 0%,transparent 55%),linear-gradient(160deg,#061a3a 0%,#0a2349 55%,#0d2f5e 100%);}
+.login-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+.login-card{width:100%;max-width:470px;background:#fff;border-radius:18px;padding:40px 34px 44px;box-shadow:0 24px 60px rgba(0,0,0,.35);}
+.login-card h1{font-family:'Inter','Public Sans','Segoe UI',sans-serif;font-size:28px;font-weight:700;color:#181c1e;text-align:center;letter-spacing:-.01em;margin-bottom:6px;}
+.login-sub{text-align:center;color:#43474e;font-size:15px;margin-bottom:28px;}
+.login-field{margin-bottom:18px;}
+.login-field label{display:block;font-size:14px;font-weight:700;color:#2b2f33;margin-bottom:8px;}
+.login-input{width:100%;height:54px;padding:0 16px;font-size:17px;color:#181c1e;background:#fff;border:1px solid #c9ccd2;border-radius:10px;outline:none;transition:border-color .15s;}
+.login-input::placeholder{color:#8a8f98;}
+.login-input:focus{border:2px solid #111;padding:0 15px;}
+.pw-wrap{position:relative;}
+.pw-wrap .login-input{padding-right:54px;}
+.pw-wrap .login-input:focus{padding-right:53px;}
+.pw-toggle{position:absolute;top:50%;right:7px;transform:translateY(-50%);width:40px;height:40px;border:none;background:transparent;border-radius:8px;cursor:pointer;color:#5b616b;display:flex;align-items:center;justify-content:center;}
+.pw-toggle:hover{background:#f1f3f6;color:#181c1e;}
+.pw-toggle:focus-visible{outline:2px solid #002045;outline-offset:1px;}
+.login-btn{width:100%;height:54px;margin-top:8px;border:none;border-radius:10px;background:#002045;color:#fff;font-family:'Inter','Public Sans','Segoe UI',sans-serif;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;}
+.login-btn:hover{background:#001330;}
+.login-btn:disabled{background:#43597a;cursor:wait;}
+.login-spin{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:loginspin .8s linear infinite;}
+.login-btn.loading .login-spin{display:inline-block;}
+@keyframes loginspin{to{transform:rotate(360deg);}}
+.login-error{min-height:18px;margin-top:14px;font-size:13px;color:#ba1a1a;text-align:center;}
+@media(max-width:480px){.login-card{padding:32px 22px 36px;}.login-card h1{font-size:24px;}}
+#sync-badge{display:none;position:fixed;bottom:18px;right:18px;background:var(--secondary);color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;z-index:1500;}
+#loading-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.6);z-index:2000;justify-content:center;align-items:center;}
+#loading-overlay .spinner{background:var(--secondary);color:#fff;padding:14px 28px;border-radius:30px;font-weight:700;}
+/* भूमिका अनुसार अब लुकाउने होइन — सबै Menu/Button/Field सबैलाई देखिन्छ, तर अनुमति नभएको काम click/save
+   गर्न खोज्दा JS (requireAccess/roleLocked disable) ले रोक्छ र notice देखाउँछ। */
+input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a3b8;cursor:not-allowed;}
+.field-lock-note{display:block;font-size:11.5px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:6px 10px;margin:-6px 0 12px;}
+.role-tag{font-size:12px;font-weight:600;color:#bfdbfe;margin-right:8px;}
+.exp-warn{color:#b45309;font-weight:700;} .exp-over{color:#b91c1c;font-weight:700;}
+.report-table th{background:#dbeafe;} .report-total{background:#fef3c7;font-weight:700;}
+@media print{.header-actions,.sidebar,.topbar,.card form,.search-control,button{display:none !important;} .main-col{margin-left:0 !important;} body{padding:0;}}
+
+/* ===== NEW-SYSTEM UI (submenu, header search, FY box, bell, user chip) ===== */
+.sidebar-nav .nav-parent{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:transparent;border:none;cursor:pointer;color:#9bb5d8;font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;padding:13px 14px 8px;}
+.sidebar-nav .nav-parent:hover{color:#cfe0f5;}
+.sidebar-nav .nav-parent .chev{transition:transform .2s;}
+.sidebar-nav .nav-parent.open .chev{transform:rotate(180deg);}
+.sidebar-nav .subnav{display:none;flex-direction:column;gap:4px;padding-left:12px;margin-left:12px;border-left:2px solid rgba(255,255,255,.12);}
+.sidebar-nav .subnav.open{display:flex;}
+.pagehead-new{background:#fff;border-bottom:1px solid var(--border);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.gsearch-new{position:relative;display:flex;align-items:center;gap:8px;max-width:470px;width:100%;flex:1;border:1.5px solid var(--accent);border-radius:10px;padding:9px 12px;background:#fff;}
+.gsearch-new input{flex:1;border:none;outline:none;background:transparent;font-size:14px;}
+.gsres{display:none;position:absolute;top:112%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.14);max-height:340px;overflow:auto;z-index:130;}
+.gsres.show{display:block;}
+.gsres .gr{padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:9px;font-size:13.5px;}
+.gsres .gr:hover{background:#f2f6fb;}
+.gsres .tag{font-size:10px;font-weight:700;border-radius:12px;padding:2px 8px;color:#fff;flex-shrink:0;}
+.gsres .empty{padding:11px 12px;color:var(--muted);}
+.fybox-new{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--accent);border-radius:10px;padding:6px 12px;background:#fff;}
+.fybox-new select{border:none;outline:none;background:transparent;font-weight:700;color:var(--primary);font-size:14px;cursor:pointer;}
+.bell-new{position:relative;background:#f2f5fa;border:1px solid var(--border);border-radius:20px;padding:7px 12px;cursor:pointer;color:var(--primary);font-weight:700;font-size:14px;}
+.bell-new:hover{background:#e9eef6;}
+.bell-badge{position:absolute;top:-6px;right:-4px;background:var(--danger);color:#fff;border-radius:10px;min-width:18px;height:18px;padding:0 5px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;}
+.bell-badge.show{display:inline-flex;}
+.uchip-new{position:relative;display:inline-flex;align-items:center;gap:8px;background:#f2f5fa;border:1px solid var(--border);color:var(--primary);border-radius:20px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.uchip-new:hover{background:#e9eef6;}
+.uchip-menu{display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.18);min-width:180px;z-index:140;overflow:hidden;}
+.uchip-menu.show{display:block;}
+.uchip-menu button{display:block;width:100%;text-align:left;border:none;background:#fff;padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;color:#1e293b;}
+.uchip-menu button:hover{background:#f1f5f9;}
+</style>
+</head>
+<body>
+
+<div id="loading-overlay" style="display: none;"><div class="spinner">⏳ कृपया पर्खनुहोस्...</div></div>
+<div id="sync-badge">🔄 Sync हुँदैछ...</div>
+
+<div id="setup-screen" style="display:none;">
+  <div class="card">
+    <div class="card-title">🔗 Server URL सेटअप</div>
+    <p style="font-size:13px;margin-bottom:15px;">Apps Script deploy गरेपछि पाएको <b>Web App URL</b> paste गर्नुहोस्:</p>
+    <div class="form-group"><input type="text" id="setup-url" class="form-control" placeholder="https://script.google.com/macros/s/XXXX/exec"></div>
+    <button class="btn" onclick="saveApiUrl()">सुरक्षित गर्नुहोस्</button>
+    <p id="setup-error" style="color:var(--danger);font-size:13px;margin-top:8px;"></p>
+  </div>
+</div>
+
+<div id="login-screen" style="display:none;">
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1>Link Star Manpower</h1>
+      <p class="login-sub">RA Management System</p>
+      <div class="login-field">
+        <label for="login-user">Username</label>
+        <input type="text" id="login-user" class="login-input" placeholder="username" autocomplete="username" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('login-pass').focus();}">
+      </div>
+      <div class="login-field">
+        <label for="login-pass">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="login-pass" class="login-input" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button type="button" class="pw-toggle" id="pw-toggle" onclick="togglePw()" title="Password देखाउने" aria-label="Show password"></button>
+        </div>
+      </div>
+      <button type="button" class="login-btn" id="login-btn" onclick="doLogin()"><span class="login-spin"></span><span id="login-btn-text">Sign in</span></button>
+      <p id="login-error" class="login-error"></p>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell" id="main-app" style="display:none;">
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo"><img src="data:image/png;base64,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" alt="logo"></div>
+      <div>
+        <div class="brand-name">RA व्यवस्थापन प्रणाली</div>
+        <div class="brand-sub">Management System</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+  <button class="tab-btn active" onclick="switchTab(event,&#39;tab-workers&#39;);closeSidebar();">👷 Master Record</button>
+  <button class="nav-parent open" onclick="toggleNavNew(this)"><span>🧭 रिक्रुटमेन्ट</span><span class="chev">▾</span></button>
+  <div class="subnav open">
+    <button class="tab-btn" onclick="if(requireAccess(notShram(),&#39;Applicants&#39;)){switchTab(event,&#39;tab-leads&#39;);closeSidebar();}">📇 Applicants</button>
+    <button class="tab-btn" onclick="if(requireAccess(canManageClient(),&#39;Pre-Permission&#39;)){switchTab(event,&#39;tab-pre&#39;);closeSidebar();}">📋 Pre-Permission</button>
+    <button class="tab-btn" onclick="if(requireAccess(notReceptionist(),&#39;Quota Details&#39;)){switchTab(event,&#39;tab-quota&#39;);closeSidebar();}">🎫 Quota Details</button>
+  </div>
+  <button class="nav-parent" onclick="toggleNavNew(this)"><span>📊 रिपोर्ट / मोनिटर</span><span class="chev">▾</span></button>
+  <div class="subnav">
+    <button class="tab-btn" id="alert-tab-btn" onclick="switchTab(event,&#39;tab-alerts&#39;);closeSidebar();"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-3px;margin-right:5px;"><path d="M4 3h1.5a.5.5 0 0 0 .5-.5V2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v.5a.5.5 0 0 0 .5.5H12a1 1 0 0 1 1 1v9.5A1.5 1.5 0 0 1 11.5 15h-7A1.5 1.5 0 0 1 3 13.5V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"></path><path d="M5.5 8.5l1.8 1.8L10.5 6.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Tasks &amp; Alerts</button>
+    <button class="tab-btn" onclick="if(requireAccess(notReceptionist(),&#39;Report&#39;)){switchTab(event,&#39;tab-report&#39;);closeSidebar();}">📊 Report</button>
+  </div>
+</nav>
+    <div class="sidebar-footer">
+      <span id="who-is-in" class="role-tag"></span>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Menu">☰</button>
+      <div class="topbar-titles">
+        <h1>Link Star Manpower Services Pvt. Ltd.</h1>
+        <p>Tokha-10, Kathmandu &nbsp;|&nbsp; License No: 1025/068/069 &nbsp;—&nbsp; RA व्यवस्थापन प्रणाली</p>
+      </div>
+      <div class="header-actions">
+        <button onclick="refreshData(true)" title="Refresh">🔄 Refresh</button>
+        <button onclick="if(requireAccess(isAdmin(),&#39;Backup&#39;)){exportBackup();}" title="Backup">💾 Backup</button>
+        <button onclick="if(requireAccess(notReceptionist(),&#39;Auditor&#39;)){printAuditorList();}" title="Auditor — Monthly/Yearly अभिलेख">🧾 Auditor</button>
+        <button onclick="if(requireAccess(notReceptionist(),&#39;अनुसूची ६&#39;)){printAnusuchi6();}" title="अनुसूची ६ — वार्षिक अभिलेख">📋 अनुसूची ६</button>
+        <button onclick="if(requireAccess(isAdmin(),&#39;प्रयोगकर्ता व्यवस्थापन&#39;)){manageUsers();}" title="प्रयोगकर्ता व्यवस्थापन">👥</button>
+        <div class="header-more-wrap">
+          <button id="header-more-btn" onclick="toggleHeaderMenu(event,&#39;header-more-menu&#39;)" title="थप विकल्प">⋮</button>
+          <div id="header-more-menu" class="header-more-menu">
+            <button onclick="closeHeaderMenus(); if(requireAccess(notReceptionist(),&#39;Full Report&#39;)){printAuditReport();}" title="Full Report">📊 Full Report</button>
+            <button onclick="closeHeaderMenus(); if(requireAccess(isAdmin(),&#39;Archive&#39;)){runArchiveNow();}" title="पछिल्ला ३ आ.व. भन्दा पुरानो डाटा WorkersArchive मा सार्ने">🗄️ Archive</button>
+            <button onclick="closeHeaderMenus(); if(requireAccess(canManageClient(),&#39;पुरानो खोज&#39;)){searchArchive();}" title="पुरानो (Archive भइसकेको) कामदार खोज्ने">🔎 पुरानो खोज</button>
+          </div>
+        </div>
+        <div class="header-more-wrap">
+          <button id="header-settings-btn" onclick="toggleHeaderMenu(event,&#39;header-settings-menu&#39;)" title="Settings">⚙️</button>
+          <div id="header-settings-menu" class="header-more-menu">
+            <button onclick="openChangePass(); closeHeaderMenus();" title="Password बदल्ने">🔑 Password बदल्ने</button>
+            <button onclick="logout(); closeHeaderMenus();" title="Logout">🚪 Logout</button>
+          </div>
+        </div>
+      </div>
+          <button class="bell-new" onclick="switchTabById('tab-alerts')" title="Tasks & Alerts">🔔<span class="bell-badge" id="bell-badge-new"></span></button>
+      <div class="uchip-new" onclick="toggleUChipNew(event)"><span id="uchip-name-new">User</span> ▾<div class="uchip-menu" id="uchip-menu-new"><button onclick="openChangePass();closeUChipNew();">🔑 Password बदल्ने</button><button onclick="logout();closeUChipNew();">🚪 Logout</button></div></div>
+    </header>
+
+    <div class="pagehead-new">
+      <div class="gsearch-new">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#002045" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="global-search-new" placeholder="Search — LOT / Passport / नाम / देश / कम्पनी" oninput="globalSearchNew(this.value)" onfocus="globalSearchNew(this.value)" autocomplete="off">
+        <div class="gsres" id="gsres-new"></div>
+      </div>
+      <div class="fybox-new"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#002045" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line></svg><span id="fy-slot-new"></span></div>
+    </div>
+    <div class="content-scroll">
+    <div class="fy-bar">
+      <label>📅 आर्थिक वर्ष:</label>
+      <select id="fy-select" onchange="renderAll()"><option value="2080-81">2080-81</option><option value="2081-82">2081-82</option><option value="2082-83">2082-83</option><option value="2083-84" selected="">2083-84</option><option value="2084-85">2084-85</option><option value="2085-86">2085-86</option><option value="2086-87">2086-87</option><option value="2087-88">2087-88</option><option value="2088-89">2088-89</option><option value="2089-90">2089-90</option><option value="2090-91">2090-91</option><option value="2091-92">2091-92</option><option value="2092-93">2092-93</option><option value="2093-94">2093-94</option></select>
+      <span class="range" id="fy-range">2026-07-17 देखि 2027-07-16 सम्म</span>
+      <span style="margin-left:auto;font-size:13px;color:var(--muted);">महिना र आ.व. मितिबाट आफै गणना हुन्छ</span>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="stat-card c-pre clickable-card" onclick="if(requireAccess(canManageClient(),&#39;Pre-Permission&#39;)){cardFilter(&#39;pre&#39;);}" title="क्लिक गर्नुहोस् — यसै आ.व.को पूर्व स्वीकृति हेर्न"><h3>Pre-Permission</h3><div class="value" id="d-pre-total">0</div><div class="sub" id="d-pre-sub">&nbsp;</div></div>
+      <div class="stat-card c-app clickable-card" onclick="cardFilter(&#39;approved&#39;)" title="क्लिक गर्नुहोस् — यसै आ.व. श्रम स्वीकृति लिएका हेर्न"><h3>Final Approval</h3><div class="value" id="d-approved">0</div><div class="sub" id="d-app-sub">&nbsp;</div></div>
+      <div class="stat-card c-fly clickable-card" onclick="cardFilter(&#39;departed&#39;)" title="क्लिक गर्नुहोस् — यसै आ.व. उडेका हेर्न"><h3>✈ Departure</h3><div class="value" id="d-flown">0</div><div class="sub" id="d-flown-sub">&nbsp;</div></div>
+      <div class="stat-card c-rem clickable-card" onclick="cardFilter(&#39;pending&#39;)" title="क्लिक गर्नुहोस् — उड्न बाँकी हेर्न"><h3>⏳ Departure Pending</h3><div class="value" id="d-remaining">0</div><div class="sub" id="d-rem-sub">&nbsp;</div></div>
+      <div class="stat-card c-can clickable-card" onclick="cardFilter(&#39;cancel&#39;)" title="क्लिक गर्नुहोस् — यसै आ.व.का Cancel हेर्न"><h3>⊘ Cancel</h3><div class="value" id="d-cancel">0</div><div class="sub">&nbsp;</div></div>
+      <div class="stat-card c-can clickable-card" onclick="cardFilter(&#39;rejected&#39;)" title="क्लिक गर्नुहोस् — यसै आ.व.का Rejected हेर्न"><h3>✗ Rejected</h3><div class="value" id="d-rejected">0</div><div class="sub" id="d-rej-sub">&nbsp;</div></div>
+    </div>
+
+    <!-- TAB 1: WORKERS -->
+  <div id="tab-workers" class="tab-content active">
+    <div class="main-grid">
+      <div class="card">
+        <div class="card-title">New Worker Entry</div>
+        <div class="field-lock-note" id="intake-lock-note" style="display:none;">🔒 यो भूमिकाबाट नयाँ Worker दर्ता गर्न मिल्दैन — Receptionist/Admin ले मात्र दर्ता गर्छन्।</div>
+        <div class="field-lock-note" id="doc-field-lock-note" style="display:none;">🔒 News/Issue Date, भिसा नं, Visa/Demand Profession, Orientation, Medical — यी field हरु Receptionist ले भर्न मिल्दैन (grey देखिन्छन्), पछि Documentation/Admin ले भर्नेछन्।</div>
+        <form id="worker-form">
+          <div class="form-group"><label>नाम *</label><input type="text" id="w-name" class="form-control" required=""></div>
+          <div class="form-row">
+            <div class="form-group"><label>पासपोर्ट *</label><input type="text" id="w-passport" class="form-control" required=""></div>
+            <div class="form-group"><label>उमेर</label><input type="number" id="w-age" class="form-control" min="18" max="70"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Gender *</label>
+              <select id="w-gender" class="form-control" required=""><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select>
+            </div>
+            <div class="form-group"><label>लट नं</label><input type="text" id="w-lotno" class="form-control"></div>
+          </div>
+          <div class="form-row doc-only-field">
+            <div class="form-group"><label>News Date</label><input type="date" id="w-newsdate" class="form-control"></div>
+            <div class="form-group"><label>Issue Date</label><input type="date" id="w-issuedate" class="form-control"></div>
+          </div>
+          <div class="form-group doc-only-field"><label>भिसा नं</label><input type="text" id="w-visano" class="form-control"></div>
+          <div class="form-row">
+            <div class="form-group"><label>देश *</label><input type="text" id="w-country" class="form-control" required=""></div>
+            <div class="form-group"><label>कम्पनी *</label><input type="text" id="w-company" class="form-control" required=""></div>
+          </div>
+          <div class="form-row doc-only-field">
+            <div class="form-group"><label>Visa Profession</label><input type="text" id="w-visaprof" class="form-control"></div>
+            <div class="form-group"><label>Demand Profession</label><input type="text" id="w-demandprof" class="form-control"></div>
+          </div>
+          <div class="form-row doc-only-field">
+            <div class="form-group"><label>Orientation</label><select id="w-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+            <div class="form-group"><label>Medical</label><select id="w-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="w-nepal-addr" class="form-control" placeholder="जस्तै: Mahottari"></div>
+            <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="w-contact-addr" class="form-control"></div>
+          </div>
+          <button type="submit" class="btn">दर्ता गर्नुहोस्</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="card-title">Worker List</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 नाम, पासपोर्ट, देश, कम्पनी, भिसा नं, लट नं..." oninput="onManualFilter()">
+          <select id="w-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="onManualFilter()"><option value="">— All Status —</option><option>Entry</option><option>Upload</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Cancel</option></select>
+        </div>
+        <div class="card-filter-banner" id="card-filter-banner">
+          <span id="card-filter-label"></span>
+          <button onclick="clearCardFilter()" title="फिल्टर हटाउनुहोस् (सबै हेर्न)">✕</button>
+        </div>
+        <div id="bulk-bar" class="shram-only-field" style="display:none;background:#eff6ff;border:2px solid var(--primary);border-radius:8px;padding:10px 14px;margin-bottom:12px;align-items:center;gap:10px;flex-wrap:wrap;">
+          <b id="bulk-count">0 जना छानिए</b>
+          <label style="font-size:13px;font-weight:600;">नयाँ Status:</label>
+          <select id="bulk-status" class="form-control" style="width:auto;" onchange="onBulkStatusChange()"></select>
+          <label style="font-size:13px;font-weight:600;">स्वीकृति मिति:</label>
+          <input type="date" id="bulk-approvedate" class="form-control" style="width:auto;">
+          <button class="btn btn-sm" style="width:auto;background:var(--success);" onclick="applyBulkUpdate()">✅ लागू गर्नुहोस्</button>
+          <span style="border-left:1px solid #94a3b8;height:26px;margin:0 2px;"></span>
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField(&#39;medical&#39;,&#39;Yes&#39;,&#39;Medical&#39;)">🩺 Medical Done (सबैलाई)</button>
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkField(&#39;orientation&#39;,&#39;Yes&#39;,&#39;Orientation&#39;)">📘 Orientation Done (सबैलाई)</button>
+          <label style="font-size:13px;font-weight:600;">✈️ उडान मिति:</label>
+          <input type="date" id="bulk-departdate" class="form-control" style="width:auto;">
+          <button class="btn btn-sm" style="width:auto;background:#0891b2;" onclick="applyBulkDepartDate()">✈️ लागू गर्नुहोस् (सबैलाई)</button>
+          <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="clearSelection()">✕ छानिएका हटाउने</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table><thead><tr><th class="shram-only-field" style="width:26px;"><input type="checkbox" id="w-select-all" onchange="toggleSelectAllVisible(this.checked)" title="देखिएका सबै छान्ने/हटाउने"></th><th>Name (Passport)</th><th>Country / Company</th><th>Job Title</th><th>Status</th><th>Approval Date</th><th>Departure Date</th><th></th></tr></thead>
+          <tbody id="w-table"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB APPLICANTS: श्रम स्वीकृति अघिको पहिलो चरण; code भित्र 'lead' नामबाटै चिनिन्छ -->
+  <div id="tab-leads" class="tab-content hide-for-shram">
+    <div class="main-grid">
+      <div class="card">
+        <div class="card-title">New Applicant Entry</div>
+        <form id="lead-form">
+          <div class="form-group"><label>नाम *</label><input type="text" id="l-name" class="form-control" required=""></div>
+          <div class="form-row">
+            <div class="form-group"><label>पासपोर्ट *</label><input type="text" id="l-passport" class="form-control" required=""></div>
+            <div class="form-group"><label>उमेर</label><input type="number" id="l-age" class="form-control" min="18" max="70"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Gender *</label>
+              <select id="l-gender" class="form-control" required=""><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select>
+            </div>
+            <div class="form-group"><label>लट नं (थाहा भए)</label><input type="text" id="l-lotno" class="form-control"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>देश *</label><input type="text" id="l-country" class="form-control" required=""></div>
+            <div class="form-group"><label>कम्पनी *</label><input type="text" id="l-company" class="form-control" required=""></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Job Title</label><input type="text" id="l-jobtitle" class="form-control" placeholder="Applicant ले आवेदन दिएको काम"></div>
+            <div class="form-group"><label>फोन नं</label><input type="text" id="l-phone" class="form-control" placeholder="Follow-up को लागि"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Orientation</label><select id="l-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+            <div class="form-group"><label>Medical</label><select id="l-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="l-nepal-addr" class="form-control"></div>
+            <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="l-contact-addr" class="form-control"></div>
+          </div>
+          <div class="form-group"><label>कैफियत</label><input type="text" id="l-remarks" class="form-control"></div>
+          <button type="submit" class="btn">Applicant दर्ता गर्नुहोस्</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="card-title">Applicant List</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input type="text" id="l-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 नाम, पासपोर्ट, देश, कम्पनी, फोन..." oninput="renderLeads()">
+          <select id="l-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="renderLeads()"><option value="">— All Status —</option><option>New</option><option>Document Received</option><option>Shortlisted</option><option>Interview</option><option>Interview Passed</option><option>Medical</option><option>Medical Fit</option><option>Selected</option><option>Offer Letter</option><option>Offer Accepted</option><option>Ready For Labor Approval</option><option>Interview Failed</option><option>Medical Unfit</option><option>Offer Rejected</option><option>Cancelled</option><option>Rejected</option></select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table><thead><tr><th>Name (Passport)</th><th>Country / Company</th><th>Status</th><th></th></tr></thead>
+          <tbody id="l-table"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB ALERTS: 🔴 Action (Action Center + थप विवरण Pending — दुवै एकै ठाउँमा) -->
+  <div id="tab-alerts" class="tab-content">
+    <div class="card" id="action-center-card" style="border-left:4px solid var(--danger);">
+      <div class="card-title" style="color:var(--danger);">🔴 Action Required</div>
+      <div id="action-center-list" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: PRE-APPROVAL -->
+  <div id="tab-pre" class="tab-content hide-for-receptionist hide-for-documentation">
+    <div class="main-grid">
+      <div class="card">
+        <div class="card-title">नयाँ पूर्व स्वीकृति इन्ट्री</div>
+        <form id="pre-form">
+          <div class="form-group"><label>स्वीकृति मिति *</label><input type="date" id="p-date" class="form-control" required=""></div>
+          <div class="form-group"><label>लट नं</label><input type="text" id="p-lotno" class="form-control"></div>
+          <div class="form-row">
+            <div class="form-group"><label>देश *</label><input type="text" id="p-country" class="form-control" required=""></div>
+            <div class="form-group"><label>कम्पनी *</label><input type="text" id="p-company" class="form-control" required=""></div>
+          </div>
+
+          <label style="font-weight:700;display:block;margin:6px 0 4px;">पदहरू (माग विवरण)</label>
+          <div id="p-positions"></div>
+          <button type="button" class="btn btn-sm" style="background:#0284c7;margin-bottom:8px;" onclick="addPositionRow()">➕ अर्को पद थप्नुहोस्</button>
+
+          <div class="form-row" style="background:#f1f5f9;padding:8px;border-radius:6px;">
+            <div class="form-group" style="margin:0;"><label>जम्मा माग: पुरुष</label><input type="number" id="p-male" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
+            <div class="form-group" style="margin:0;"><label>जम्मा माग: महिला</label><input type="number" id="p-female" class="form-control" readonly="" style="background:#e2e8f0;font-weight:700;" value="0"></div>
+          </div>
+
+          <div class="form-row" style="margin-top:8px;">
+            <div class="form-group"><label>Expiry मिति</label><input type="date" id="p-expiry" class="form-control"></div>
+            <div class="form-group"><label>करार अवधि (वर्ष)</label><input type="text" id="p-contract-years" class="form-control" value="2"></div>
+          </div>
+          <div class="form-group"><label>लागत खर्च</label><input type="text" id="p-cost" class="form-control" placeholder="रकम वा 0"></div>
+          <div class="form-group"><label>कैफियत</label><input type="text" id="p-remarks" class="form-control"></div>
+          <button type="submit" class="btn">दर्ता गर्नुहोस्</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="card-title">पूर्व स्वीकृति सूची</div>
+        <input type="text" id="p-search" class="search-control" placeholder="🔍 देश, कम्पनी वा लट नंबाट खोज्नुहोस्..." oninput="onPreManualSearch()">
+        <div class="card-filter-banner" id="pre-filter-banner">
+          <span id="pre-filter-label"></span>
+          <button onclick="clearPreFilter()" title="फिल्टर हटाउनुहोस् (सबै हेर्न)">✕</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table><thead><tr><th>Date</th><th>Lot No</th><th>Country</th><th>Company</th><th>M</th><th>F</th><th>Total</th><th>Available</th><th>Expiry</th><th></th></tr></thead>
+          <tbody id="p-table"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: REPORT -->
+  <div id="tab-report" class="tab-content">
+    <div class="card">
+      <div class="card-title">📊 Report (आ.व. <span id="rpt-fy">2083-84</span>)</div>
+      <div id="report-area"></div>
+    </div>
+  </div>
+
+  <div id="tab-quota" class="tab-content">
+    <div class="card">
+      <div class="card-title">🎫 Quota Details — लट अनुसार कोटा विवरण (म्याद नसकिएका)</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="quota-lot-search" class="search-control" style="flex:1;min-width:220px;" placeholder="🔍 लट नं खोज्नुहोस् (जस्तै LOT-2082-0471)..." oninput="renderQuotaArea()" onkeydown="if(event.key===&#39;Enter&#39;){event.preventDefault();renderQuotaArea();}">
+        <button class="btn btn-sm" style="width:auto;" onclick="renderQuotaArea()">Open Lot</button>
+        <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="document.getElementById(&#39;quota-lot-search&#39;).value=&#39;&#39;;renderQuotaArea();" title="खोज हटाउनुहोस् (सबै लट हेर्न)">✕</button>
+      </div>
+      <div id="quota-area"></div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKER MODAL -->
+<div class="modal" id="w-modal">
+  <div class="modal-content">
+    <div class="modal-header"><h2 id="w-modal-title">कामदार विवरण</h2><span class="close-modal" onclick="closeWModal()">×</span></div>
+    <div class="edit-grid">
+      <div class="form-group"><label>नाम</label><input type="text" id="e-name" class="form-control"></div>
+      <div class="form-group"><label>पासपोर्ट</label><input type="text" id="e-passport" class="form-control"></div>
+      <div class="form-group"><label>उमेर</label><input type="number" id="e-age" class="form-control"></div>
+      <div class="form-group"><label>Gender</label><select id="e-gender" class="form-control"><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
+      <div class="form-group"><label>लट नं</label><input type="text" id="e-lotno" class="form-control"></div>
+      <div class="form-group"><label>News Date</label><input type="date" id="e-newsdate" class="form-control"></div>
+      <div class="form-group"><label>Issue Date</label><input type="date" id="e-issuedate" class="form-control"></div>
+      <div class="form-group"><label>भिसा नं</label><input type="text" id="e-visano" class="form-control"></div>
+      <div class="form-group"><label>देश</label><input type="text" id="e-country" class="form-control"></div>
+      <div class="form-group"><label>कम्पनी</label><input type="text" id="e-company" class="form-control"></div>
+      <div class="form-group"><label>Visa Profession</label><input type="text" id="e-visaprof" class="form-control"></div>
+      <div class="form-group"><label>Demand Profession</label><input type="text" id="e-demandprof" class="form-control"></div>
+      <div class="form-group"><label>Orientation</label><select id="e-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group"><label>Medical</label><select id="e-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group shram-only-field"><label>⚙️ Labor Approval Status</label>
+        <select id="e-status" class="form-control" style="font-weight:700;" onchange="onStatusChange()">
+          <option value="Entry">Entry (दर्ता मात्र)</option>
+          <option value="Upload">Upload (FEIMS मा)</option>
+          <option value="Submitted">Submitted (पेश गरिएको)</option>
+          <option value="Approved">Approved (श्रम स्वीकृति)</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Cancel">Cancel</option>
+        </select>
+      </div>
+      <div class="form-group shram-only-field"><label>स्वीकृति मिति (Approve Date)</label><input type="date" id="e-approvedate" class="form-control"></div>
+      <div class="form-group"><label>कैफियत</label><input type="text" id="e-remarks" class="form-control"></div>
+    </div>
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px 16px;margin-bottom:15px;">
+      <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:10px;">✈️ उडान/ठेगाना विवरण (Approved पछि पनि सम्पादन मिल्ने)</div>
+      <div class="form-row">
+        <div class="form-group"><label>उडान/टिकट मिति (Departure)</label><input type="date" id="e-departdate" class="form-control"></div>
+        <div class="form-group"><label>विदेश पुगेको मिति</label><input type="date" id="e-arriveddate" class="form-control"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="e-nepal-addr" class="form-control"></div>
+        <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="e-contact-addr" class="form-control"></div>
+      </div>
+    </div>
+    <div id="w-modal-meta" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
+    <div id="w-lock-note-wrap" style="display:none;margin:-8px 0 12px;">
+      <span id="w-lock-badge" onclick="toggleLockNote()" style="cursor:pointer;font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:3px 9px;display:inline-block;">🔒 सम्पादन सीमित (थप हेर्न क्लिक गर्नुहोस्)</span>
+      <div id="w-lock-note" style="display:none;font-size:13px;color:var(--muted);margin-top:6px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:8px 10px;"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+      <button class="btn" style="width:auto;background:var(--success);" onclick="saveWorker()">💾 सुरक्षित गर्नुहोस्</button>
+      <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="printWorker()">🖨️ Print</button>
+      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteWorker()">🗑️ मेटाउनुहोस्</button>
+    </div>
+    <div class="card-title" style="font-size:15px;">📜 History</div>
+    <div class="history-box" id="w-history"></div>
+  </div>
+</div>
+
+<!-- LEAD MODAL -->
+<div class="modal" id="l-modal">
+  <div class="modal-content">
+    <div class="modal-header"><h2 id="l-modal-title">Applicant विवरण</h2><span class="close-modal" onclick="closeLModal()">×</span></div>
+    <div class="edit-grid">
+      <div class="form-group"><label>नाम</label><input type="text" id="le-name" class="form-control"></div>
+      <div class="form-group"><label>पासपोर्ट</label><input type="text" id="le-passport" class="form-control"></div>
+      <div class="form-group"><label>उमेर</label><input type="number" id="le-age" class="form-control"></div>
+      <div class="form-group"><label>Gender</label><select id="le-gender" class="form-control"><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
+      <div class="form-group"><label>लट नं</label><input type="text" id="le-lotno" class="form-control"></div>
+      <div class="form-group"><label>देश</label><input type="text" id="le-country" class="form-control"></div>
+      <div class="form-group"><label>कम्पनी</label><input type="text" id="le-company" class="form-control"></div>
+      <div class="form-group"><label>Job Title</label><input type="text" id="le-jobtitle" class="form-control"></div>
+      <div class="form-group"><label>फोन नं</label><input type="text" id="le-phone" class="form-control"></div>
+      <div class="form-group"><label>Orientation</label><select id="le-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group"><label>Medical</label><select id="le-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group"><label>⚙️ Applicant Status</label>
+        <select id="le-status" class="form-control" style="font-weight:700;">
+          <optgroup label="Recruitment Pipeline">
+            <option value="New">New</option>
+            <option value="Document Received">Document Received</option>
+            <option value="Shortlisted">Shortlisted</option>
+            <option value="Interview">Interview</option>
+            <option value="Interview Passed">Interview Passed</option>
+            <option value="Medical">Medical</option>
+            <option value="Medical Fit">Medical Fit</option>
+            <option value="Selected">Selected</option>
+            <option value="Offer Letter">Offer Letter</option>
+            <option value="Offer Accepted">Offer Accepted</option>
+            <option value="Ready For Labor Approval">Ready For Labor Approval (श्रम स्वीकृतिका लागि तयार)</option>
+          </optgroup>
+          <optgroup label="असफल / बन्द">
+            <option value="Interview Failed">Interview Failed</option>
+            <option value="Medical Unfit">Medical Unfit</option>
+            <option value="Offer Rejected">Offer Rejected</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Rejected">Rejected</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>नेपालको ठेगाना (जिल्ला)</label><input type="text" id="le-nepal-addr" class="form-control"></div>
+        <div class="form-group"><label>नेपालमा सम्पर्क व्यक्तिको नाम, ठेगाना</label><input type="text" id="le-contact-addr" class="form-control"></div>
+      </div>
+      <div class="form-group"><label>कैफियत</label><input type="text" id="le-remarks" class="form-control"></div>
+    </div>
+    <div id="l-modal-meta" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
+    <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+      <button class="btn" id="l-save-btn" style="width:auto;background:var(--success);" onclick="saveLead()">💾 सुरक्षित गर्नुहोस्</button>
+      <button class="btn" id="l-convert-btn" style="width:auto;background:#7c3aed;" onclick="convertLead()">➡️ Worker मा सार्नुहोस्</button>
+      <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteLead()">🗑️ मेटाउनुहोस्</button>
+    </div>
+    <div class="card-title" style="font-size:15px;">📜 History</div>
+    <div class="history-box" id="l-history"></div>
+  </div>
+</div>
+
+<!-- PRE MODAL -->
+<div class="modal" id="p-modal">
+  <div class="modal-content" style="max-width:640px;">
+    <div class="modal-header"><h2>पूर्व स्वीकृति संशोधन</h2><span class="close-modal" onclick="closePModal()">×</span></div>
+    <div class="edit-grid">
+      <div class="form-group"><label>स्वीकृति मिति</label><input type="date" id="pe-date" class="form-control"></div>
+      <div class="form-group"><label>लट नं</label><input type="text" id="pe-lotno" class="form-control"></div>
+      <div class="form-group"><label>देश</label><input type="text" id="pe-country" class="form-control"></div>
+      <div class="form-group"><label>कम्पनी</label><input type="text" id="pe-company" class="form-control"></div>
+      <div class="form-group"><label>माग: पुरुष</label><input type="number" id="pe-male" class="form-control" min="0"></div>
+      <div class="form-group"><label>माग: महिला</label><input type="number" id="pe-female" class="form-control" min="0"></div>
+      <div class="form-group"><label>Expiry</label><input type="date" id="pe-expiry" class="form-control"></div>
+      <div class="form-group"><label>लागत खर्च</label><input type="text" id="pe-cost" class="form-control" placeholder="रकम वा 0"></div>
+      <div class="form-group"><label>कैफियत</label><input type="text" id="pe-remarks" class="form-control"></div>
+    </div>
+    <div id="pe-breakdown-wrap" style="margin:6px 0 16px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn" style="background:var(--success);" onclick="savePre()">💾 सुरक्षित</button>
+      <button class="btn btn-danger" onclick="deletePre()">🗑️ मेटाउने</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// ⚙️ GITHUB मा upload गर्नुअघि आफ्नो Web App URL यहाँ राख्नुहोस्:
+// ═══════════════════════════════════════════════════════
+const FIXED_API_URL = 'https://script.google.com/macros/s/AKfycbx3xG8KffwDv0G99jHgNFxMJanEccz91fBpQCrrZ0xSbc_3BtSV0XYRI0qDptGTqhk1/exec';
+const COMPANY_NAME = 'Link Star Manpower Services Pvt. Ltd.';
+const COMPANY_LICENSE = '1025/068/069';
+
+const LS_URL = 'shram_api_url';
+const SS_KEY = 'shram_session';
+let API_URL = FIXED_API_URL || localStorage.getItem(LS_URL) || '';
+let session = null;
+let workers = [], pres = [], leads = [];
+let editingWId = null, editingPId = null;
+
+// ================= नेपाली पात्रो (BS) =================
+const BS_START = {2078:new Date(2021,3,14),2079:new Date(2022,3,14),2080:new Date(2023,3,14),2081:new Date(2024,3,13),2082:new Date(2025,3,14),2083:new Date(2026,3,14),2084:new Date(2027,3,14),2085:new Date(2028,3,13),2086:new Date(2029,3,14),2087:new Date(2030,3,14),2088:new Date(2031,3,14),2089:new Date(2032,3,13),2090:new Date(2033,3,14),2091:new Date(2034,3,14),2092:new Date(2035,3,14),2093:new Date(2036,3,13),2094:new Date(2037,3,14),2095:new Date(2038,3,14)};
+const BS_DAYS = {2078:[31,31,31,32,31,31,30,29,30,29,30,30],2079:[31,31,32,31,31,31,30,29,30,30,29,31],2080:[31,32,31,32,31,30,30,30,29,30,29,31],2081:[31,31,32,32,31,30,30,29,30,29,30,30],2082:[31,31,32,31,31,31,30,29,30,29,30,30],2083:[31,32,31,31,31,30,30,29,30,29,30,30],2084:[31,31,32,31,31,30,30,29,30,29,30,30],2085:[31,32,31,32,30,31,30,29,30,29,30,30],2086:[31,32,31,32,31,30,30,29,30,29,30,30],2087:[31,31,32,31,31,31,30,29,30,29,30,30],2088:[30,31,32,32,30,31,30,29,30,29,30,30],2089:[31,31,32,31,31,30,30,29,30,29,30,30],2090:[31,32,31,32,31,30,30,29,30,29,30,30],2091:[31,31,32,31,31,31,30,29,30,29,30,30],2092:[31,31,32,32,31,30,30,29,30,29,30,30],2093:[31,32,31,32,31,30,30,29,30,29,30,30],2094:[31,31,32,31,31,31,30,29,30,29,30,30],2095:[31,31,32,31,31,31,30,29,30,29,30,30]};
+const BS_DEFAULT = [31,32,31,32,31,30,30,29,30,29,30,30];
+const BS_NAMES = ["बैशाख","जेठ","असार","साउन","भदौ","असोज","कात्तिक","मंसिर","पुस","माघ","फागुन","चैत"];
+const FY_MONTH_ORDER = ["साउन","भदौ","असोज","कात्तिक","मंसिर","पुस","माघ","फागुन","चैत","बैशाख","जेठ","असार"];
+
+function adToBs(d){
+  const date = (d instanceof Date) ? d : new Date(d);
+  if(isNaN(date)) return null;
+  const years = Object.keys(BS_START).map(Number).sort((a,b)=>b-a);
+  for(const y of years){
+    if(date >= BS_START[y]){
+      let days = Math.floor((date - BS_START[y]) / 86400000);
+      const yd = BS_DAYS[y] || BS_DEFAULT;
+      for(let m=0;m<12;m++){
+        if(days < yd[m]) return {year:y, monthIdx:m, monthName:BS_NAMES[m]};
+        days -= yd[m];
+      }
+      return {year:y, monthIdx:11, monthName:BS_NAMES[11]};
+    }
+  }
+  return null;
+}
+function nepaliMonth(d){ const b = adToBs(d); return b ? b.monthName : ''; }
+// आ.व.: साउन (idx 3) देखि असार (idx 2 अर्को वर्ष)
+function fiscalYearLabelOf(d){
+  const b = adToBs(d);
+  if(!b) return '';
+  const fyStart = (b.monthIdx >= 3) ? b.year : b.year - 1;
+  return fyStart + '-' + String((fyStart + 1) % 100).padStart(2,'0');
+}
+function shrawan1(y){
+  const yd = BS_DAYS[y] || BS_DEFAULT;
+  const days = yd[0] + yd[1] + yd[2];
+  return new Date(BS_START[y].getTime() + days * 86400000);
+}
+function fiscalYears(){
+  const list = [];
+  for(let y = 2080; y <= 2093; y++){
+    if(!BS_START[y] || !BS_START[y+1]) continue;
+    const start = shrawan1(y);
+    const end = new Date(shrawan1(y+1).getTime() - 86400000);
+    list.push({ label: y + '-' + String((y+1)%100).padStart(2,'0'), start, end });
+  }
+  return list;
+}
+const FY_LIST = fiscalYears();
+function fmtDate(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function inFY(dateStr, fy){
+  if(!dateStr) return false;
+  const d = new Date(dateStr);
+  if(isNaN(d)) return false;
+  return d >= fy.start && d <= fy.end;
+}
+function currentFY(){
+  const sel = document.getElementById('fy-select').value;
+  return FY_LIST.find(f => f.label === sel) || FY_LIST[0];
+}
+
+// ================= HELPERS =================
+function showLoading(on){ document.getElementById('loading-overlay').style.display = on ? 'flex' : 'none'; }
+let syncCount = 0;
+function showSync(on){ syncCount += on?1:-1; if(syncCount<0) syncCount=0; document.getElementById('sync-badge').style.display = syncCount>0?'block':'none'; }
+function isAdmin(){ return session && session.role === 'admin'; }
+// ================= ROLE ACCESS (सबैलाई देखिने, तर अनुमति भएकालाई मात्र खुल्ने/काम गर्ने) =================
+function notReceptionist(){ return !session || session.role !== 'receptionist'; }
+function notShram(){ return !session || session.role !== 'shram'; }
+function canManageClient(){ return !session || (session.role !== 'receptionist' && session.role !== 'documentation'); }
+function canIntakeClient(){ return !session || (session.role !== 'documentation' && session.role !== 'shram'); }
+function requireAccess(ok, label){
+  if(!ok){
+    const rl = session ? (ROLE_LABEL[session.role] || session.role) : '-';
+    alert('⛔ माफ गर्नुहोस्, तपाईंको भूमिका (' + rl + ') लाई "' + label + '" प्रयोग गर्ने अनुमति छैन।\n\nआवश्यक भए Admin लाई सम्पर्क गर्नुहोस्।');
+  }
+  return ok;
+}
+function cleanPassport(p){ return String(p).toUpperCase().replace(/[^A-Z0-9]/g,''); }
+function validPassport(p){ return /^\d{8}$/.test(p) || /^[A-Z][A-Z0-9]{8}$/.test(p); }
+const PP_ERROR = '⛔ पासपोर्ट नम्बर मिलेन!\n• अंकबाट सुरु = ८ अंक (09456832)\n• अक्षरबाट सुरु = ९ वटा (PA0987632)\nDot/Comma/Space मिल्दैन।';
+const STATUS_BADGE = {Entry:'s-entry', Upload:'s-upload', Submitted:'s-submitted', Approved:'s-approved', Rejected:'s-rejected', Cancel:'s-cancel'};
+function statusBadge(s){ return `<span class="badge ${STATUS_BADGE[s]||'s-entry'}">${s||'Entry'}</span>`; }
+
+// ================= भूमिका (ROLE) अनुसार workflow अनुमति =================
+// receptionist/documentation → कामदार/Applicant दर्ता + Applicant को recruitment-funnel स्थिति (New...Ready For Labor Approval)
+//   स्थिति राख्ने, तर Worker को Status/स्वीकृति मिति बदल्न पाउँदैनन् (खाली array = अनुमति छैन)
+// shram (श्रम प्रतिनिधि) → Worker को Status/स्वीकृति मिति एक्लै व्यवस्थापन गर्छ (जुनसुकैबाट); Applicant भने देख्दैन
+// admin → सबै
+const ROLE_STATUS_MAP = {
+  receptionist: [],
+  documentation: [],
+  shram: ['Entry','Upload','Submitted','Approved','Rejected','Cancel']
+};
+const ROLE_LABEL = { admin:'Admin', receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि' };
+function allowedStatuses(){
+  if(!session || session.role==='admin') return ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
+  return ROLE_STATUS_MAP[session.role] || ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
+}
+
+async function api(action, extra, credsOverride, blocking){
+  const silent = blocking==='silent';
+  if(!silent){ if(blocking) showLoading(true); else showSync(true); }
+  try{
+    let body;
+    if(action === 'login'){
+      body = Object.assign({ action, username:credsOverride.u, password:credsOverride.p }, extra||{});
+    } else {
+      body = Object.assign({ action, token: session ? session.token : '' }, extra||{});
+    }
+    const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
+    const data = await res.json();
+    if(!data.ok && (data.error==='AUTH' || data.error==='SESSION_EXPIRED') && action!=='login' && action!=='logout'){
+      alert(data.error==='SESSION_EXPIRED' ? '⏳ ३० मिनेट निष्क्रिय भएकाले सत्र समाप्त भयो — फेरि Login गर्नुहोस्।' : 'सत्र समाप्त — फेरि Login गर्नुहोस्।');
+      logout(true);
+    }
+    return data;
+  }catch(err){ return { ok:false, error:'NETWORK', detail:String(err) }; }
+  finally{ if(!silent){ if(blocking) showLoading(false); else showSync(false); } }
+}
+
+// ================= SETUP / LOGIN =================
+function saveApiUrl(){
+  const url = document.getElementById('setup-url').value.trim();
+  if(!url.startsWith('https://script.google.com/')){ document.getElementById('setup-error').textContent='अमान्य URL।'; return; }
+  localStorage.setItem(LS_URL, url); API_URL = url; showScreen('login');
+}
+function changeApiUrl(){
+  if(FIXED_API_URL){ alert('URL सिस्टमभित्रै तोकिएको छ।'); return; }
+  const url = prompt('नयाँ Web App URL:', API_URL);
+  if(url && url.trim().startsWith('https://script.google.com/')){ localStorage.setItem(LS_URL,url.trim()); API_URL=url.trim(); alert('बदलियो।'); }
+}
+function showScreen(n){
+  document.getElementById('setup-screen').style.display = n==='setup'?'block':'none';
+  document.getElementById('login-screen').style.display = n==='login'?'block':'none';
+  document.getElementById('main-app').style.display = n==='app'?'flex':'none';
+}
+// ===== LOGIN: Password देखाउने/लुकाउने + "Signing in..." बटन =====
+const EYE_ON  = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-6.5 0-10-7-10-7a18.5 18.5 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c6.5 0 10 7 10 7a18.6 18.6 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="2" y1="2" x2="22" y2="22"/></svg>';
+function setPwVisible(show){
+  const inp = document.getElementById('login-pass'), btn = document.getElementById('pw-toggle');
+  if(!inp || !btn) return;
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show ? EYE_OFF : EYE_ON;
+  btn.title = show ? 'Password लुकाउने' : 'Password देखाउने';
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+}
+function togglePw(){
+  const inp = document.getElementById('login-pass');
+  setPwVisible(inp.type === 'password');
+  inp.focus();
+  const n = inp.value.length; try{ inp.setSelectionRange(n, n); }catch(e){}
+}
+function setLoginLoading(on){
+  const b = document.getElementById('login-btn');
+  b.disabled = on; b.classList.toggle('loading', on);
+  document.getElementById('login-btn-text').textContent = on ? 'Signing in...' : 'Sign in';
+}
+document.addEventListener('DOMContentLoaded', ()=>setPwVisible(false));
+setPwVisible(false);
+let loginBusy = false;
+async function doLogin(){
+  if(loginBusy) return;
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  if(!u||!p){ errEl.textContent='Username र Password भर्नुहोस्।'; return; }
+  loginBusy = true; setLoginLoading(true);
+  let r;
+  try{ r = await api('login', {}, {u,p}, 'silent'); }
+  finally{ loginBusy = false; setLoginLoading(false); }
+  if(r.ok){
+    session = { token:r.token, role:r.role, fullName:r.fullName };
+    sessionStorage.setItem(SS_KEY, JSON.stringify(session));
+    document.getElementById('login-pass').value='';
+    setPwVisible(false);
+    initApp();
+    await refreshData(true);
+  } else if(r.error==='AUTH') errEl.textContent='Username वा Password मिलेन।';
+  else if(r.error==='LOCKED') errEl.textContent='⛔ धेरैपटक गलत Password हालिएकाले यो प्रयोगकर्ता लक भएको छ — Admin लाई सम्पर्क गर्नुहोस्।';
+  else if(r.error==='INACTIVE') errEl.textContent='⛔ यो प्रयोगकर्ता निष्क्रिय (inactive) पारिएको छ।';
+  else if(r.error==='NETWORK') errEl.textContent='सर्भर जडान भएन।';
+  else errEl.textContent='⚠️ Login भएन: ' + (r.error||'');
+}
+function initApp(){
+  showScreen('app');
+  document.body.classList.toggle('role-staff', session.role !== 'admin');
+  document.body.classList.remove('role-receptionist','role-documentation','role-shram');
+  if(ROLE_STATUS_MAP[session.role]) document.body.classList.add('role-' + session.role);
+  document.getElementById('who-is-in').textContent = (session.fullName || '') + (ROLE_LABEL[session.role] ? ' · ' + ROLE_LABEL[session.role] : '');
+  // New Worker Entry — नयाँ दर्ता गर्न नमिल्ने भूमिका (documentation/shram) लाई form देखिन्छ तर submit हुँदा notice आउँछ
+  const introLocked = !canIntakeClient();
+  const introNote = document.getElementById('intake-lock-note');
+  if(introNote) introNote.style.display = introLocked ? 'block' : 'none';
+  // News/Issue Date, भिसा नं, Visa/Demand Profession, Orientation, Medical — Receptionist लाई भर्न नमिल्ने
+  const docLocked = session.role === 'receptionist';
+  ['w-newsdate','w-issuedate','w-visano','w-visaprof','w-demandprof','w-orientation','w-medical'].forEach(fid=>{
+    const el = document.getElementById(fid); if(el) el.disabled = docLocked;
+  });
+  const docNote = document.getElementById('doc-field-lock-note');
+  if(docNote) docNote.style.display = docLocked ? 'block' : 'none';
+  // FY dropdown
+  const sel = document.getElementById('fy-select');
+  const todayFY = fiscalYearLabelOf(new Date());
+  sel.innerHTML = FY_LIST.map(f=>`<option value="${f.label}" ${f.label===todayFY?'selected':''}>${f.label}</option>`).join('');
+  // status filter
+  document.getElementById('w-status-filter').innerHTML = '<option value="">— All Status —</option>' + Object.keys(STATUS_BADGE).map(s=>`<option>${s}</option>`).join('');
+  const lsf = document.getElementById('l-status-filter');
+  if(lsf) lsf.innerHTML = '<option value="">— All Status —</option>' + LEAD_VALID_ST.map(s=>`<option>${s}</option>`).join('');
+  // पूर्व स्वीकृति form मा पहिलो पद row
+  if(document.getElementById('p-positions') && document.querySelectorAll('#p-positions .pos-row').length===0){ addPositionRow(); recomputePosTotals(); }
+}
+async function logout(silent){
+  if(session && session.token){ try{ await api('logout', {}, null, false); }catch(e){} }
+  session=null; sessionStorage.removeItem(SS_KEY); showScreen('login');
+}
+async function openChangePass(){
+  const np = prompt('नयाँ Password:');
+  if(!np) return;
+  const r = await api('changepass',{newPassword:np},null,true);
+  if(r.ok){ alert('Password बदलियो।'); }
+}
+async function manageUsers(){
+  if(!isAdmin()) return;
+  const lr = await api('listusers',{},null,true);
+  if(!lr.ok) return;
+  const list = lr.users.map(u=>`• ${u.fullName} — ${u.username} (${u.role})${u.active==='No'?' [निष्क्रिय]':''}${u.locked?' [🔒 LOCKED]':''} — अन्तिम login: ${u.lastLogin||'-'}`).join('\n');
+  const c = prompt('प्रयोगकर्ताहरू:\n'+list+'\n\nके गर्ने? "add" / "remove" / "unlock" / "resetpass" / "deactivate" / "activate" लेख्नुहोस्:');
+  if(!c) return;
+  const cmd = c.trim().toLowerCase();
+  if(cmd==='add'){
+    const fn=prompt('पूरा नाम:'); if(!fn) return;
+    const nu=prompt('Username:'); if(!nu) return;
+    const np=prompt('Password:'); if(!np) return;
+    const role=prompt('भूमिका छान्नुहोस्:\n\nreceptionist = कामदार/Applicant दर्ता, Applicant स्थिति राख्ने (Worker Status बदल्न पाउँदैन, Pre-Permission मा अनुमति छैन)\ndocumentation = receptionist जस्तै Applicant management (Worker Status बदल्न पाउँदैन, Pre-Permission मा अनुमति छैन)\nshram = श्रम प्रतिनिधि — Worker र Pre-Permission मा admin जत्तिकै पूर्ण अधिकार; Applicant प्रणाली देख्दैन\nadmin = सबै अधिकार','receptionist'); if(!role) return;
+    const r=await api('adduser',{newUsername:nu.trim(),newPassword:np,newRole:role.trim().toLowerCase(),newFullName:fn.trim()},null,true);
+    if(r.ok) alert('थपियो।'); else if(r.error==='DUPLICATE_USER') alert('Username पहिल्यै छ।');
+  } else if(cmd==='remove'){
+    const ru=prompt('हटाउने Username:'); if(!ru) return;
+    const r=await api('removeuser',{targetUsername:ru.trim()},null,true);
+    if(r.ok) alert('हटाइयो।');
+    else if(r.error==='LAST_ADMIN') alert('कम्तिमा एउटा Admin चाहिन्छ।');
+    else if(r.error==='CANT_REMOVE_SELF') alert('आफैलाई हटाउन मिल्दैन।');
+  } else if(cmd==='unlock'){
+    const uu=prompt('Unlock गर्ने Username (५ पटक गलत Password भएर लक भएको):'); if(!uu) return;
+    const r=await api('unlockuser',{targetUsername:uu.trim()},null,true);
+    if(r.ok) alert('✅ Unlock भयो — अब उनी फेरि Login गर्न सक्छन्।'); else alert('⚠️ भएन: '+(r.error||''));
+  } else if(cmd==='resetpass'){
+    const ru2=prompt('जसको Password Reset गर्ने, त्यसको Username:'); if(!ru2) return;
+    const npw=prompt('नयाँ Password (उनलाई भन्नुहोस्):'); if(!npw) return;
+    const r=await api('resetpassword',{targetUsername:ru2.trim(),newPassword:npw},null,true);
+    if(r.ok) alert('✅ Password बदलियो। नयाँ password उनलाई भन्नुहोस्।'); else alert('⚠️ भएन: '+(r.error||''));
+  } else if(cmd==='deactivate' || cmd==='activate'){
+    const au=prompt((cmd==='deactivate'?'निष्क्रिय':'सक्रिय')+' गर्ने Username:'); if(!au) return;
+    const r=await api('setuseractive',{targetUsername:au.trim(), active: cmd==='activate'},null,true);
+    if(r.ok) alert('✅ भयो।');
+    else if(r.error==='CANT_DEACTIVATE_SELF') alert('⛔ आफैलाई निष्क्रिय गर्न मिल्दैन।');
+    else alert('⚠️ भएन: '+(r.error||''));
+  }
+}
+
+// ================= ARCHIVE (पुरानो डाटा — system फास्ट राख्न) =================
+async function runArchiveNow(){
+  if(!isAdmin()) return;
+  if(!confirm('हाल कायम रहेको पछिल्ला ३ आ.व. भन्दा पुरानो (दर्ता मिति अनुसार) कामदार अहिल्यै WorkersArchive Sheet मा सार्ने हो? यो सामान्यतया महिनाको १ गते आफै हुन्छ — यो बटन तुरुन्तै/परीक्षणको लागि हो।')) return;
+  const r = await api('archivenow', {}, null, true);
+  if(r.ok){
+    alert('✅ ' + (r.archived||0) + ' जना कामदार Archive मा सारियो।' + (r.archived>0 ? '\n(अब Refresh गर्नुहोस् ताकि सूचीबाट पनि हटून्।)' : ''));
+    if(r.archived>0) refreshData(true);
+  } else alert('⚠️ भएन: ' + (r.error||''));
+}
+async function searchArchive(){
+  if(!isAdmin() && (!session || session.role!=='shram')) return;
+  const q = prompt('पुरानो (Archive भएको) कामदार खोज्नुहोस् — नाम वा पासपोर्ट लेख्नुहोस्:');
+  if(!q || !q.trim()) return;
+  const r = await api('searcharchive', {q: q.trim()}, null, true);
+  if(!r.ok){ alert('⚠️ भएन: ' + (r.error||'')); return; }
+  if(!r.wrows || !r.wrows.length){ alert('कुनै archived रेकर्ड भेटिएन।'); return; }
+  const found = unpack(r.wcols, r.wrows, true);
+  const lines = found.map(w=>`• ${w.name} — ${w.passport} — ${w.country||''}/${w.company||''} — Status: ${w.status} — स्वीकृति: ${w.approveDate||'-'} — उडान: ${w.departDate||'-'} — दर्ता: ${String(w.createdAt||'').slice(0,10)}`).join('\n');
+  alert('🗄️ Archive मा भेटियो (' + found.length + ' जना):\n\n' + lines);
+}
+
+// ================= DATA =================
+// server बाट आउने सानो payload (array) लाई object मा फर्काउने + देखाउने रूप मिलाउने
+function titleCase(v){
+  return String(v==null?'':v).trim().replace(/\s+/g,' ').toLowerCase()
+    .replace(/(^|[\s.'-])([a-z])/g, (m,a,b)=>a+b.toUpperCase());
+}
+const VALID_ST = ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
+function unpack(cols, rows, isWorker){
+  const out = new Array(rows.length);
+  for(let i=0;i<rows.length;i++){
+    const o = {};
+    for(let j=0;j<cols.length;j++) o[cols[j]] = rows[i][j];
+    if(isWorker){
+      if(o.name) o.name = titleCase(o.name);
+      o.passport = String(o.passport==null?'':o.passport).toUpperCase().replace(/[^A-Z0-9]/g,'');
+      const g = String(o.gender||'').trim().toUpperCase();
+      o.gender = (g==='M'||g==='MALE'||g==='पुरुष') ? 'Male' : (g==='F'||g==='FEMALE'||g==='महिला') ? 'Female' : '';
+      let st = String(o.status||'').trim().toUpperCase();
+      if(st==='CANCLE') st='CANCEL';
+      o.status = VALID_ST.find(x=>x.toUpperCase()===st) || 'Entry';
+    }
+    out[i] = o;
+  }
+  return out;
+}
+// Applicant (code भित्र 'lead' नामबाटै) — receptionist/documentation ले चलाउँछन्, shram लाई server ले नै पठाउँदैन
+// 2026-08: recruitment funnel भरिएर १६ चरण भयो (पहिलेको Inquiry/Processing/Ready/Cancel यसैभित्र migrate हुन्छ)
+const LEAD_VALID_ST = ['New','Document Received','Shortlisted','Interview','Interview Passed','Medical','Medical Fit','Selected','Offer Letter','Offer Accepted','Ready For Labor Approval','Interview Failed','Medical Unfit','Offer Rejected','Cancelled','Rejected'];
+const LEAD_STATUS_MIGRATE = { INQUIRY:'New', PROCESSING:'Document Received', READY:'Ready For Labor Approval', CANCEL:'Cancelled' };
+function unpackLeads(cols, rows){
+  const out = new Array(rows.length);
+  for(let i=0;i<rows.length;i++){
+    const o = {};
+    for(let j=0;j<cols.length;j++) o[cols[j]] = rows[i][j];
+    if(o.name) o.name = titleCase(o.name);
+    o.passport = String(o.passport==null?'':o.passport).toUpperCase().replace(/[^A-Z0-9]/g,'');
+    const g = String(o.gender||'').trim().toUpperCase();
+    o.gender = (g==='M'||g==='MALE'||g==='पुरुष') ? 'Male' : (g==='F'||g==='FEMALE'||g==='महिला') ? 'Female' : '';
+    let st = String(o.leadStatus||'').trim().toUpperCase();
+    o.leadStatus = LEAD_VALID_ST.find(x=>x.toUpperCase()===st) || LEAD_STATUS_MIGRATE[st] || 'New';
+    out[i] = o;
+  }
+  return out;
+}
+async function refreshData(blocking){
+  const r = await api('list', {}, null, !!blocking);
+  if(!r || !r.ok){ renderAll(); return; }  // गडबड भए पनि भएको डाटा राख्ने, खाली नआउने
+  // नयाँ (सानो) ढाँचा भए त्यही, नभए पुरानो ढाँचा — दुवैसँग चल्छ
+  if(r.wrows && r.wcols){
+    workers = unpack(r.wcols, r.wrows, true);
+    pres    = unpack(r.pcols, r.prows, false);
+    leads   = (r.lcols && r.lrows) ? unpackLeads(r.lcols, r.lrows) : [];
+  } else if(r.workers){
+    workers = r.workers.map(w=>unpack(Object.keys(w), [Object.values(w)], true)[0]);
+    pres    = r.pres || [];
+  }
+  renderAll();
+}
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); }
+
+// ================= SIDEBAR (mobile toggle) =================
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('show');
+}
+
+// ================= TABS =================
+function switchTab(ev, id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  ev.currentTarget.classList.add('active');
+  // ट्याब बटनबाट Pre-Permission खोल्दा सबै देखिने (कार्ड फिल्टर हट्ने)
+  if(id==='tab-pre' && (preCardFY || preExpiringOnly)){
+    preCardFY = null; preExpiringOnly = false;
+    document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+    renderPres();
+  }
+  // ट्याब बटनबाट Worker List खोल्दा Action Center को card filter हट्ने
+  if(id==='tab-workers' && activeCardFilter && activeCardFilter.allTime){
+    activeCardFilter = null;
+    const cb = document.getElementById('card-filter-banner'); if(cb) cb.classList.remove('show');
+    renderWorkers();
+  }
+}
+
+// ================= DASHBOARD =================
+function fyStats(fy){
+  const preIn = pres.filter(p=>inFY(p.approvalDate, fy));
+  const preM = preIn.reduce((s,p)=>s+(Number(p.maleCount)||0),0);
+  const preF = preIn.reduce((s,p)=>s+(Number(p.femaleCount)||0),0);
+  // ✅ कर/audit आधार = यसै आ.व. अन्तिम श्रम स्वीकृति लिएकाहरू (Cancel पूरै हटाइन्छ)
+  const appIn = workers.filter(w=>w.status==='Approved' && inFY(w.approveDate, fy));
+  const appM = appIn.filter(w=>w.gender==='Male').length;
+  const appF = appIn.filter(w=>w.gender==='Female').length;
+  // ✈ विभागका लागि: यस आ.व.मा साँच्चै उडेका सबै (जुनसुकै आ.व.को स्वीकृति भए पनि)
+  const flownAllList = workers.filter(w=>w.status==='Approved' && inFY(w.departDate, fy));
+  const flownAll = flownAllList.length;
+  const flownM = flownAllList.filter(w=>w.gender==='Male').length;
+  const flownF = flownAllList.filter(w=>w.gender==='Female').length;
+  // यसै आ.व. स्वीकृति लिएर यसै आ.व. उडेका
+  const flownCohort = appIn.filter(w=>inFY(w.departDate, fy)).length;
+  // अघिल्लो आ.व.को स्वीकृति लिएर यस आ.व. उडेका (कर अघिल्लै वर्ष तिरिसकेको)
+  const flownPrev = flownAll - flownCohort;
+  // ⏳ उड्न बाँकी = यसै आ.व. स्वीकृत मध्ये यस आ.व.भित्र नउडेका
+  const pendList = appIn.filter(w=>!inFY(w.departDate, fy));
+  const pending = pendList.length;
+  const pendM = pendList.filter(w=>w.gender==='Male').length;
+  const pendF = pendList.filter(w=>w.gender==='Female').length;
+  const flown = flownAll;
+  // ⊘ Cancel = श्रम स्वीकृति लिएको मिति अनुसार (नभए दर्ता मिति)
+  const entryDate = w => String(w.createdAt||'').slice(0,10);
+  const cDate = w => w.approveDate || entryDate(w);
+  const cancelList = workers.filter(w=>w.status==='Cancel' && inFY(cDate(w), fy));
+  // ✗ Rejected = डाटा इन्ट्री (दर्ता) मिति अनुसार
+  const rejList = workers.filter(w=>w.status==='Rejected' && inFY(entryDate(w), fy));
+  // मिति नै नभएका — कुनै आ.व.मा नगनी छुट्टै चेतावनीमा देखाउने (दोहोरो गणना रोक्न)
+  const cancelNoDate = workers.filter(w=>w.status==='Cancel' && !cDate(w));
+  const rejNoDate = workers.filter(w=>w.status==='Rejected' && !entryDate(w));
+  return { preIn, preM, preF, appIn, appM, appF, flown, flownAll, flownM, flownF, flownCohort, flownPrev,
+           pending, pendM, pendF, cancel: cancelList.length, rejected: rejList.length, rejNoDate, cancelNoDate };
+}
+function renderDashboard(){
+  const fy = currentFY();
+  document.getElementById('fy-range').textContent = fmtDate(fy.start) + ' देखि ' + fmtDate(fy.end) + ' सम्म';
+  const s = fyStats(fy);
+  document.getElementById('d-pre-total').textContent = s.preM + s.preF;
+  document.getElementById('d-pre-sub').textContent = `M ${s.preM} | F ${s.preF} | Lot ${s.preIn.length}`;
+  document.getElementById('d-approved').textContent = s.appIn.length;
+  document.getElementById('d-app-sub').textContent = `M ${s.appM} | F ${s.appF}`;
+  document.getElementById('d-flown').textContent = s.flown;
+  document.getElementById('d-flown-sub').textContent = `This FY ${s.flownCohort} | Previous FY ${s.flownPrev}`;
+  document.getElementById('d-remaining').textContent = s.pending;
+  document.getElementById('d-rem-sub').textContent = `of ${s.appIn.length} approved this FY`;
+  document.getElementById('d-cancel').textContent = s.cancel;
+  document.getElementById('d-rejected').textContent = s.rejected;
+  document.getElementById('d-rej-sub').textContent = s.rejNoDate.length ? `⚠ ${s.rejNoDate.length} मिति नभएका (गनिएनन्)` : '\u00a0';
+  const cSub = document.querySelector('.stat-card.c-can .sub');
+  if(cSub) cSub.textContent = s.cancelNoDate.length ? `⚠ ${s.cancelNoDate.length} मिति नभएका (गनिएनन्)` : '\u00a0';
+  }
+// 🔴 Action Required — अब "Action" ट्याब भित्र देखिन्छ (Dashboard बाट होइन), एक क्लिकमा सम्बन्धित सूची खोल्ने (FY सीमा नराखी, सक्रिय पछिल्ला ३ आ.व.भरि)
+function renderActionCenter(){
+  const el = document.getElementById('action-center-list');
+  if(!el) return;
+  const medicalPending = workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.medical!=='Yes').length;
+  const orientationPending = workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.orientation!=='Yes').length;
+  const departurePending = workers.filter(w=>w.status==='Approved' && !w.departDate).length;
+  const lotExpiring = pres.filter(isLotExpiringSoon).length;
+  const items = [
+    { n:medicalPending, label:'🩺 Medical Pending', act:()=>openActionFilter('medicalpending','🩺 Medical Pending') },
+    { n:orientationPending, label:'📘 Orientation Pending', act:()=>openActionFilter('orientationpending','📘 Orientation Pending') },
+    { n:departurePending, label:'✈️ Departure Pending', act:()=>openActionFilter('departurependingall','✈️ Departure Pending') },
+    { n:lotExpiring, label:'⏰ Lot Expiring < 30 Days', act:()=>openLotExpiring() }
+  ];
+  window._acActions = items.map(i=>i.act);   // onclick बाट index अनुसार बोलाउने
+  el.innerHTML = items.map((it,i)=>
+    `<div class="ac-item${it.n===0?' ac-zero':''}" onclick="_acActions[${i}]()" title="क्लिक गर्नुहोस् । सम्बन्धित सूची हेर्न">
+      <span>${it.label}</span><span class="ac-count">${it.n}</span>
+    </div>`
+  ).join('');
+  // ट्याब बटनमा मात्र कुल Action आवश्यक संख्या (header बाट दोहोरो badge हटाइयो)
+  const total = medicalPending + orientationPending + departurePending + lotExpiring;
+  const tabBtn = document.getElementById('alert-tab-btn');
+  if(tabBtn) tabBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-3px;margin-right:5px;"><path d="M4 3h1.5a.5.5 0 0 0 .5-.5V2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v.5a.5.5 0 0 0 .5.5H12a1 1 0 0 1 1 1v9.5A1.5 1.5 0 0 1 11.5 15h-7A1.5 1.5 0 0 1 3 13.5V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M5.5 8.5l1.8 1.8L10.5 6.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks & Alerts' + (total ? ` <span style="background:#dc2626;color:#fff;border-radius:10px;padding:1px 8px;font-size:12px;margin-left:2px;">${total}</span>` : '');
+}
+
+// ================= WORKERS =================
+document.getElementById('worker-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  if(!requireAccess(canIntakeClient(), 'नयाँ Worker दर्ता')) return;
+  const passport = cleanPassport(document.getElementById('w-passport').value);
+  if(!validPassport(passport)){ alert(PP_ERROR); return; }
+  const w = {
+    name: document.getElementById('w-name').value.trim(),
+    passport,
+    age: document.getElementById('w-age').value ? Number(document.getElementById('w-age').value) : '',
+    gender: document.getElementById('w-gender').value,
+    lotNo: document.getElementById('w-lotno').value.trim(),
+    newsDate: document.getElementById('w-newsdate').value,
+    issueDate: document.getElementById('w-issuedate').value,
+    visaNo: document.getElementById('w-visano').value.trim(),
+    country: document.getElementById('w-country').value.trim(),
+    company: document.getElementById('w-company').value.trim(),
+    visaProfession: document.getElementById('w-visaprof').value.trim(),
+    demandProfession: document.getElementById('w-demandprof').value.trim(),
+    orientation: document.getElementById('w-orientation').value,
+    medical: document.getElementById('w-medical').value,
+    nepalAddress: document.getElementById('w-nepal-addr').value.trim(),
+    contactAddress: document.getElementById('w-contact-addr').value.trim(),
+    status: 'Entry', approveDate:'', departDate:'', remarks:''
+  };
+  const r = await api('addworker', { worker: w }, null, true);
+  if(r.ok){ workers.push(r.worker); this.reset(); renderAll(); alert('✅ दर्ता भयो।'); }
+  else if(r.error==='DUPLICATE_PASSPORT') alert('⛔ यो पासपोर्ट पहिल्यै दर्ता छ!\nकामदार: '+(r.workerName||'')+'\nStatus: '+(r.status||''));
+  else if(r.error==='INVALID_PASSPORT') alert(PP_ERROR);
+});
+
+// ================= LEADS (माग) =================
+const leadForm = document.getElementById('lead-form');
+if(leadForm) leadForm.addEventListener('submit', async function(e){
+  e.preventDefault();
+  const passport = cleanPassport(document.getElementById('l-passport').value);
+  if(!validPassport(passport)){ alert(PP_ERROR); return; }
+  const l = {
+    name: document.getElementById('l-name').value.trim(),
+    passport,
+    age: document.getElementById('l-age').value ? Number(document.getElementById('l-age').value) : '',
+    gender: document.getElementById('l-gender').value,
+    lotNo: document.getElementById('l-lotno').value.trim(),
+    country: document.getElementById('l-country').value.trim(),
+    company: document.getElementById('l-company').value.trim(),
+    jobTitle: document.getElementById('l-jobtitle').value.trim(),
+    phone: document.getElementById('l-phone').value.trim(),
+    orientation: document.getElementById('l-orientation').value,
+    medical: document.getElementById('l-medical').value,
+    nepalAddress: document.getElementById('l-nepal-addr').value.trim(),
+    contactAddress: document.getElementById('l-contact-addr').value.trim(),
+    remarks: document.getElementById('l-remarks').value.trim(),
+    leadStatus:'New'
+  };
+  const r = await api('addlead', { lead: l }, null, true);
+  if(r.ok){ leads.push(r.lead); this.reset(); renderAll(); alert('✅ Applicant दर्ता भयो।'); }
+  else if(r.error==='DUPLICATE_PASSPORT') alert('⛔ यो पासपोर्ट पहिल्यै दर्ता छ!\nनाम: '+(r.workerName||'')+'\nStatus: '+(r.status||''));
+  else if(r.error==='INVALID_PASSPORT') alert(PP_ERROR);
+  else if(r.error==='FORBIDDEN') alert('⛔ तपाईंलाई Applicant थप्ने अनुमति छैन।');
+});
+
+['w-passport','e-passport','l-passport','le-passport'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('input', function(){ this.value = cleanPassport(this.value); });
+});
+
+let activeCardFilter = null;  // {type, label}
+let preCardFY = null;  // Pre-Permission कार्डबाट आएको आ.व. फिल्टर (null = सबै)
+let preExpiringOnly = false;  // Action Center को "Lot Expiring <30 Days" बाट आएको फिल्टर
+
+function cardFilter(type){
+  const fy = currentFY();
+  const labels = {
+    pre:'पूर्व स्वीकृति', approved:'Final Approval (श्रम स्वीकृति)', departed:'✈ उडेका (Departure)',
+    pending:'⏳ उड्न बाँकी', cancel:'⊘ Cancel', rejected:'✗ Rejected'
+  };
+  // Pre-Permission अलग tab मा — त्यतै पठाउने
+  // Pre-Permission कार्ड → Pre-Permission tab मा त्यही आ.व.को मात्र + कार्ड हाइलाइट
+  if(type==='pre'){
+    preCardFY = fy;
+    switchTabById('tab-pre');
+    document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+    event && event.currentTarget && event.currentTarget.classList.add('card-active');
+    renderPres();
+    return;
+  }
+  activeCardFilter = { type, label: labels[type] };
+  // Master Record tab मा जाने
+  switchTabById('tab-workers');
+  // status dropdown/search रिसेट (कार्ड फिल्टर प्राथमिकता)
+  const sfEl = document.getElementById('w-status-filter'); if(sfEl) sfEl.value='';
+  const qEl = document.getElementById('w-search'); if(qEl) qEl.value='';
+  // banner देखाउने + कार्ड हाइलाइट
+  const b = document.getElementById('card-filter-banner');
+  document.getElementById('card-filter-label').innerHTML =
+    `<b>${labels[type]}</b> — आ.व. <b>${fy.label}</b> मा`;
+  b.classList.add('show');
+  document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+  event && event.currentTarget && event.currentTarget.classList.add('card-active');
+  renderWorkers();
+}
+
+function clearCardFilter(){
+  activeCardFilter = null;
+  document.getElementById('card-filter-banner').classList.remove('show');
+  document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+  renderWorkers();
+}
+
+function switchTabById(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const tab = document.getElementById(id); if(tab) tab.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{ if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(id)) b.classList.add('active'); });
+}
+
+// कार्ड फिल्टर अनुसार कामदार सूची फर्काउने (आ.व. + श्रेणी)
+function applyCardFilter(list){
+  if(!activeCardFilter) return list;
+  const fy = currentFY();
+  const t = activeCardFilter.type;
+  if(t==='approved') return list.filter(w=>w.status==='Approved' && inFY(w.approveDate, fy));
+  if(t==='departed') return list.filter(w=>w.status==='Approved' && inFY(w.departDate, fy));
+  if(t==='pending')  return list.filter(w=>w.status==='Approved' && inFY(w.approveDate, fy) && !inFY(w.departDate, fy));
+  if(t==='cancel'){
+    return list.filter(w=>w.status==='Cancel' && inFY(w.approveDate || String(w.createdAt||'').slice(0,10), fy));
+  }
+  if(t==='rejected') return list.filter(w=>w.status==='Rejected' && inFY(String(w.createdAt||'').slice(0,10), fy));
+  // Action Center फिल्टर — यी FY-सीमित हुँदैनन् (सक्रिय पछिल्ला ३ आ.व. भरि "अहिल्यै काम गर्नुपर्ने")
+  if(t==='medicalpending') return list.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.medical!=='Yes');
+  if(t==='orientationpending') return list.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.orientation!=='Yes');
+  if(t==='departurependingall') return list.filter(w=>w.status==='Approved' && !w.departDate);
+  return list;
+}
+// Action Center बाट खोल्ने — Worker List मा (FY सीमा नराखी) फिल्टर गरेर देखाउने
+function openActionFilter(type, label){
+  activeCardFilter = { type, label, allTime:true };
+  switchTabById('tab-workers');
+  const sfEl = document.getElementById('w-status-filter'); if(sfEl) sfEl.value='';
+  const qEl = document.getElementById('w-search'); if(qEl) qEl.value='';
+  const b = document.getElementById('card-filter-banner');
+  document.getElementById('card-filter-label').innerHTML = `<b>${label}</b>`;
+  b.classList.add('show');
+  document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+  renderWorkers();
+}
+// Lot Expiring <30 Days भन्ने Action Center बाट Pre-Permission tab मा त्यस्ता lot मात्र देखाउने
+function isLotExpiringSoon(p){
+  if(!p.expiryDate) return false;
+  const exp = new Date(p.expiryDate), today = new Date();
+  if(isNaN(exp)) return false;
+  const diff = Math.floor((exp-today)/86400000);
+  return diff>=0 && diff<=30;
+}
+function openLotExpiring(){
+  if(!requireAccess(canManageClient(), 'Pre-Permission')) return;
+  preCardFY = null;
+  preExpiringOnly = true;
+  switchTabById('tab-pre');
+  renderPres();
+}
+
+function onManualFilter(){
+  // म्यानुअल खोज/status प्रयोग गर्दा कार्ड फिल्टर हट्ने (अलमल नहोस्)
+  if(activeCardFilter){
+    activeCardFilter = null;
+    document.getElementById('card-filter-banner').classList.remove('show');
+    document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+  }
+  renderWorkers();
+}
+
+function renderWorkers(){
+  const q = (document.getElementById('w-search').value||'').toLowerCase();
+  const sf = document.getElementById('w-status-filter').value;
+  let rows = workers.filter(w =>
+    (!q || (w.name||'').toLowerCase().includes(q) || (w.passport||'').toLowerCase().includes(q)
+     || (w.country||'').toLowerCase().includes(q) || (w.company||'').toLowerCase().includes(q)
+     || String(w.visaNo||'').toLowerCase().includes(q) || String(w.lotNo||'').toLowerCase().includes(q))
+    && (!sf || w.status===sf)
+  );
+  rows = applyCardFilter(rows);
+  // Search/status/card-filter नभएको बेला जुन आ.व. माथि छानिएको छ (fy-select) त्यही मात्र देखाउने —
+  // खोज्दा/filter गर्दा भने पछिल्ला ३ आ.व. भित्रको सबैमा खोजिन्छ (माथि applyCardFilter अघि नै भइसक्यो)
+  const noOtherFilter = !q && !sf && !activeCardFilter;
+  if(noOtherFilter){
+    const fy = currentFY();
+    // आधार मिति: स्वीकृति मिति (approveDate) — Archive मा प्रयोग हुने आधार सँगै मिलोस्; त्यो नभएका
+    // (Entry/Rejected/Cancel) worker मा दर्ता मिति (createdAt)
+    rows = rows.filter(w=>{
+      const anchor = w.approveDate || (w.createdAt ? String(w.createdAt).slice(0,10) : '');
+      return inFY(anchor, fy);
+    });
+  }
+  // नयाँ इन्ट्री माथि (createdAt अनुसार; नभए id अनुसार)
+  rows.sort((a,b)=>{
+    const ca=String(a.createdAt||''), cb=String(b.createdAt||'');
+    if(ca && cb && ca!==cb) return cb.localeCompare(ca);
+    return String(b.id||'').localeCompare(String(a.id||''));
+  });
+  // कार्ड फिल्टर सक्रिय भए banner लाई हालको आ.व.सँग मिलाउने (Action Center फिल्टर सबै वर्षमा हुने भएकोले आ.व. नदेखाउने)
+  if(activeCardFilter){
+    const fy = currentFY();
+    document.getElementById('card-filter-label').innerHTML = activeCardFilter.allTime
+      ? `<b>${activeCardFilter.label}</b>`
+      : `<b>${activeCardFilter.label}</b> — आ.व. <b>${fy.label}</b> मा`;
+  }
+  lastVisibleWIds = rows.map(w=>w.id);
+  document.getElementById('w-table').innerHTML = rows.map(w=>`
+    <tr>
+      <td class="shram-only-field"><input type="checkbox" ${selectedWIds.has(w.id)?'checked':''} onchange="toggleSelect('${w.id}', this.checked)"></td>
+      <td>${w.name}<br><small style="color:var(--muted)">${w.passport}${w.gender?' • '+gShort(w.gender):''}${w.age?' • '+w.age:''}</small></td>
+      <td>${w.country}<br><small>${w.company}</small></td>
+      <td><small>${w.demandProfession||w.visaProfession||'-'}</small></td>
+      <td>${statusBadge(w.status)}</td>
+      <td>${w.approveDate ? w.approveDate+'<br><small style="color:var(--info)">'+nepaliMonth(w.approveDate)+'</small>' : '-'}</td>
+      <td>${w.departDate ? w.departDate + (isCarryOver(w) ? '<br><span class="carry-tag" title="अघिल्लो आ.व.मा श्रम स्वीकृति लिएर यस आ.व. उडेको — कर अघिल्लै आ.व.मा">⏮ Prev FY Approval</span>' : '') : '-'}</td>
+      <td><button class="btn btn-sm" onclick="openWModal('${w.id}')">View</button></td>
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted)">कुनै रेकर्ड छैन</td></tr>';
+  const selAllEl = document.getElementById('w-select-all');
+  if(selAllEl){
+    const allSel = rows.length>0 && rows.every(w=>selectedWIds.has(w.id));
+    const someSel = rows.some(w=>selectedWIds.has(w.id));
+    selAllEl.checked = allSel;
+    selAllEl.indeterminate = !allSel && someSel;
+  }
+  updateBulkBar();
+}
+
+// ================= BULK ACTIONS (Master Record) =================
+let selectedWIds = new Set();
+let lastVisibleWIds = [];
+function toggleSelect(id, checked){
+  if(checked) selectedWIds.add(id); else selectedWIds.delete(id);
+  updateBulkBar();
+  const selAllEl = document.getElementById('w-select-all');
+  if(selAllEl){
+    const allSel = lastVisibleWIds.length>0 && lastVisibleWIds.every(i=>selectedWIds.has(i));
+    const someSel = lastVisibleWIds.some(i=>selectedWIds.has(i));
+    selAllEl.checked = allSel;
+    selAllEl.indeterminate = !allSel && someSel;
+  }
+}
+function toggleSelectAllVisible(checked){
+  if(checked) lastVisibleWIds.forEach(id=>selectedWIds.add(id));
+  else lastVisibleWIds.forEach(id=>selectedWIds.delete(id));
+  renderWorkers();
+}
+function clearSelection(){ selectedWIds.clear(); renderWorkers(); }
+function updateBulkBar(){
+  const bar = document.getElementById('bulk-bar');
+  if(!bar) return;
+  const n = selectedWIds.size;
+  if(n===0){ bar.style.display='none'; return; }
+  bar.style.display='flex';
+  document.getElementById('bulk-count').textContent = n + ' जना छानिए';
+  const sel = document.getElementById('bulk-status');
+  const STATUS_LABELS = {Entry:'Entry (दर्ता मात्र)', Upload:'Upload (FEIMS मा)', Submitted:'Submitted (पेश गरिएको)', Approved:'Approved (श्रम स्वीकृति)', Rejected:'Rejected', Cancel:'Cancel'};
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— नयाँ Status छान्नुहोस् —</option>' + allowedStatuses().map(s=>`<option value="${s}">${STATUS_LABELS[s]}</option>`).join('');
+  if(cur) sel.value = cur;
+}
+function onBulkStatusChange(){
+  const s = document.getElementById('bulk-status').value;
+  const dateEl = document.getElementById('bulk-approvedate');
+  if(s==='Approved' && !dateEl.value) dateEl.value = fmtDate(new Date());
+}
+async function applyBulkUpdate(){
+  if(!requireAccess(canManageClient(), 'Bulk Status अपडेट')) return;
+  const ids = Array.from(selectedWIds);
+  if(!ids.length) return;
+  const status = document.getElementById('bulk-status').value;
+  const approveDate = document.getElementById('bulk-approvedate').value;
+  if(!status){ alert('⚠️ नयाँ Status छान्नुहोस्।'); return; }
+  if(status==='Approved' && !approveDate){ alert('⚠️ Approved राख्दा स्वीकृति मिति अनिवार्य छ।'); return; }
+  if(!confirm(ids.length + ' जना कामदारको Status "'+status+'"'+(approveDate?' (स्वीकृति मिति: '+approveDate+')':'')+' मा बदल्ने हो?')) return;
+  const r = await api('bulkupdate', { ids, status, approveDate }, null, true);
+  if(r.ok){
+    (r.updated||[]).forEach(uw=>{ const i=workers.findIndex(x=>x.id===uw.id); if(i>=0) workers[i]=uw; });
+    selectedWIds.clear();
+    document.getElementById('bulk-status').value='';
+    document.getElementById('bulk-approvedate').value='';
+    renderAll();
+    alert('✅ ' + (r.updated||[]).length + ' जना अपडेट भयो।' + (r.notFound&&r.notFound.length? ' ('+r.notFound.length+' जना भेटिएन — पहिले नै मेटिएको हुन सक्छ, Refresh गर्नुहोस्)':''));
+  } else if(r.error==='ROLE_STATUS_FORBIDDEN'){
+    alert('⛔ तपाईंको भूमिकाले यो Status राख्न मिल्दैन।\nअनुमति प्राप्त Status: '+(r.allowed||[]).join(', '));
+  } else if(r.error==='MISSING_APPROVE_DATE'){
+    alert('⚠️ Approved राख्दा स्वीकृति मिति अनिवार्य छ।');
+  } else {
+    alert('⚠️ भएन: '+(r.error||''));
+  }
+}
+// 🔴 Action Required बाट Medical/Orientation एकैचोटि धेरै जनाको Yes राख्ने (bulk — time save)
+async function applyBulkField(field, value, label){
+  if(!requireAccess(canManageClient(), 'Bulk ' + label + ' अपडेट')) return;
+  const ids = Array.from(selectedWIds);
+  if(!ids.length) return;
+  if(!confirm(ids.length + ' जना कामदारको ' + label + ' "' + value + '" राख्ने हो?')) return;
+  const r = await api('bulkfieldupdate', { ids, field, value }, null, true);
+  if(r.ok){
+    (r.updated||[]).forEach(uw=>{ const i=workers.findIndex(x=>x.id===uw.id); if(i>=0) workers[i]=uw; });
+    selectedWIds.clear();
+    renderAll();
+    alert('✅ ' + (r.updated||[]).length + ' जना अपडेट भयो।' + (r.notFound&&r.notFound.length? ' ('+r.notFound.length+' जना भेटिएन — पहिले नै मेटिएको हुन सक्छ, Refresh गर्नुहोस्)':''));
+  } else if(r.error==='FORBIDDEN'){
+    alert('⛔ तपाईंलाई यो अनुमति छैन।');
+  } else {
+    alert('⚠️ भएन: '+(r.error||''));
+  }
+}
+// 🔴 Action Required बाट धेरै जनाको उडान मिति एकैचोटि राख्ने (bulk — जस्तै एउटै लट/उडान)
+async function applyBulkDepartDate(){
+  if(!requireAccess(canManageClient(), 'Bulk उडान मिति अपडेट')) return;
+  const ids = Array.from(selectedWIds);
+  if(!ids.length) return;
+  const date = document.getElementById('bulk-departdate').value;
+  if(!date){ alert('⚠️ उडान मिति छान्नुहोस्।'); return; }
+  if(!confirm(ids.length + ' जना कामदारको उडान मिति ' + date + ' राख्ने हो?')) return;
+  const r = await api('bulkfieldupdate', { ids, field:'departDate', value:date }, null, true);
+  if(r.ok){
+    (r.updated||[]).forEach(uw=>{ const i=workers.findIndex(x=>x.id===uw.id); if(i>=0) workers[i]=uw; });
+    selectedWIds.clear();
+    document.getElementById('bulk-departdate').value='';
+    renderAll();
+    alert('✅ ' + (r.updated||[]).length + ' जना अपडेट भयो।' + (r.notFound&&r.notFound.length? ' ('+r.notFound.length+' जना भेटिएन — पहिले नै मेटिएको हुन सक्छ, Refresh गर्नुहोस्)':''));
+  } else if(r.error==='FORBIDDEN'){
+    alert('⛔ तपाईंलाई यो अनुमति छैन।');
+  } else {
+    alert('⚠️ भएन: '+(r.error||''));
+  }
+}
+
+// ================= 🔴 ACTION TAB =================
+function openAlertsTab(){
+  switchTabById('tab-alerts');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const btn = document.getElementById('alert-tab-btn'); if(btn) btn.classList.add('active');
+}
+
+// ================= HEADER DROPDOWN (⋮ थप / ⚙️ Settings) =================
+function toggleHeaderMenu(ev, id){
+  if(ev) ev.stopPropagation();
+  document.querySelectorAll('.header-more-menu').forEach(m=>{ if(m.id!==id) m.classList.remove('show'); });
+  const m = document.getElementById(id);
+  if(m) m.classList.toggle('show');
+}
+function closeHeaderMenus(){
+  document.querySelectorAll('.header-more-menu').forEach(m=>m.classList.remove('show'));
+}
+document.addEventListener('click', function(ev){
+  const wrap = ev.target.closest ? ev.target.closest('.header-more-wrap') : null;
+  if(!wrap) closeHeaderMenus();
+});
+
+// अघिल्लो आ.व.मा स्वीकृति लिएर हालको आ.व.मा उडेको हो कि?
+function gShort(g){ return g==='Male'?'M':(g==='Female'?'F':(g||'-')); }
+function isCarryOver(w){
+  if(!w.departDate || !w.approveDate) return false;
+  const fy = currentFY();
+  return inFY(w.departDate, fy) && !inFY(w.approveDate, fy);
+}
+
+function openWModal(id){
+  editingWId = id;
+  const w = workers.find(x=>x.id===id);
+  if(!w) return;
+  document.getElementById('w-modal-title').textContent = w.name + ' — विवरण / संशोधन';
+  document.getElementById('e-name').value = w.name;
+  document.getElementById('e-passport').value = w.passport;
+  document.getElementById('e-age').value = w.age||'';
+  document.getElementById('e-gender').value = w.gender||'';
+  document.getElementById('e-lotno').value = w.lotNo||'';
+  document.getElementById('e-newsdate').value = w.newsDate||'';
+  document.getElementById('e-issuedate').value = w.issueDate||'';
+  document.getElementById('e-visano').value = w.visaNo||'';
+  document.getElementById('e-country').value = w.country||'';
+  document.getElementById('e-company').value = w.company||'';
+  document.getElementById('e-visaprof').value = w.visaProfession||'';
+  document.getElementById('e-demandprof').value = w.demandProfession||'';
+  document.getElementById('e-orientation').value = w.orientation||'';
+  document.getElementById('e-medical').value = w.medical||'';
+  // भूमिका अनुसार Status dropdown मा उपलब्ध विकल्प (हालको status सधैँ देखिन्छ)
+  const STATUS_LABELS = {Entry:'Entry (दर्ता मात्र)', Upload:'Upload (FEIMS मा)', Submitted:'Submitted (पेश गरिएको)', Approved:'Approved (श्रम स्वीकृति)', Rejected:'Rejected', Cancel:'Cancel'};
+  const curStatus = w.status||'Entry';
+  const allowedSet = new Set(allowedStatuses()); allowedSet.add(curStatus);
+  const statusSel = document.getElementById('e-status');
+  statusSel.innerHTML = ['Entry','Upload','Submitted','Approved','Rejected','Cancel']
+    .filter(s=>allowedSet.has(s)).map(s=>`<option value="${s}">${STATUS_LABELS[s]}</option>`).join('');
+  statusSel.value = curStatus;
+  document.getElementById('e-approvedate').value = w.approveDate||'';
+  document.getElementById('e-departdate').value = w.departDate||'';
+  document.getElementById('e-arriveddate').value = w.arrivedDate||'';
+  document.getElementById('e-nepal-addr').value = w.nepalAddress||'';
+  document.getElementById('e-contact-addr').value = w.contactAddress||'';
+  document.getElementById('e-remarks').value = w.remarks||'';
+  // Worker Approved भइसकेको छ भने receptionist/documentation लाई ४ वटा follow-up field
+  // (उडान मिति/विदेश पुगेको मिति/नेपाल ठेगाना/सम्पर्क व्यक्ति) बाहेक अरु सबै field lock गर्ने
+  const limitedRole = session && (session.role==='receptionist' || session.role==='documentation');
+  const postApprovalLocked = !!(limitedRole && w.status==='Approved');
+  const LOCK_IDS = ['e-name','e-passport','e-age','e-gender','e-lotno','e-newsdate','e-issuedate','e-visano','e-country','e-company','e-visaprof','e-demandprof','e-orientation','e-medical','e-remarks'];
+  LOCK_IDS.forEach(fid=>{ const el=document.getElementById(fid); if(el) el.disabled = postApprovalLocked; });
+  // Labor Approval Status/स्वीकृति मिति सधैँ श्रम प्रतिनिधि/Admin ले मात्र बदल्ने — receptionist/documentation लाई देखिन्छ तर disabled
+  const roleLocked = !canManageClient();
+  document.getElementById('e-status').disabled = roleLocked;
+  document.getElementById('e-approvedate').disabled = roleLocked;
+  document.getElementById('w-modal-meta').textContent = 'दर्ता: ' + (w.createdAt||'');
+  const lockMsgs = [];
+  if(roleLocked) lockMsgs.push('🔒 Labor Approval Status/स्वीकृति मिति तपाईंको भूमिकाबाट बदल्न मिल्दैन — श्रम प्रतिनिधि/Admin ले मात्र बदल्छन्।');
+  if(postApprovalLocked) lockMsgs.push('🔒 Approved भइसकेकाले नाम/पासपोर्ट/देश-कम्पनी आदि अब सम्पादन गर्न मिल्दैन — उडान मिति/विदेश पुगेको मिति/नेपाल ठेगाना/सम्पर्क व्यक्ति मात्र भर्न सकिन्छ।');
+  document.getElementById('w-lock-note-wrap').style.display = lockMsgs.length ? 'block' : 'none';
+  document.getElementById('w-lock-note').style.display = 'none';
+  document.getElementById('w-lock-note').textContent = lockMsgs.join(' ');
+  loadHistory(id);
+  document.getElementById('w-modal').style.display='flex';
+}
+function closeWModal(){ document.getElementById('w-modal').style.display='none'; editingWId=null; }
+function toggleLockNote(){
+  const el = document.getElementById('w-lock-note');
+  el.style.display = (el.style.display==='none') ? 'block' : 'none';
+}
+
+function onStatusChange(){
+  const s = document.getElementById('e-status').value;
+  const ad = document.getElementById('e-approvedate');
+  if(s==='Approved' && !ad.value){
+    ad.value = fmtDate(new Date());
+  }
+}
+
+async function loadHistory(id){
+  document.getElementById('w-history').innerHTML = '<div style="color:var(--muted)">लोड हुँदैछ...</div>';
+  const r = await api('getlog', { id });
+  if(editingWId !== id) return;
+  const log = (r.ok && r.log ? r.log : []).reverse();
+  document.getElementById('w-history').innerHTML = log.map(l=>
+    `<div class="history-item"><b>${l.time}</b> (${l.user}) — ${l.action}: ${l.detail}</div>`
+  ).join('') || '<div style="color:var(--muted)">कुनै इतिहास छैन</div>';
+}
+
+function saveWorker(){
+  const w = workers.find(x=>x.id===editingWId);
+  if(!w) return;
+  const passport = cleanPassport(document.getElementById('e-passport').value);
+  if(!validPassport(passport)){ alert(PP_ERROR); return; }
+  const status = document.getElementById('e-status').value;
+  const approveDate = document.getElementById('e-approvedate').value;
+  if(status==='Approved' && !approveDate){ alert('⚠️ Approved राख्दा स्वीकृति मिति अनिवार्य छ।'); return; }
+  const departDate = document.getElementById('e-departdate').value;
+  const updated = {
+    id:w.id, name:document.getElementById('e-name').value.trim(), passport,
+    age: document.getElementById('e-age').value?Number(document.getElementById('e-age').value):'',
+    gender: document.getElementById('e-gender').value,
+    lotNo: document.getElementById('e-lotno').value.trim(),
+    newsDate: document.getElementById('e-newsdate').value,
+    issueDate: document.getElementById('e-issuedate').value,
+    visaNo: document.getElementById('e-visano').value.trim(),
+    country: document.getElementById('e-country').value.trim(),
+    company: document.getElementById('e-company').value.trim(),
+    visaProfession: document.getElementById('e-visaprof').value.trim(),
+    demandProfession: document.getElementById('e-demandprof').value.trim(),
+    orientation: document.getElementById('e-orientation').value,
+    medical: document.getElementById('e-medical').value,
+    status, approveDate: status==='Approved'?approveDate:approveDate, departDate,
+    nepalAddress: document.getElementById('e-nepal-addr').value.trim(),
+    contactAddress: document.getElementById('e-contact-addr').value.trim(),
+    arrivedDate: document.getElementById('e-arriveddate').value || w.arrivedDate||'', contractEndDate: w.contractEndDate||'',
+    remarks: document.getElementById('e-remarks').value.trim()
+  };
+  // तुरुन्तै स्क्रिनमा
+  Object.assign(w, updated);
+  renderAll();
+  closeWModal();
+  api('updateworker', { worker: updated }).then(r=>{
+    if(r.ok && r.worker){ const i=workers.findIndex(x=>x.id===r.worker.id); if(i>=0) workers[i]=r.worker; renderAll(); }
+    else if(r.error==='DUPLICATE_PASSPORT'){ alert('⚠️ पासपोर्ट अर्को कामदारमा छ: '+(r.workerName||'')); refreshData(false); }
+    else if(r.error==='ROLE_STATUS_FORBIDDEN'){ alert('⛔ तपाईंको भूमिकाले यो Status राख्न मिल्दैन।\nअनुमति प्राप्त Status: '+(r.allowed||[]).join(', ')); refreshData(false); }
+    else if(r.error){ alert('⚠️ सेभ भएन: '+r.error); refreshData(false); }
+  });
+}
+async function deleteWorker(){
+  if(!requireAccess(isAdmin(), 'Worker मेटाउने')) return;
+  if(!confirm('यो रेकर्ड मेटाउने हो?')) return;
+  const r = await api('deleteworker', { id: editingWId }, null, true);
+  if(r.ok){ workers = workers.filter(x=>x.id!==editingWId); closeWModal(); renderAll(); }
+}
+
+// ================= LEADS (माग) — render/modal/convert =================
+const LEAD_STATUS_BADGE = {
+  'New':'s-entry', 'Document Received':'s-upload', 'Shortlisted':'s-upload',
+  'Interview':'s-submitted', 'Interview Passed':'s-submitted', 'Medical':'s-submitted',
+  'Medical Fit':'s-approved', 'Selected':'s-approved', 'Offer Letter':'s-approved',
+  'Offer Accepted':'s-approved', 'Ready For Labor Approval':'s-approved',
+  'Interview Failed':'s-cancel', 'Medical Unfit':'s-cancel', 'Offer Rejected':'s-cancel',
+  'Cancelled':'s-cancel', 'Rejected':'s-rejected'
+};
+let editingLId = null;
+function renderLeads(){
+  const searchEl = document.getElementById('l-search');
+  if(!searchEl) return;   // shram भूमिकामा यो ट्याब नै छैन
+  const q = (searchEl.value||'').toLowerCase();
+  const sf = document.getElementById('l-status-filter').value;
+  // Worker मा सारिसकेका Applicant अब सधैं list बाट लुकाइन्छ (Worker मास्टर रेकर्डमा नै हेर्न मिल्छ)
+  let rows = leads.filter(l =>
+    (!q || (l.name||'').toLowerCase().includes(q) || (l.passport||'').toLowerCase().includes(q)
+     || (l.country||'').toLowerCase().includes(q) || (l.company||'').toLowerCase().includes(q)
+     || (l.phone||'').toLowerCase().includes(q))
+    && (!sf || l.leadStatus===sf)
+    && !l.convertedWorkerId
+  );
+  rows.sort((a,b)=>{
+    const ca=String(a.createdAt||''), cb=String(b.createdAt||'');
+    if(ca && cb && ca!==cb) return cb.localeCompare(ca);
+    return String(b.id||'').localeCompare(String(a.id||''));
+  });
+  document.getElementById('l-table').innerHTML = rows.map(l=>`
+    <tr>
+      <td>${l.name}<br><small style="color:var(--muted)">${l.passport}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+l.phone:''}</small></td>
+      <td>${l.country}<br><small>${l.company}</small></td>
+      <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span></td>
+      <td><button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
+    </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">कुनै Applicant छैन</td></tr>';
+}
+function openLModal(id){
+  editingLId = id;
+  const l = leads.find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('l-modal-title').textContent = l.name + ' — Applicant विवरण / संशोधन';
+  document.getElementById('le-name').value = l.name;
+  document.getElementById('le-passport').value = l.passport;
+  document.getElementById('le-age').value = l.age||'';
+  document.getElementById('le-gender').value = l.gender||'';
+  document.getElementById('le-lotno').value = l.lotNo||'';
+  document.getElementById('le-country').value = l.country||'';
+  document.getElementById('le-company').value = l.company||'';
+  document.getElementById('le-jobtitle').value = l.jobTitle||'';
+  document.getElementById('le-phone').value = l.phone||'';
+  document.getElementById('le-orientation').value = l.orientation||'';
+  document.getElementById('le-medical').value = l.medical||'';
+  document.getElementById('le-status').value = l.leadStatus||'New';
+  document.getElementById('le-nepal-addr').value = l.nepalAddress||'';
+  document.getElementById('le-contact-addr').value = l.contactAddress||'';
+  document.getElementById('le-remarks').value = l.remarks||'';
+  const converted = !!l.convertedWorkerId;
+  document.getElementById('l-modal-meta').textContent = 'दर्ता: ' + (l.createdAt||'') +
+    (converted ? ' | ✅ Worker मा सारिएको (id: ' + l.convertedWorkerId + ', ' + (l.convertedAt||'') + ')' : '');
+  ['le-name','le-passport','le-age','le-gender','le-lotno','le-country','le-company','le-jobtitle','le-phone','le-orientation','le-medical','le-status','le-nepal-addr','le-contact-addr','le-remarks'].forEach(id=>{
+    document.getElementById(id).disabled = converted;
+  });
+  document.getElementById('l-save-btn').style.display = converted ? 'none' : '';
+  document.getElementById('l-convert-btn').style.display = (!converted && l.leadStatus==='Ready For Labor Approval') ? '' : 'none';
+  loadLeadHistory(id);
+  document.getElementById('l-modal').style.display='flex';
+}
+function closeLModal(){ document.getElementById('l-modal').style.display='none'; editingLId=null; }
+async function loadLeadHistory(id){
+  document.getElementById('l-history').innerHTML = '<div style="color:var(--muted)">लोड हुँदैछ...</div>';
+  const r = await api('getlog', { id });
+  if(editingLId !== id) return;
+  const log = (r.ok && r.log ? r.log : []).reverse();
+  document.getElementById('l-history').innerHTML = log.map(x=>
+    `<div class="history-item"><b>${x.time}</b> (${x.user}) — ${x.action}: ${x.detail}</div>`
+  ).join('') || '<div style="color:var(--muted)">कुनै इतिहास छैन</div>';
+}
+function saveLead(){
+  const l = leads.find(x=>x.id===editingLId);
+  if(!l) return;
+  if(l.convertedWorkerId){ alert('⚠️ यो Applicant पहिल्यै Worker मा सारिएको छ, अब संशोधन गर्न मिल्दैन।'); return; }
+  const passport = cleanPassport(document.getElementById('le-passport').value);
+  if(!validPassport(passport)){ alert(PP_ERROR); return; }
+  const updated = {
+    id:l.id, name:document.getElementById('le-name').value.trim(), passport,
+    age: document.getElementById('le-age').value?Number(document.getElementById('le-age').value):'',
+    gender: document.getElementById('le-gender').value,
+    lotNo: document.getElementById('le-lotno').value.trim(),
+    country: document.getElementById('le-country').value.trim(),
+    company: document.getElementById('le-company').value.trim(),
+    jobTitle: document.getElementById('le-jobtitle').value.trim(),
+    phone: document.getElementById('le-phone').value.trim(),
+    orientation: document.getElementById('le-orientation').value,
+    medical: document.getElementById('le-medical').value,
+    leadStatus: document.getElementById('le-status').value,
+    nepalAddress: document.getElementById('le-nepal-addr').value.trim(),
+    contactAddress: document.getElementById('le-contact-addr').value.trim(),
+    remarks: document.getElementById('le-remarks').value.trim()
+  };
+  Object.assign(l, updated);
+  renderAll(); closeLModal();
+  api('updatelead', { lead: updated }).then(r=>{
+    if(r.ok && r.lead){ const i=leads.findIndex(x=>x.id===r.lead.id); if(i>=0) leads[i]=r.lead; renderAll(); }
+    else if(r.error==='DUPLICATE_PASSPORT'){ alert('⚠️ पासपोर्ट अर्को व्यक्तिमा छ: '+(r.workerName||'')); refreshData(false); }
+    else if(r.error){ alert('⚠️ सेभ भएन: '+r.error); refreshData(false); }
+  });
+}
+async function convertLead(){
+  const l = leads.find(x=>x.id===editingLId);
+  if(!l) return;
+  if(l.convertedWorkerId){ alert('पहिल्यै सारिएको छ।'); return; }
+  if(l.leadStatus!=='Ready For Labor Approval'){ alert('⚠️ पहिले Status "Ready For Labor Approval" राख्नुहोस्।'); return; }
+  if(!confirm(l.name+' लाई Worker/श्रम स्वीकृति रेकर्डमा सार्ने हो? यसपछि श्रम प्रतिनिधिको Master Record मा नयाँ केस देखिन्छ।')) return;
+  const r = await api('convertlead', { id: l.id }, null, true);
+  if(r.ok){
+    if(r.lead){ const i=leads.findIndex(x=>x.id===r.lead.id); if(i>=0) leads[i]=r.lead; }
+    if(r.worker){ workers.push(r.worker); }
+    renderAll(); closeLModal();
+    alert('✅ Worker मा सारियो (Status: Upload)। श्रम प्रतिनिधिलाई notice गयो।');
+  } else if(r.error==='DUPLICATE_PASSPORT'){ alert('⛔ यो पासपोर्ट पहिल्यै Worker मा दर्ता छ!\nनाम: '+(r.workerName||'')+'\nStatus: '+(r.status||'')); refreshData(false); }
+  else if(r.error==='NOT_READY'){ alert('⚠️ Applicant अझै "Ready For Labor Approval" चरणमा पुगेको छैन।'); }
+  else if(r.error==='ALREADY_CONVERTED'){ alert('पहिल्यै Worker मा सारिएको छ।'); refreshData(false); }
+  else { alert('⚠️ भएन: '+(r.error||'')); }
+}
+async function deleteLead(){
+  if(!requireAccess(isAdmin(), 'Applicant मेटाउने')) return;
+  if(!confirm('यो Applicant मेटाउने हो?')) return;
+  const r = await api('deletelead', { id: editingLId }, null, true);
+  if(r.ok){ leads = leads.filter(x=>x.id!==editingLId); closeLModal(); renderAll(); }
+}
+
+// ================= PRE-APPROVAL =================
+function canManagePre(){ return !session || (session.role!=='receptionist' && session.role!=='documentation'); }
+document.getElementById('pre-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  if(!canManagePre()){ alert('⛔ Pre-Permission मा तपाईंलाई अनुमति छैन।'); return; }
+  const positions = gatherPositions();
+  if(positions.length===0){ alert('कम्तीमा एउटा पद थप्नुहोस्।'); return; }
+  let totM=0, totF=0;
+  positions.forEach(p=>{ totM+=p.m; totF+=p.f; });
+  const p = {
+    approvalDate: document.getElementById('p-date').value,
+    lotNo: document.getElementById('p-lotno').value.trim(),
+    country: document.getElementById('p-country').value.trim(),
+    company: document.getElementById('p-company').value.trim(),
+    maleCount: totM,
+    femaleCount: totF,
+    expiryDate: document.getElementById('p-expiry').value,
+    salary: positions.map(x=>x.name+': '+x.salary).join(' | '),  // सारांश (सबै पदको तलब)
+    costExpense: document.getElementById('p-cost').value.trim(),
+    professions: JSON.stringify(positions),  // पूरा पद विवरण (नाम, M/F, तलब)
+    contractYears: document.getElementById('p-contract-years').value.trim() || '2',
+    remarks: document.getElementById('p-remarks').value.trim()
+  };
+  const r = await api('addpre', { pre: p }, null, true);
+  if(r.ok){ pres.push(r.pre); this.reset(); posRowSeq=0; document.getElementById('p-positions').innerHTML=''; addPositionRow(); recomputePosTotals(); renderAll(); alert('✅ दर्ता भयो।'); }
+});
+
+// ===== पद विवरण (dynamic rows) =====
+let posRowSeq = 0;
+function addPositionRow(name, m, f, salary){
+  const id = ++posRowSeq;
+  const div = document.createElement('div');
+  div.className = 'pos-row';
+  div.id = 'pos-'+id;
+  div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
+  div.innerHTML = `
+    <input type="text" class="form-control pos-name" placeholder="पद" value="${name||''}" style="flex:2;margin:0;">
+    <input type="number" class="form-control pos-m" placeholder="पु" min="0" value="${m||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="पुरुष">
+    <input type="number" class="form-control pos-f" placeholder="म" min="0" value="${f||0}" style="width:60px;margin:0;" oninput="recomputePosTotals()" title="महिला">
+    <input type="text" class="form-control pos-salary" placeholder="तलब" value="${salary||''}" style="flex:1;margin:0;" title="मासिक तलब">
+    <button type="button" onclick="removePositionRow(${id})" style="background:#dc2626;color:#fff;border:none;border-radius:5px;width:30px;height:34px;cursor:pointer;" title="हटाउने">✕</button>`;
+  document.getElementById('p-positions').appendChild(div);
+}
+function removePositionRow(id){
+  const el = document.getElementById('pos-'+id);
+  if(el) el.remove();
+  recomputePosTotals();
+}
+function recomputePosTotals(){
+  let m=0, f=0;
+  document.querySelectorAll('#p-positions .pos-row').forEach(r=>{
+    m += Number(r.querySelector('.pos-m').value)||0;
+    f += Number(r.querySelector('.pos-f').value)||0;
+  });
+  document.getElementById('p-male').value = m;
+  document.getElementById('p-female').value = f;
+}
+function gatherPositions(){
+  const out = [];
+  document.querySelectorAll('#p-positions .pos-row').forEach(r=>{
+    const name = r.querySelector('.pos-name').value.trim();
+    const m = Number(r.querySelector('.pos-m').value)||0;
+    const f = Number(r.querySelector('.pos-f').value)||0;
+    const salary = r.querySelector('.pos-salary').value.trim();
+    if(name || m || f || salary) out.push({name, m, f, salary});
+  });
+  return out;
+}
+function expiryCell(d){
+  if(!d) return '-';
+  const exp = new Date(d), today = new Date();
+  const diff = Math.floor((exp - today)/86400000);
+  if(diff < 0) return `<span class="exp-over">${d} (सकियो!)</span>`;
+  if(diff <= 60) return `<span class="exp-warn">${d} (${diff} दिन)</span>`;
+  return d;
+}
+function onPreManualSearch(){
+  // म्यानुअल खोज्दा कार्ड फिल्टर हट्ने
+  if(preCardFY || preExpiringOnly){ preCardFY = null; preExpiringOnly = false; document.getElementById('pre-filter-banner').classList.remove('show'); document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active')); }
+  renderPres();
+}
+function clearPreFilter(){
+  preCardFY = null;
+  preExpiringOnly = false;
+  document.getElementById('pre-filter-banner').classList.remove('show');
+  document.querySelectorAll('.clickable-card').forEach(c=>c.classList.remove('card-active'));
+  renderPres();
+}
+
+function renderPres(){
+  const q = (document.getElementById('p-search').value||'').toLowerCase();
+  // preCardFY सेट भए त्यही आ.व.को मात्र; नभए सबै (POA expiry हेर्न) — नयाँ माथि
+  const banner = document.getElementById('pre-filter-banner');
+  if(preCardFY){
+    document.getElementById('pre-filter-label').innerHTML = `<b>Pre-Permission</b> — आ.व. <b>${preCardFY.label}</b> मा`;
+    banner.classList.add('show');
+  } else if(preExpiringOnly){
+    document.getElementById('pre-filter-label').innerHTML = `<b>⏰ Lot Expiring &lt; 30 Days</b>`;
+    banner.classList.add('show');
+  } else if(banner){
+    banner.classList.remove('show');
+  }
+  const rows = pres.filter(p =>
+    (!preCardFY || inFY(p.approvalDate, preCardFY))
+    && (!preExpiringOnly || isLotExpiringSoon(p))
+    && (!q || (p.country||'').toLowerCase().includes(q) || (p.company||'').toLowerCase().includes(q) || String(p.lotNo||'').toLowerCase().includes(q))
+  ).sort((a,b)=>(b.approvalDate||'').localeCompare(a.approvalDate||''));
+  // लट अनुसार प्रयोग भएको (श्रम स्वीकृति लिएका) — बाँकी कोटा गणना
+  const normLot = v => String(v==null?'':v).trim().replace(/\.0+$/,'');
+  const usedByLot = {};
+  workers.forEach(w=>{
+    if(w.status!=='Approved') return;
+    const L=normLot(w.lotNo); if(!L) return;
+    if(!usedByLot[L]) usedByLot[L]={M:0,F:0};
+    if(w.gender==='Female') usedByLot[L].F++; else usedByLot[L].M++;
+  });
+  document.getElementById('p-table').innerHTML = rows.map(p=>{
+    const L=normLot(p.lotNo);
+    const dM=Number(p.maleCount)||0, dF=Number(p.femaleCount)||0;
+    const u=usedByLot[L]||{M:0,F:0};
+    const avM=Math.max(0,dM-u.M), avF=Math.max(0,dF-u.F), avT=avM+avF;
+    const avColor = avT>0 ? '#15803d' : '#64748b';
+    return `
+    <tr>
+      <td>${p.approvalDate||'-'}<br><small style="color:var(--info)">${nepaliMonth(p.approvalDate)}</small></td>
+      <td>${p.lotNo||'-'}</td><td>${p.country}</td><td>${p.company}</td>
+      <td>${p.maleCount}</td><td>${p.femaleCount}</td><td><b>${dM+dF}</b></td>
+      <td style="font-weight:700;color:${avColor};">${avM}M / ${avF}F <b>(${avT})</b></td>
+      <td>${expiryCell(p.expiryDate)}</td>
+      <td><button class="btn btn-sm" onclick="openPModal('${p.id}')">View</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted)">कुनै रेकर्ड छैन</td></tr>';
+}
+function openPModal(id){
+  editingPId = id;
+  const p = pres.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('pe-date').value = p.approvalDate||'';
+  document.getElementById('pe-lotno').value = p.lotNo||'';
+  document.getElementById('pe-country').value = p.country||'';
+  document.getElementById('pe-company').value = p.company||'';
+  document.getElementById('pe-male').value = p.maleCount||0;
+  document.getElementById('pe-female').value = p.femaleCount||0;
+  document.getElementById('pe-expiry').value = p.expiryDate||'';
+  document.getElementById('pe-cost').value = (p.costExpense!==undefined && p.costExpense!==null) ? p.costExpense : '';
+  document.getElementById('pe-remarks').value = p.remarks||'';
+  renderPosBreakdown(p);
+  document.getElementById('p-modal').style.display='flex';
+}
+// लट (Pre-Permission) को Demand Position breakdown — पद अनुसार पुरुष/महिला/जम्मा
+function renderPosBreakdown(p){
+  const wrap = document.getElementById('pe-breakdown-wrap');
+  if(!wrap) return;
+  let posList = [];
+  try{ posList = JSON.parse(p.professions||'[]'); if(!Array.isArray(posList)) posList=[]; }catch(e){ posList=[]; }
+  if(!posList.length){ wrap.innerHTML=''; return; }
+  let totM=0, totF=0;
+  const rows = posList.map(x=>{
+    const m=Number(x.m)||0, f=Number(x.f)||0; totM+=m; totF+=f;
+    const cnt = f>0 ? `${m+f} (${m}M${f?'/'+f+'F':''})` : `${m} M`;
+    return `<tr><td style="text-align:left;">${x.name||'-'}</td><td>${cnt}</td><td>${x.salary||'-'}</td></tr>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--primary);">📋 LOT ${p.lotNo||'-'} — Demand Position Breakdown</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">${p.company||''}${p.country?' — '+p.country:''}</div>
+    <table style="width:100%;font-size:13px;">
+      <thead><tr><th style="text-align:left;">पद (Position)</th><th>संख्या</th><th>तलब</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr style="font-weight:700;background:#fef3c7;"><td style="text-align:left;">TOTAL</td><td>${totM+totF} (${totM}M${totF?'/'+totF+'F':''})</td><td></td></tr></tfoot>
+    </table>`;
+}
+function closePModal(){ document.getElementById('p-modal').style.display='none'; editingPId=null; }
+function savePre(){
+  if(!canManagePre()){ alert('⛔ Pre-Permission मा तपाईंलाई अनुमति छैन।'); return; }
+  const p = pres.find(x=>x.id===editingPId);
+  if(!p) return;
+  const updated = {
+    id:p.id,
+    approvalDate: document.getElementById('pe-date').value,
+    lotNo: document.getElementById('pe-lotno').value.trim(),
+    country: document.getElementById('pe-country').value.trim(),
+    company: document.getElementById('pe-company').value.trim(),
+    maleCount: Number(document.getElementById('pe-male').value)||0,
+    femaleCount: Number(document.getElementById('pe-female').value)||0,
+    expiryDate: document.getElementById('pe-expiry').value,
+    salary: p.salary||'', costExpense: document.getElementById('pe-cost').value.trim(),
+    professions: p.professions||'', contractYears: p.contractYears||'2',
+    foreignAddress: p.foreignAddress||'',
+    remarks: document.getElementById('pe-remarks').value.trim()
+  };
+  Object.assign(p, updated);
+  renderAll(); closePModal();
+  api('updatepre', { pre: updated }).then(r=>{
+    if(!r.ok){ alert('⚠️ सेभ भएन: '+(r.error||'')); refreshData(false); }
+  });
+}
+async function deletePre(){
+  if(!canManagePre()){ alert('⛔ Pre-Permission मेटाउन तपाईंलाई अनुमति छैन।'); return; }
+  if(!confirm('यो पूर्व स्वीकृति मेटाउने हो?')) return;
+  const r = await api('deletepre', { id: editingPId }, null, true);
+  if(r.ok){ pres = pres.filter(x=>x.id!==editingPId); closePModal(); renderAll(); }
+}
+
+// ================= REPORT =================
+function buildReportHTML(fy){
+  const s = fyStats(fy);
+  // month-wise (approved)
+  const mCount = {};
+  FY_MONTH_ORDER.forEach(m=>mCount[m]={M:0,F:0});
+  s.appIn.forEach(w=>{
+    const m = nepaliMonth(w.approveDate);
+    if(mCount[m]){ if(w.gender==='Female') mCount[m].F++; else mCount[m].M++; }
+  });
+  let mRows = FY_MONTH_ORDER.map((m,i)=>`<tr><td>${i+1}</td><td>${m}</td><td>${mCount[m].M}</td><td>${mCount[m].F}</td><td><b>${mCount[m].M+mCount[m].F}</b></td></tr>`).join('');
+  // country-wise (approved)
+  const cCount = {};
+  s.appIn.forEach(w=>{
+    const c = w.country||'—';
+    if(!cCount[c]) cCount[c]={M:0,F:0};
+    if(w.gender==='Female') cCount[c].F++; else cCount[c].M++;
+  });
+  const cKeys = Object.keys(cCount).sort();
+  let cRows = cKeys.map((c,i)=>`<tr><td>${i+1}</td><td>${c}</td><td>${cCount[c].M}</td><td>${cCount[c].F}</td><td><b>${cCount[c].M+cCount[c].F}</b></td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;">—</td></tr>';
+  // pre country-wise
+  const pC = {};
+  s.preIn.forEach(p=>{
+    const c = p.country||'—';
+    if(!pC[c]) pC[c]={M:0,F:0,lots:0};
+    pC[c].M += Number(p.maleCount)||0; pC[c].F += Number(p.femaleCount)||0; pC[c].lots++;
+  });
+  const pKeys = Object.keys(pC).sort();
+  let pRows = pKeys.map((c,i)=>`<tr><td>${i+1}</td><td>${c}</td><td>${pC[c].lots}</td><td>${pC[c].M}</td><td>${pC[c].F}</td><td><b>${pC[c].M+pC[c].F}</b></td></tr>`).join('') || '<tr><td colspan="6" style="text-align:center;">—</td></tr>';
+
+
+  return `
+    <h3 style="margin:12px 0 8px;">🧾 कुल संख्या (आ.व. ${fy.label})</h3>
+    <table class="report-table"><thead><tr><th>Description</th><th>Count</th><th>Male</th><th>Female</th></tr></thead><tbody>
+      <tr style="background:#fef3c7;"><td><b>Final Approval</b></td><td style="font-size:15px;"><b>${s.appIn.length}</b></td><td>${s.appM}</td><td>${s.appF}</td></tr>
+      <tr><td>Cancel</td><td><b>${s.cancel}</b></td><td>-</td><td>-</td></tr>
+      <tr><td>Rejected</td><td><b>${s.rejected}</b></td><td>-</td><td>-</td></tr>
+    </tbody></table>
+    <p style="font-size:12px;color:#555;margin:6px 0 0;">नोट: रद्द भएका कामदारको श्रम स्वीकृति विभागबाटै रद्द गरी कोटा फिर्ता लिइएकाले कर आधारमा समावेश गरिएको छैन।</p>
+
+    <h3 style="margin:16px 0 8px;">📋 इजाजतपत्र नवीकरणको लागि विवरण (आ.व. ${fy.label})</h3>
+    <table class="report-table"><thead><tr><th>Description</th><th>Count</th><th>Male</th><th>Female</th></tr></thead><tbody>
+      <tr style="background:#e0f2fe;"><td><b>Pre-Permission</b> (Lot ${s.preIn.length})<br><small style="color:#555;">पूर्व स्वीकृति लिएको संख्या</small></td><td><b>${s.preM+s.preF}</b></td><td>${s.preM}</td><td>${s.preF}</td></tr>
+      <tr style="background:#e0f2fe;"><td><b>Final Approval</b><br><small style="color:#555;">अन्तिम श्रम स्वीकृति लिएको संख्या</small></td><td><b>${s.appIn.length}</b></td><td>${s.appM}</td><td>${s.appF}</td></tr>
+      <tr style="background:#e0f2fe;"><td><b>Departure</b><br><small style="color:#555;">कामदार उडाएको संख्या</small></td><td><b>${s.flownAll}</b></td><td>${s.flownM}</td><td>${s.flownF}</td></tr>
+      <tr style="background:#e0f2fe;"><td><b>Departure Pending</b><br><small style="color:#555;">श्रम स्वीकृति लिएको तर उडाउन बाँकी संख्या</small></td><td><b>${s.pending}</b></td><td>${s.pendM}</td><td>${s.pendF}</td></tr>
+    </tbody></table>
+
+    <h3 style="margin:16px 0 8px;">📅 Final Approval — Month-wise</h3>
+    <table class="report-table"><thead><tr><th>S.N.</th><th>Month</th><th>M</th><th>F</th><th>Total</th></tr></thead>
+    <tbody>${mRows}<tr class="report-total"><td colspan="2">Total</td><td>${s.appM}</td><td>${s.appF}</td><td>${s.appIn.length}</td></tr></tbody></table>
+
+    <h3 style="margin:16px 0 8px;">🌍 Final Approval — Country-wise</h3>
+    <table class="report-table"><thead><tr><th>S.N.</th><th>Country</th><th>M</th><th>F</th><th>Total</th></tr></thead>
+    <tbody>${cRows}<tr class="report-total"><td colspan="2">Total</td><td>${s.appM}</td><td>${s.appF}</td><td>${s.appIn.length}</td></tr></tbody></table>
+
+    <h3 style="margin:16px 0 8px;">🌍 Pre-Permission</h3>
+    <table class="report-table"><thead><tr><th>S.N.</th><th>Country</th><th>Lot</th><th>M</th><th>F</th><th>Total</th></tr></thead>
+    <tbody>${pRows}<tr class="report-total"><td colspan="2">Total</td><td>${s.preIn.length}</td><td>${s.preM}</td><td>${s.preF}</td><td>${s.preM+s.preF}</td></tr></tbody></table>`;
+}
+
+function buildQuotaHTML(fy, filterText){
+  const today = new Date().toISOString().slice(0,10);
+  const normLot = v => String(v==null?'':v).trim().replace(/\.0+$/,'');
+  // Use = कुनै पनि आ.व.को अन्तिम स्वीकृति (कोटा जहिले प्रयोग भए पनि घट्छ)
+  const appByLot = {};
+  workers.forEach(w=>{
+    if(w.status!=='Approved') return;
+    const L=normLot(w.lotNo); if(!L) return;
+    if(!appByLot[L]) appByLot[L]={M:0,F:0};
+    if(w.gender==='Female') appByLot[L].F++; else appByLot[L].M++;
+  });
+  // सबै पूर्व स्वीकृति लट — expiry आजसम्म नभएका मात्र (म्याद नसकिएका)
+  let activeLots = pres.filter(p=>{
+    const e = p.expiryDate;
+    return !e || e >= today;   // expiry खाली वा भविष्यमा → अझै सक्रिय
+  }).sort((a,b)=>String(a.expiryDate||'9999').localeCompare(String(b.expiryDate||'9999')));
+
+  const filt = String(filterText||'').trim().toLowerCase();
+  if(filt){
+    activeLots = activeLots.filter(p =>
+      normLot(p.lotNo).toLowerCase().includes(filt) || String(p.company||'').toLowerCase().includes(filt));
+  }
+
+  const lotRows = activeLots.map(p=>{
+    const L = normLot(p.lotNo);
+    const dM=Number(p.maleCount)||0, dF=Number(p.femaleCount)||0, dT=dM+dF;
+    const a=(appByLot[L]||{M:0,F:0}); const aT=a.M+a.F;
+    const lM=Math.max(0,dM-a.M), lF=Math.max(0,dF-a.F), lT=lM+lF;
+    const leftColor = lT>0 ? '#15803d' : '#64748b';
+    // expiry नजिक (३० दिनभित्र) भए चेतावनी रङ
+    const daysLeft = p.expiryDate ? Math.round((new Date(p.expiryDate)-new Date(today))/86400000) : 999;
+    const expColor = daysLeft<=30 ? '#b45309' : '#64748b';
+    return `<tr><td><b>${L||'-'}</b>${p.company?'<br><small style="color:#64748b;">'+p.company+'</small>':''}</td>
+      <td>${dM}M / ${dF}F <b>(${dT})</b></td>
+      <td>${a.M}M / ${a.F}F <b>(${aT})</b></td>
+      <td style="font-weight:700;color:${leftColor};">${lM}M / ${lF}F <b>(${lT})</b></td>
+      <td style="color:${expColor};font-size:12px;">${p.expiryDate||'-'}${daysLeft<=30&&daysLeft>=0?'<br>('+daysLeft+' दिन बाँकी)':''}</td></tr>`;
+  }).join('') || (filt
+    ? `<tr><td colspan="5" style="text-align:center;color:#b91c1c;">"${filterText}" सँग मिल्ने लट फेला परेन (म्याद नसकिएका मध्ये)</td></tr>`
+    : '<tr><td colspan="5" style="text-align:center;">म्याद नसकिएका कुनै लट छैन</td></tr>');
+  return `
+    <table class="report-table"><thead><tr><th>Lot</th><th>माग (Demand)</th><th>Use</th><th>Available</th><th>म्याद (Expiry)</th></tr></thead>
+    <tbody>${lotRows}</tbody></table>
+    <p style="font-size:12px;color:#555;margin:6px 0 0;">म्याद नसकिएका (Expiry नआएका) लट मात्र देखाइएको छ। Available = माग − Use। M = पुरुष, F = महिला। म्याद ३० दिनभित्र सकिने लट सुन्तला रङमा देखिन्छ।</p>`;
+}
+function renderQuotaArea(){
+  const fy = currentFY();
+  const qa = document.getElementById('quota-area');
+  const search = document.getElementById('quota-lot-search');
+  if(qa) qa.innerHTML = buildQuotaHTML(fy, search ? search.value : '');
+}
+function renderReport(){
+  const fy = currentFY();
+  document.getElementById('rpt-fy').textContent = fy.label;
+  document.getElementById('report-area').innerHTML = buildReportHTML(fy);
+  const qfy = document.getElementById('quota-fy'); if(qfy) qfy.textContent = fy.label;
+  renderQuotaArea();
+}
+// साझा print window helper
+// अघिल्लो आ.व.को स्वीकृति लिएर यस आ.व. उडेकाहरूको सूची
+function carryOverTable(fy){
+  const list = workers.filter(w=>w.status==='Approved' && inFY(w.departDate, fy) && w.approveDate && !inFY(w.approveDate, fy))
+    .sort((a,b)=>String(a.departDate).localeCompare(String(b.departDate)));
+  if(!list.length) return '';
+  const rows = list.map((w,i)=>`<tr><td>${i+1}</td><td>${w.name}</td><td>${w.passport}</td>
+    <td>${w.country||'-'}</td><td>${w.approveDate}</td><td>${w.departDate}</td></tr>`).join('');
+  return `<h3 style="margin:16px 0 6px;">⏮ Previous FY Approval — Departed This FY (${list.length})</h3>
+    <table><thead><tr><th>S.N.</th><th>Name</th><th>Passport No</th><th>Country</th><th>Approval Date</th><th>Departure Date</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+    <p style="font-size:12px;color:#555;">यी कामदारको कर अघिल्लो आ.व.मै तिरिसकिएको हुनाले यस आ.व.को कर आधारमा समावेश छैन।</p>`;
+}
+
+// साझा: अनुसूची ६ ढाँचामा कामदार सूची render गर्ने
+function renderSchedule6(list, subtitle, periodLabel, mode, refFYLabel){
+  const companyName = COMPANY_NAME || (document.querySelector('.header h1')||{}).textContent || '';
+  const normLot = v => String(v==null?'':v).trim().replace(/\.0+$/,'');
+  const lotInfo = {};
+  pres.forEach(p=>{
+    const L=normLot(p.lotNo); if(!L) return;
+    let posList=[];
+    try{ posList = JSON.parse(p.professions||'[]'); if(!Array.isArray(posList)) posList=[]; }catch(e){ posList=[]; }
+    var cst = (p.costExpense!==undefined && p.costExpense!==null) ? p.costExpense : '';
+    lotInfo[L]={ positions:posList, cost:cst, years:parseInt(p.contractYears,10)||2 };
+  });
+  function salaryFor(info, prof){
+    if(!info || !info.positions || !info.positions.length) return '';
+    const pl = info.positions;
+    const hit = pl.find(x => (x.name||'').toLowerCase().trim() === String(prof||'').toLowerCase().trim());
+    return (hit && hit.salary) || (pl[0] && pl[0].salary) || '';
+  }
+  const addYears = (d,y) => { if(!d) return ''; const x=new Date(d); if(isNaN(x)) return ''; x.setFullYear(x.getFullYear()+(y||2)); return x.toISOString().slice(0,10); };
+  const rows = list.map((w,i)=>{
+    const info = lotInfo[normLot(w.lotNo)] || {};
+    const arrived = w.arrivedDate || w.departDate || '';
+    const contractEnd = w.contractEndDate || addYears(w.departDate, info.years);
+    return `<tr>
+      <td>${i+1}</td>
+      <td style="text-align:left;">${w.name||''}</td>
+      <td>${w.passport||''}</td>
+      <td>${w.nepalAddress||''}</td>
+      <td>${w.country||''}</td>
+      <td>${w.departDate||''}</td>
+      <td>${arrived}</td>
+      <td style="text-align:left;">${w.company||''}</td>
+      <td>${w.demandProfession||w.visaProfession||''}</td>
+      <td>${salaryFor(info, w.demandProfession)}</td>
+      <td>${contractEnd}</td>
+      <td>${mode==='auditor' ? (w.approveDate||'') : (w.contactAddress||'')}</td>
+      <td>${(info.cost!==undefined && info.cost!=='') ? info.cost : ''}</td>
+      <td>${w.remarks||''}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="14">यस अवधिमा कामदार छैनन्।</td></tr>';
+
+  // नोट: श्रम स्वीकृति र वास्तविक उडान/प्रस्थान फरक-फरक आ.व. मा परेका कारण देखिने संख्यागत भिन्नता स्वतः गणना
+  let mismatchNote = '';
+  if(refFYLabel){
+    const mismatchCount = list.filter(w=>{
+      const depFY = w.departDate ? fiscalYearLabelOf(w.departDate) : '';
+      const appFY = w.approveDate ? fiscalYearLabelOf(w.approveDate) : '';
+      if(!depFY || !appFY) return false;
+      return mode==='auditor' ? (appFY===refFYLabel && depFY!==refFYLabel) : (depFY===refFYLabel && appFY!==refFYLabel);
+    }).length;
+    if(mismatchCount > 0){
+      mismatchNote = mode==='auditor'
+        ? `<div class="note">नोट: माथिका जम्मा ${list.length} कामदार मध्ये ${mismatchCount} जनाको श्रम स्वीकृति यही आ.व. (${refFYLabel}) मा निस्केको भए तापनि तिनीहरूको वास्तविक प्रस्थान/उडान भने फरक आर्थिक वर्षमा भएको हुनाले, स्वीकृति र उडानको वर्षगत संख्यामा फरक देखिन सक्छ।</div>`
+        : `<div class="note">नोट: माथिका जम्मा ${list.length} कामदार मध्ये ${mismatchCount} जनाको श्रम स्वीकृति अघिल्लो आर्थिक वर्षमा निस्केको तर तिनीहरूको उडान (प्रस्थान) भने यही आ.व. (${refFYLabel}) मा भएको हुनाले, स्वीकृति र उडानको वर्षगत संख्यामा फरक देखिन सक्छ।</div>`;
+    }
+  }
+
+  const win = window.open('', '_blank');
+  if(!win){ alert('Popup allow गर्नुहोस्।'); return; }
+  win.document.write(`<html><head><meta charset="UTF-8"><style>
+    body{font-family:'Segoe UI','Kalimati',sans-serif;padding:16px;color:#000;}
+    .title{text-align:center;font-weight:700;font-size:15px;}
+    .sub-title{text-align:center;font-weight:700;font-size:13px;margin-bottom:8px;}
+    .company{font-weight:700;font-size:13px;margin:4px 0;}
+    table{width:100%;border-collapse:collapse;font-size:10px;margin-top:6px;}
+    th,td{border:1px solid #000;padding:3px 4px;text-align:center;vertical-align:middle;}
+    th{background:#f0f0f0;font-size:10px;}
+    .note{font-size:10px;color:#333;margin-top:14px;font-style:italic;}
+    @media print{ thead{display:table-header-group;} @page{size:A4 landscape;margin:8mm;} }
+  </style></head><body>
+    <div class="title">नियमावलीको अनुसूची ६</div>
+    <div class="sub-title">${subtitle}</div>
+    <div class="company">RA : ${companyName}</div>
+    <div class="company">Lic No : ${COMPANY_LICENSE}</div>
+    <div class="company">${periodLabel}&nbsp;&nbsp;&nbsp;&nbsp;जम्मा कामदार : ${list.length}</div>
+    <table>
+      <thead><tr>
+        <th>सि.नं</th><th>कामदारको नाम</th><th>राहदानी नं</th><th>नेपालको ठेगाना</th><th>विदेशको ठेगाना</th>
+        <th>नेपालबाट प्रस्थान मिति</th><th>विदेश पुगेको मिति</th><th>रोजगारदाता संस्थाको नाम</th>
+        <th>विदेशमा गर्ने काम</th><th>मासिक तलब र सुविधा</th><th>करार समाप्त हुने मिति</th>
+        <th>${mode==='auditor' ? 'श्रम स्वीकृति लिएको मिति' : 'नेपालमा सम्पर्क व्यक्तिको नाम ठेगाना'}</th><th>लागत खर्च</th><th>कैफियत</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${mismatchNote}
+    <div style="margin-top:40px;display:flex;justify-content:space-between;font-size:12px;">
+      <div style="text-align:center;">
+        <div style="border-top:1px solid #000;width:200px;padding-top:4px;">इजाजतपत्रवालाको छाप</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="border-top:1px solid #000;width:220px;padding-top:4px;">प्रमाणित गर्ने सञ्चालकको हस्ताक्षर</div>
+      </div>
+    </div>
+  
+</body></html>`);
+  win.document.close(); win.focus();
+  setTimeout(()=>win.print(), 500);
+}
+
+// 📋 अनुसूची ६ — पूरै आ.व.मा उडेका (पठाइएका) कामदार
+function printAnusuchi6(){
+  const fy = currentFY();
+  const list = workers.filter(w => w.status==='Approved' && inFY(w.departDate, fy))
+                      .sort((a,b)=>String(a.departDate).localeCompare(String(b.departDate)));
+  renderSchedule6(list, 'वैदेशिक रोजगारमा पठाइएका कामदारहरूको चालु आ.व. को अभिलेख', 'आ.व. : ' + fy.label, null, fy.label);
+}
+
+// 🧾 Auditor — मासिक (१% कर) वा वार्षिक; अनुसूची ६ कै ढाँचामा
+function printAuditorList(){
+  const fy = currentFY();
+  // उडेका कामदार (कर उडान/स्वीकृति अनुसार) — यहाँ श्रम स्वीकृति (approveDate) आधार
+  let list = workers.filter(w => w.status==='Approved' && inFY(w.approveDate, fy));
+  const menu = 'कुन अवधिको अभिलेख print गर्ने?\n\n0 = पूरै आर्थिक वर्ष (Yearly)\n' +
+    FY_MONTH_ORDER.map((m,i)=>`${i+1} = ${m}`).join('\n');
+  const pick = prompt(menu, '0');
+  if(pick === null) return;
+  let periodLabel = 'आ.व. : ' + fy.label + ' (पूरै वर्ष)';
+  const pi = parseInt(pick, 10);
+  if(pi >= 1 && pi <= 12){
+    const mName = FY_MONTH_ORDER[pi-1];
+    list = list.filter(w => nepaliMonth(w.approveDate) === mName);
+    periodLabel = 'आ.व. : ' + fy.label + '  |  महिना : ' + mName;
+  }
+  list.sort((a,b)=>String(a.approveDate).localeCompare(String(b.approveDate)));
+  if(!list.length){ alert('यस अवधिमा श्रम स्वीकृति लिएको कुनै कामदार छैन।'); return; }
+  renderSchedule6(list, 'वैदेशिक रोजगारमा पठाइएका कामदारहरूको अभिलेख (कर प्रयोजन)', periodLabel, 'auditor', fy.label);
+}
+
+function openReportWindow(title, bodyHtml){
+  const fy = currentFY();
+  const win = window.open('', '_blank');
+  if(!win){ alert('Popup allow गर्नुहोस्।'); return; }
+  win.document.write(`<html><head><meta charset="UTF-8"><style>
+    body{font-family:'Segoe UI',sans-serif;padding:24px;color:#222;}
+    h2{margin-bottom:2px;} .sub{color:#555;font-size:13px;}
+    .meta{font-size:12px;color:#666;margin-bottom:14px;border-bottom:2px solid #333;padding-bottom:8px;}
+    h3{margin:14px 0 6px;} table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px;}
+    th,td{border:1px solid #999;padding:5px 7px;} th{background:#eee;}
+    .report-total{background:#fde68a;font-weight:700;}
+    @media print{ thead{display:table-header-group;} }
+  </style></head><body>
+    <h2>Link Star Manpower Services Pvt. Ltd.</h2>
+    <div class="sub">Tokha-10, Kathmandu</div>
+    <div class="meta">${title} — आ.व. ${fy.label} (${fmtDate(fy.start)} — ${fmtDate(fy.end)}) | Print: ${new Date().toLocaleString()}</div>
+    ${bodyHtml}
+  </body></html>`);
+  win.document.close(); win.focus();
+  setTimeout(()=>win.print(), 400);
+}
+
+function printAuditReport(){
+  const fy = currentFY();
+  openReportWindow('श्रम स्वीकृति पूर्ण रिपोर्ट', buildReportHTML(fy));
+}
+function printWorker(){
+  const w = workers.find(x=>x.id===editingWId);
+  if(!w) return;
+  const win = window.open('', '_blank');
+  if(!win) return;
+  win.document.write(`<html><head><meta charset="UTF-8"><style>body{font-family:'Segoe UI',sans-serif;padding:24px;} .box{border:1px solid #999;border-radius:6px;padding:14px;line-height:2;}</style></head><body>
+    <h2>Link Star Manpower Services Pvt. Ltd.</h2><hr>
+    <div class="box">
+    <b>नाम:</b> ${w.name} | <b>पासपोर्ट:</b> ${w.passport} | <b>Age/Gender:</b> ${w.age||'-'} / ${gShort(w.gender)}<br>
+    <b>लट नं:</b> ${w.lotNo||'-'} | <b>भिसा नं:</b> ${w.visaNo||'-'}<br>
+    <b>देश:</b> ${w.country} | <b>कम्पनी:</b> ${w.company}<br>
+    <b>Profession (Visa/Demand):</b> ${w.visaProfession||'-'} / ${w.demandProfession||'-'}<br>
+    <b>Orientation:</b> ${w.orientation||'-'} | <b>Medical:</b> ${w.medical||'-'}<br>
+    <b>Status:</b> ${w.status} | <b>स्वीकृति मिति:</b> ${w.approveDate||'-'} (${nepaliMonth(w.approveDate)||'-'}) | <b>उडान:</b> ${w.departDate||'-'}${isCarryOver(w)?' <b>(अघिल्लो आ.व.को स्वीकृति)</b>':''}<br>
+    <b>कैफियत:</b> ${w.remarks||'-'}
+    </div></body></html>`);
+  win.document.close(); win.focus();
+  setTimeout(()=>win.print(), 400);
+}
+
+// ================= BACKUP =================
+function exportBackup(){
+  if(!isAdmin()) return;
+  const blob = new Blob([JSON.stringify({workers, pres, exportedAt:new Date().toISOString()},null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'shram-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ================= INIT =================
+(async function init(){
+  if(!API_URL){ showScreen('setup'); return; }
+  const saved = sessionStorage.getItem(SS_KEY);
+  if(saved){
+    try{ session = JSON.parse(saved); initApp(); await refreshData(true); return; }
+    catch(e){ session = null; }
+  }
+  showScreen('login');
+})();
+</script>
+
+<!-- NEW-SYSTEM UI helper (sidebar submenu, global search, user chip) -->
+<script>
+(function(){
+  function applyNewLayout(){
+    var sel=document.getElementById('fy-select');
+    var slot=document.getElementById('fy-slot-new');
+    if(sel && slot && sel.parentElement!==slot){ slot.appendChild(sel); }
+    var bar=document.querySelector('.fy-bar'); if(bar) bar.style.display='none';
+    var st=document.getElementById('header-settings-btn'); if(st){ var w=st.closest('.header-more-wrap'); if(w) w.style.display='none'; }
+    sync();
+  }
+  function sync(){
+    try{ if(typeof session!=='undefined' && session){ var el=document.getElementById('uchip-name-new'); if(el) el.textContent = session.fullName || session.username || 'User'; } }catch(e){}
+    try{ var b=document.querySelector('#alert-tab-btn span:last-child'); var bd=document.getElementById('bell-badge-new');
+      if(b && bd){ var n=parseInt((b.textContent||'').replace(/\D/g,''),10)||0; if(n>0){ bd.textContent=n; bd.classList.add('show'); } else bd.classList.remove('show'); } }catch(e){}
+  }
+  window.toggleNavNew=function(el){ var open=!el.classList.contains('open');
+    document.querySelectorAll('.sidebar-nav .nav-parent').forEach(function(p){p.classList.remove('open');});
+    document.querySelectorAll('.sidebar-nav .subnav').forEach(function(s){s.classList.remove('open');});
+    if(open){ el.classList.add('open'); var sub=el.nextElementSibling; if(sub&&sub.classList.contains('subnav')) sub.classList.add('open'); }
+  };
+  window.toggleUChipNew=function(e){ e.stopPropagation(); var m=document.getElementById('uchip-menu-new'); if(m) m.classList.toggle('show'); };
+  window.closeUChipNew=function(){ var m=document.getElementById('uchip-menu-new'); if(m) m.classList.remove('show'); };
+  document.addEventListener('click', function(){ closeUChipNew(); var r=document.getElementById('gsres-new'); if(r && !event.target.closest('.gsearch-new')) r.classList.remove('show'); });
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];}); }
+  function go(tab, searchId, q, renderFn){ if(typeof switchTabById==='function') switchTabById(tab); var s=document.getElementById(searchId); if(s){ s.value=q; } try{ if(typeof window[renderFn]==='function') window[renderFn](); }catch(e){} }
+  window.globalSearchNew=function(q){
+    var box=document.getElementById('gsres-new'); if(!box) return; q=(q||'').trim().toLowerCase();
+    if(!q){ box.classList.remove('show'); box.innerHTML=''; return; }
+    var res=[];
+    function m(o){ try{ return Object.keys(o).some(function(k){ return String(o[k]).toLowerCase().indexOf(q)>=0; }); }catch(e){ return false; } }
+    try{ (typeof workers!=='undefined'?workers:[]).forEach(function(w){ if(m(w)) res.push({t:'Worker',c:'#1e6e3c',label:(w.name||'-'),sub:(w.passport||'')+' · '+(w.status||''),act:function(){ if(w.id&&typeof openWModal==='function'){ openWModal(w.id); } else { go('tab-workers','w-search',q,'onManualFilter'); } }}); }); }catch(e){}
+    try{ (typeof leads!=='undefined'?leads:[]).forEach(function(l){ if(m(l)) res.push({t:'Applicant',c:'#2055a6',label:(l.name||'-'),sub:(l.passport||'')+' · '+(l.lotNo||''),act:function(){ go('tab-leads','l-search',q,'renderLeads'); }}); }); }catch(e){}
+    try{ (typeof pres!=='undefined'?pres:[]).forEach(function(p){ if(m(p)) res.push({t:'Pre-Perm',c:'#8a6a12',label:('LOT '+(p.lotNo||'-')),sub:(p.company||'')+' · '+(p.country||''),act:function(){ go('tab-pre','p-search',q,'onPreManualSearch'); }}); }); }catch(e){}
+    res=res.slice(0,30); window.__gsres=res;
+    box.innerHTML = res.length ? res.map(function(r,i){ return '<div class="gr" onclick="pickGsNew('+i+')"><span class="tag" style="background:'+r.c+'">'+r.t+'</span><span><b>'+esc(r.label)+'</b><br><small style="color:#64748b">'+esc(r.sub)+'</small></span></div>'; }).join('') : '<div class="empty">केही भेटिएन</div>';
+    box.classList.add('show');
+  };
+  window.pickGsNew=function(i){ var r=(window.__gsres||[])[i]; if(r){ var b=document.getElementById('gsres-new'); if(b)b.classList.remove('show'); var inp=document.getElementById('global-search-new'); if(inp)inp.value=''; r.act(); } };
+  function boot(){ applyNewLayout(); setInterval(sync, 1500); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+
+
+
+</body></html>
