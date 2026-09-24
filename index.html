@@ -1358,7 +1358,7 @@ async function manageUsers(){
 // ================= ARCHIVE (पुरानो डाटा — system फास्ट राख्न) =================
 async function runArchiveNow(){
   if(!isAdmin()) return;
-  if(!confirm('हाल कायम रहेको पछिल्ला ३ आ.व. भन्दा पुरानो (दर्ता मिति अनुसार) कामदार अहिल्यै WorkersArchive Sheet मा सार्ने हो? यो सामान्यतया महिनाको १ गते आफै हुन्छ — यो बटन तुरुन्तै/परीक्षणको लागि हो।')) return;
+  if(!confirm('हाल कायम रहेको पछिल्ला ३ आ.व. भन्दा पुरानो (दर्ता मिति अनुसार) कामदार अहिल्यै CandidatesArchive Sheet मा सार्ने हो? यो सामान्यतया महिनाको १ गते आफै हुन्छ — यो बटन तुरुन्तै/परीक्षणको लागि हो।')) return;
   const r = await api('archivenow', {}, null, true);
   if(r.ok){
     alert('✅ ' + (r.archived||0) + ' जना कामदार Archive मा सारियो।' + (r.archived>0 ? '\n(अब Refresh गर्नुहोस् ताकि सूचीबाट पनि हटून्।)' : ''));
