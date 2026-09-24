@@ -244,6 +244,34 @@ textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-famil
 .gj-due{font-size:12.5px;color:var(--muted);margin-left:auto;font-weight:600;}
 @media(max-width:1100px){ .gj-wrap{grid-template-columns:1fr;} .gj-preview-wrap{position:static;max-height:none;} }
 @media(max-width:760px){ .gj-wrap{padding:14px;} .gj-paper{padding:24px 18px;} }
+/* ===== MY TASKS / FUNNEL / APPLICANT FLOW ===== */
+.tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
+.task{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid var(--border);border-left:4px solid #0aa88f;border-radius:10px;padding:10px 12px;cursor:pointer;font:inherit;color:var(--text);}
+.task:hover{background:#f5f9fc;}
+.task.zero{opacity:.55;border-left-color:#c4c6cf;}
+.task.late{border-left-color:#ba1a1a;}
+.task .tn{font-size:22px;font-weight:800;color:var(--primary);min-width:34px;text-align:center;}
+.task.late .tn{color:#ba1a1a;}
+.task .tl{flex:1;font-size:13px;font-weight:600;line-height:1.35;}
+.task .tl small{display:block;color:#ba1a1a;font-weight:700;margin-top:2px;}
+.task .tr{font-size:10.5px;font-weight:700;color:var(--muted);background:#eef2f7;border-radius:10px;padding:2px 7px;white-space:nowrap;}
+.dash-h{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 10px;}
+.fcard.f1{border-top-color:#64748b;} .fcard.f2{border-top-color:#2055a6;} .fcard.f3{border-top-color:#0a8f7a;} .fcard.f4{border-top-color:#8a6a12;} .fcard.f5{border-top-color:#1e6e3c;} .fcard.f6{border-top-color:#ba1a1a;}
+.ltask{font-size:11.5px;color:#43474e;margin-top:4px;}
+.ltask.late{color:#ba1a1a;font-weight:700;}
+.nx{display:inline-flex;gap:4px;flex-wrap:wrap;margin-right:4px;}
+.nx .btn{padding:4px 8px;font-size:11.5px;border-radius:6px;background:#0a8f7a;}
+.nx .btn.neg{background:#fff;color:#ba1a1a !important;border:1px solid #f0b4b4;}
+.lfocus{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#eef7f5;border:1px solid #bfe3db;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:13px;}
+.lfocus button{border:none;background:transparent;font-size:16px;cursor:pointer;}
+#l-bulk{display:none;align-items:center;gap:10px;background:#eff6ff;border:2px solid var(--primary);border-radius:8px;padding:8px 12px;margin-bottom:12px;flex-wrap:wrap;}
+#l-bulk .btn{width:auto;padding:7px 12px;}
+/* ===== LEAD / APPLICANT SEGMENT ===== */
+.seg{display:inline-flex;background:#eef2f7;border-radius:10px;padding:3px;gap:2px;}
+.seg button{border:none;background:transparent;font:inherit;font-size:14px;font-weight:700;color:var(--muted);padding:7px 14px;border-radius:8px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;}
+.seg button b{font-size:11.5px;background:#dfe5ee;color:var(--text);border-radius:10px;padding:1px 7px;}
+.seg button.on{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.seg button.on b{background:var(--primary);color:#fff;}
 /* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#10263f;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:4000;}
 #toast.show{opacity:1;transform:translate(-50%,0);}
@@ -348,20 +376,22 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     </div>
     <nav class="nav" id="nav">
       <button class="item tab-btn active" onclick="switchTab(event,'tab-dashboard');closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Dashboard</span></button>
-      <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg><span>Workspace</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
-      <div class="sub">
-        <button class="item tab-btn" onclick="switchTab(event,'tab-workers');closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Master Record</span></button>
-        <button class="item tab-btn" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){switchTab(event,'tab-pre');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg><span>Pre-Permission</span></button>
-        <button class="item tab-btn" onclick="if(requireAccess(notReceptionist(),'Quota Details')){switchTab(event,'tab-quota');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg><span>Quota Details</span></button>
-      </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg><span>Recruitment</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
       <div class="sub">
-        <button class="item tab-btn" onclick="if(requireAccess(notShram(),'Applicants')){switchTab(event,'tab-leads');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg><span>Applicants</span></button>
+        <button class="item tab-btn" id="nav-leads" onclick="if(requireAccess(notShram()||canFeims(),'Leads')){switchTab(event,'tab-leads');setLeadMode('lead');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg><span>Leads</span></button>
+        <button class="item tab-btn" id="nav-applicants" onclick="if(requireAccess(notShram()||canFeims(),'Applicants')){switchTab(event,'tab-leads');setLeadMode('applicant');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg><span>Applicants</span></button>
+        <button class="item tab-btn" onclick="switchTab(event,'tab-workers');closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Candidates</span></button>
+        <button class="item tab-btn" onclick="switchTab(event,'tab-departure');closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z"/></svg><span>Departure</span></button>
+      </div>
+      <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg><span>Workspace</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+      <div class="sub">
+        <button class="item tab-btn" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){switchTab(event,'tab-pre');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg><span>Pre-Permission</span></button>
+        <button class="item tab-btn" onclick="if(requireAccess(notReceptionist(),'Quota Details')){switchTab(event,'tab-quota');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg><span>Quota Details</span></button>
       </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg><span>Compliance</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
       <div class="sub">
         <button class="item tab-btn" onclick="if(requireAccess(canGrievance(),'Grievance / Rescue')){switchTab(event,'tab-grievance');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>Grievance / Rescue</span></button>
-        <button class="item tab-btn" onclick="switchTab(event,'tab-monitor');closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Worker Monitoring</span></button>
+        <button class="item tab-btn" onclick="if(requireAccess(canMonitor(),'Worker Monitoring')){switchTab(event,'tab-monitor');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Worker Monitoring</span></button>
         <button class="item" onclick="openDofeLists();closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg><span>DoFE Applicant Lists</span></button>
       </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>Reporting</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
@@ -417,6 +447,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <div class="content-scroll">
   <!-- TAB 0: DASHBOARD -->
   <div id="tab-dashboard" class="tab-content active">
+    <div class="card" id="my-tasks"></div>
+    <div class="dash-h" id="lead-funnel-h">Lead → Applicant Pipeline</div>
+    <div class="dashboard-grid" id="lead-funnel"></div>
+    <div class="dash-h" id="kpi-h">Candidates / Lot — छानिएको आ.व.</div>
     <div class="dashboard-grid">
       <div class="stat-card c-pre clickable-card" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){cardFilter('pre');}" title="Click to view this FY pre-permissions"><h3>Pre-Permission</h3><div class="value" id="d-pre-total">0</div><div class="sub" id="d-pre-sub">&nbsp;</div></div>
       <div class="stat-card c-app clickable-card" onclick="cardFilter('approved')" title="Click to view this FY final approvals"><h3>Final Approval</h3><div class="value" id="d-approved">0</div><div class="sub" id="d-app-sub">&nbsp;</div></div>
@@ -431,7 +465,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <div id="tab-workers" class="tab-content">
     <div class="main-grid form-closed" id="w-grid">
       <div class="card entry-card" id="w-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('w',false)">← Back to List</button><span>New Worker Entry</span></div>
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('w',false)">← Back to List</button><span>New Candidate Entry</span></div>
         <div class="field-lock-note" id="intake-lock-note" style="display:none;">🔒 Your role cannot register new workers — only Receptionist/Admin can.</div>
         <div class="field-lock-note" id="doc-field-lock-note" style="display:none;">🔒 News/Issue Date, Visa No., Visa/Demand Profession, Orientation and Medical are filled later by Documentation/Admin (greyed out for Receptionist).</div>
         <form id="worker-form">
@@ -472,7 +506,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </form>
       </div>
       <div class="card entry-card" id="wi-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('wi',false)">← Back to List</button><span>Paste Import — Workers</span></div>
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('wi',false)">← Back to List</button><span>Paste Import — Candidates</span></div>
         <div class="imp-body">
           <div class="imp-grid">
             <div>
@@ -496,7 +530,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </div>
       </div>
       <div class="card">
-        <div class="card-title title-row"><span>Worker List</span><span class="title-actions"><button type="button" class="btn-outline" onclick="openImport()" title="Excel / Google Sheet बाट धेरै जना एकैचोटि">⇪ Paste Import</button><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Worker Entry</button></span></div>
+        <div class="card-title title-row"><span>Candidate List</span><span class="title-actions"><button type="button" class="btn-outline" onclick="openImport()" title="Excel / Google Sheet बाट धेरै जना एकैचोटि">⇪ Paste Import</button><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Candidate</button></span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, visa no., lot no..." oninput="onManualFilter()">
           <select id="w-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="onManualFilter()"><option value="">— All Status —</option><option>Entry</option><option>Upload</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Cancel</option></select>
@@ -530,11 +564,12 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   </div>
 
   <!-- TAB APPLICANTS: श्रम स्वीकृति अघिको पहिलो चरण; code भित्र 'lead' नामबाटै चिनिन्छ -->
-  <div id="tab-leads" class="tab-content hide-for-shram">
+  <div id="tab-leads" class="tab-content">
     <div class="main-grid form-closed" id="l-grid">
       <div class="card entry-card" id="l-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('l',false)">← Back to List</button><span>New Applicant Entry</span></div>
+        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('l',false)">← Back to List</button><span>New Lead Entry</span></div>
         <form id="lead-form">
+          <div class="field-lock-note full" id="l-feims-note" style="display:none;">🔒 Lot No., Country, Company र विज्ञापन मिति Documentation / श्रम प्रतिनिधिले राख्नुहुन्छ (FEIMS अनुसार)।</div>
           <div class="form-group"><label>Name *</label><input type="text" id="l-name" class="form-control" required=""></div>
           <div class="form-row">
             <div class="form-group"><label>Passport No. *</label><input type="text" id="l-passport" class="form-control" required=""></div>
@@ -591,13 +626,15 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </div>
       </div>
       <div class="card">
-        <div class="card-title title-row"><span>Applicant List</span><span class="title-actions"><button type="button" class="btn-outline" onclick="openDofeLists()">📋 DoFE Lists</button><button type="button" class="entry-btn" id="l-entry-btn" onclick="toggleEntry('l')">+ New Applicant</button></span></div>
+        <div class="card-title title-row"><span class="seg" role="tablist"><button type="button" id="seg-lead" onclick="setLeadMode('lead')">Leads <b id="seg-lead-n">0</b></button><button type="button" id="seg-app" onclick="setLeadMode('applicant')">Applicants <b id="seg-app-n">0</b></button></span><span class="title-actions"><button type="button" class="btn-outline" onclick="openDofeLists()">📋 DoFE Lists</button><button type="button" class="entry-btn" id="l-entry-btn" onclick="toggleEntry('l')">+ New Lead</button></span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <input type="text" id="l-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, phone..." oninput="renderLeads()">
           <select id="l-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="renderLeads()"><option value="">— All Status —</option><option>New</option><option>Document Received</option><option>Shortlisted</option><option>Interview</option><option>Interview Passed</option><option>Medical</option><option>Medical Fit</option><option>Selected</option><option>Offer Letter</option><option>Offer Accepted</option><option>Ready For Labor Approval</option><option>Interview Failed</option><option>Medical Unfit</option><option>Offer Rejected</option><option>Cancelled</option><option>Rejected</option></select>
         </div>
+        <div id="l-focus"></div>
+        <div id="l-bulk"><b id="l-bulk-n">0 selected</b><button class="btn" onclick="openAssign()">📌 Lot / FEIMS विवरण राख्ने</button><button class="btn btn-ghost" onclick="selectedLIds.clear();renderLeads();">✕ Clear</button></div>
         <div style="overflow-x:auto;">
-          <table><thead><tr><th>Name (Passport)</th><th>Country / Company</th><th>Status</th><th></th></tr></thead>
+          <table><thead><tr><th style="width:30px;"><input type="checkbox" id="l-selall" class="feims-only" onchange="toggleLeadSelAll(this.checked)" title="यो page का सबै"></th><th>Name (Passport)</th><th>Lot / Company (FEIMS)</th><th>Status → अर्को काम</th><th></th></tr></thead>
           <tbody id="l-table"></tbody></table>
         </div>
         <div class="pager" id="l-pager"></div>
@@ -639,6 +676,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>Expiry Date</label><input type="date" id="p-expiry" class="form-control"></div>
             <div class="form-group"><label>Contract Period (Years)</label><input type="text" id="p-contract-years" class="form-control" value="2"></div>
           </div>
+          <div class="form-group"><label>Interview हुने?</label><select id="p-iv" class="form-control"><option value="">— नतोकिएको —</option><option value="Yes">Yes</option><option value="No">No</option></select></div><div class="form-group"><label>Offer Letter आउने?</label><select id="p-of" class="form-control"><option value="">— नतोकिएको —</option><option value="Yes">Yes</option><option value="No">No</option></select></div><div class="form-group"><label>Ad Date (विज्ञापन मिति)</label><input type="date" id="p-addate" class="form-control"></div>
           <div class="form-group"><label>Cost</label><input type="text" id="p-cost" class="form-control" placeholder="Amount or 0"></div>
           <div class="form-group"><label>Remarks</label><input type="text" id="p-remarks" class="form-control"></div>
           <div class="form-actions"><button type="button" class="btn btn-ghost" onclick="toggleEntry('p',false)">Cancel</button><button type="submit" class="btn btn-ghost" data-again="1">Save &amp; Add Another</button><button type="submit" class="btn">Save</button></div>
@@ -800,6 +838,16 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     </div>
   </div>
 
+  <!-- TAB: DEPARTURE (श्रम स्वीकृत → उडान) -->
+  <div id="tab-departure" class="tab-content">
+    <div class="card">
+      <div class="card-title title-row"><span class="seg" role="tablist"><button type="button" id="seg-dp-p" onclick="setDepMode('pending')">उडान बाँकी <b id="seg-dp-p-n">0</b></button><button type="button" id="seg-dp-d" onclick="setDepMode('departed')">उडेका — छानिएको आ.व. <b id="seg-dp-d-n">0</b></button></span></div>
+      <input type="text" id="dp-search" class="search-control" placeholder="Search name, passport, lot, company…" oninput="renderDeparture()">
+      <div style="overflow-x:auto;"><table><thead><tr><th>Candidate</th><th>Lot / Company</th><th>श्रम स्वीकृति</th><th>उडान / पुगेको</th><th>करार समाप्ति</th><th></th></tr></thead><tbody id="dp-table"></tbody></table></div>
+      <div class="pager" id="dp-pager"></div>
+    </div>
+  </div>
+
   <!-- TAB 3: REPORT -->
   <div id="tab-report" class="tab-content">
     <div class="card">
@@ -933,11 +981,24 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <div id="l-modal-meta" style="font-size:13px;color:var(--muted);margin-bottom:12px;"></div>
     <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
       <button class="btn" id="l-save-btn" style="width:auto;background:var(--success);" onclick="saveLead()">💾 Save</button>
-      <button class="btn" id="l-convert-btn" style="width:auto;background:#7c3aed;" onclick="convertLead()">➡️ Move to Worker</button>
+      <button class="btn" id="l-convert-btn" style="width:auto;background:#7c3aed;" onclick="convertLead()">➡️ Move to Candidates</button>
       <button class="btn btn-danger admin-only" style="width:auto;" onclick="deleteLead()">🗑️ Delete</button>
     </div>
     <div class="card-title" style="font-size:15px;">📜 History</div>
     <div class="history-box" id="l-history"></div>
+  </div>
+</div>
+
+<!-- ASSIGN LOT / FEIMS MODAL -->
+<div class="modal" id="asg-modal">
+  <div class="modal-content" style="max-width:560px;">
+    <div class="modal-header"><h2>📌 Lot / FEIMS विवरण</h2><span class="close-modal" onclick="closeAssign()">×</span></div>
+    <div style="font-size:13.5px;margin-bottom:12px;">Applicant: <b id="asg-who"></b></div>
+    <div class="form-group"><label>Lot No. (Pre-Permission) *</label><input type="text" id="asg-lot" class="form-control" list="dl-lot" autocomplete="off" oninput="asgLotInput(false)"><div class="lot-hint" id="asg-hint"></div></div>
+    <div class="form-group"><label>Ad Date — विज्ञापन प्रकाशित मिति *</label><input type="date" id="asg-ad" class="form-control"></div>
+    <div class="form-group"><label>पद (optional)</label><input type="text" id="asg-job" class="form-control" list="dl-asg-job" placeholder="जस्तै: Electrician"></div>
+    <div class="imp-help" style="margin:4px 0 14px;">FEIMS मा जुन कम्पनीको जुन Lot मा राख्ने हो त्यही छान्नुहोस्। Company र Country Lot बाट आफै आउँछ। यो विवरण <b>Ready For Labor Approval</b> अघि र DoFE सूचीका लागि अनिवार्य छ।</div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;"><button class="btn btn-ghost" style="width:auto;" onclick="closeAssign()">Cancel</button><button class="btn" style="width:auto;" onclick="saveAssign()">💾 Save</button></div>
   </div>
 </div>
 
@@ -953,6 +1014,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <div class="form-group"><label>Demand: Male</label><input type="number" id="pe-male" class="form-control" min="0"></div>
       <div class="form-group"><label>Demand: Female</label><input type="number" id="pe-female" class="form-control" min="0"></div>
       <div class="form-group"><label>Expiry</label><input type="date" id="pe-expiry" class="form-control"></div>
+      <div class="form-group"><label>Interview हुने?</label><select id="pe-iv" class="form-control"><option value="">— नतोकिएको —</option><option value="Yes">Yes</option><option value="No">No</option></select></div><div class="form-group"><label>Offer Letter आउने?</label><select id="pe-of" class="form-control"><option value="">— नतोकिएको —</option><option value="Yes">Yes</option><option value="No">No</option></select></div><div class="form-group"><label>Ad Date (विज्ञापन मिति)</label><input type="date" id="pe-addate" class="form-control"></div>
       <div class="form-group"><label>Cost</label><input type="text" id="pe-cost" class="form-control" placeholder="Amount or 0"></div>
       <div class="form-group"><label>Remarks</label><input type="text" id="pe-remarks" class="form-control"></div>
     </div>
@@ -1123,7 +1185,7 @@ const ROLE_STATUS_MAP = {
   documentation: [],
   shram: ['Entry','Upload','Submitted','Approved','Rejected','Cancel']
 };
-const ROLE_LABEL = { admin:'Admin', receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि' };
+const ROLE_LABEL = { admin:'Admin', manager:'Manager', receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि' };
 function allowedStatuses(){
   if(!session || session.role==='admin') return ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
   return ROLE_STATUS_MAP[session.role] || ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
@@ -1220,7 +1282,9 @@ function initApp(){
   document.body.classList.remove('role-receptionist','role-documentation','role-shram');
   if(ROLE_STATUS_MAP[session.role]) document.body.classList.add('role-' + session.role);
   document.getElementById('who-is-in').textContent = session.fullName || session.username || 'User';
-  const ucr = document.getElementById('uc-role'); if(ucr) ucr.textContent = 'Signed in as ' + ({admin:'Admin',receptionist:'Receptionist',documentation:'Documentation',shram:'Labour Representative'}[session.role] || session.role || '-');
+  applyLeadFieldLocks(); applyRoleDashboard(); setTimeout(()=>{ setLeadMode(leadMode); setDepMode(depMode); switchTabById('tab-dashboard'); },0);
+  const leb = document.getElementById('l-entry-btn'); if(leb) leb.style.display = canEditLead() ? '' : 'none';
+  const ucr = document.getElementById('uc-role'); if(ucr) ucr.textContent = 'Signed in as ' + ({admin:'Admin',manager:'Manager',receptionist:'Receptionist',documentation:'Documentation',shram:'Labour Representative'}[session.role] || session.role || '-');
   // New Worker Entry — नयाँ दर्ता गर्न नमिल्ने भूमिका (documentation/shram) लाई form देखिन्छ तर submit हुँदा notice आउँछ
   const introLocked = !canIntakeClient();
   const introNote = document.getElementById('intake-lock-note');
@@ -1264,7 +1328,7 @@ async function manageUsers(){
     const fn=prompt('पूरा नाम:'); if(!fn) return;
     const nu=prompt('Username:'); if(!nu) return;
     const np=prompt('Password:'); if(!np) return;
-    const role=prompt('भूमिका छान्नुहोस्:\n\nreceptionist = कामदार/Applicant दर्ता, Applicant स्थिति राख्ने (Worker Status बदल्न पाउँदैन, Pre-Permission मा अनुमति छैन)\ndocumentation = receptionist जस्तै Applicant management (Worker Status बदल्न पाउँदैन, Pre-Permission मा अनुमति छैन)\nshram = श्रम प्रतिनिधि — Worker र Pre-Permission मा admin जत्तिकै पूर्ण अधिकार; Applicant प्रणाली देख्दैन\nadmin = सबै अधिकार','receptionist'); if(!role) return;
+    const role=prompt('भूमिका छान्नुहोस् (एउटा शब्द लेख्नुहोस्):\n\nreceptionist = Worker/Applicant दर्ता, Applicant का चरण, उडान (Departure) विवरण\ndocumentation = कागजात, Offer Letter, Lot/FEIMS विवरण, DoFE सूची\nshram = श्रम प्रतिनिधि — Pre-Permission, श्रम स्वीकृति Status, Lot/FEIMS, Grievance\nmanager = Admin जस्तै सबै काम + कामदार अनुगमन (Users/Backup/Archive/Delete बाहेक)\nadmin = सबै अधिकार','receptionist'); if(!role) return;
     const r=await api('adduser',{newUsername:nu.trim(),newPassword:np,newRole:role.trim().toLowerCase(),newFullName:fn.trim()},null,true);
     if(r.ok) alert('थपियो।'); else if(r.error==='DUPLICATE_USER') alert('Username पहिल्यै छ।');
   } else if(cmd==='remove'){
@@ -1378,7 +1442,7 @@ async function refreshData(blocking){
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
 }
-function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); fillLookups(); }
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); fillLookups(); }
 
 // ================= SIDEBAR (mobile toggle) =================
 function toggleSidebar(){
@@ -1777,7 +1841,8 @@ const COUNTRY_NP = { 'UAE':'यू.ए.ई.', 'Malaysia':'मलेसिया'
   'Jordan':'जोर्डन', 'Romania':'रोमानिया', 'Poland':'पोल्याण्ड', 'Croatia':'क्रोएसिया', 'Japan':'जापान', 'South Korea':'दक्षिण कोरिया', 'Maldives':'माल्दिभ्स',
   'Turkey':'टर्की', 'Serbia':'सर्बिया', 'Cyprus':'साइप्रस', 'Malta':'माल्टा', 'Israel':'इजरायल', 'Portugal':'पोर्चुगल' };
 const LS_NAME_NP = 'लिंक स्टार मेनपावर सर्भिसेस प्रा. लि.';
-function canGrievance(){ return !!session && (session.role==='admin' || session.role==='shram'); }
+function canGrievance(){ return !!session && ['admin','manager','shram'].includes(session.role); }
+function canMonitor(){ return !!session && (session.role==='admin' || session.role==='manager'); }
 function grvOpen(g){ return g.caseStatus==='New' || g.caseStatus==='In Progress'; }
 function grvDue(g){
   if(!grvOpen(g)) return { cls:'done', txt: g.caseStatus==='Reply Submitted' ? '✓ Submitted' : '—', n:null };
@@ -1860,8 +1925,8 @@ function grvPassHint(fill){
   const pp = cleanPassport(document.getElementById('g-passport').value);
   if(!pp){ el.className='lot-hint'; el.innerHTML=''; return; }
   const w = workers.find(x=>cleanPassport(x.passport)===pp);
-  if(!w){ el.className='lot-hint warn'; el.innerHTML='Master Record मा भेटिएन (हातैले भर्नुहोस्)'; return; }
-  el.className='lot-hint ok'; el.innerHTML = `✓ Master Record: <b>${gsEsc(w.name)}</b> · ${gsEsc(w.country||'')} · ${gsEsc(w.status||'')}`;
+  if(!w){ el.className='lot-hint warn'; el.innerHTML='Candidates मा भेटिएन (हातैले भर्नुहोस्)'; return; }
+  el.className='lot-hint ok'; el.innerHTML = `✓ Candidates: <b>${gsEsc(w.name)}</b> · ${gsEsc(w.country||'')} · ${gsEsc(w.status||'')}`;
   if(fill){
     const set=(id,v)=>{ const e=document.getElementById(id); if(e && v) e.value=v; };
     set('g-name', w.name); set('g-country', normCountry(w.country)); set('g-company', normCompany(w.company)); set('g-lotno', w.lotNo);
@@ -2038,7 +2103,7 @@ function leadReasonAuto(){
 }
 function maskPP(p){ p = String(p||''); return p.length > 5 ? p.slice(0,3) + '*'.repeat(p.length-5) + p.slice(-2) : p; }
 function openDofeLists(){
-  if(!requireAccess(notShram(),'DoFE Applicant Lists')) return;
+  if(!requireAccess(canFeims(),'DoFE Applicant Lists')) return;
   if(!document.getElementById('tab-leads').classList.contains('active')) switchTabById('tab-leads');
   const sel = document.getElementById('ld-lot');
   const lots = {};
@@ -2196,11 +2261,12 @@ function monPassInput(){
   const w = pp ? workers.find(x=>cleanPassport(x.passport)===pp) : null;
   const h = document.getElementById('m-pass-hint');
   if(!pp){ h.className='lot-hint'; h.innerHTML=''; return; }
-  if(!w){ h.className='lot-hint warn'; h.innerHTML='Master Record मा भेटिएन'; return; }
+  if(!w){ h.className='lot-hint warn'; h.innerHTML='Candidates मा भेटिएन'; return; }
   h.className='lot-hint ok'; h.innerHTML=`✓ ${gsEsc(w.name)} · LOT ${gsEsc(w.lotNo||'-')} · ${w.departDate?'Departed '+pbs(w.departDate):'उडान मिति छैन'}`;
   monFillFromWorker(w);
 }
 function openMonForm(id, workerId){
+  if(!requireAccess(canMonitor(),'Worker Monitoring')) return;
   editingMId = id || null;
   const r = id ? monitors.find(x=>x.id===id) : null;
   document.getElementById('m-form').reset();
@@ -2254,11 +2320,246 @@ function monPrint(){
   <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.print();},250);});<\/script></body></html>`);
   win.document.close();
 }
-function openMonitorDue(){ switchTabById('tab-monitor'); }
+function openMonitorDue(){ if(requireAccess(canMonitor(),'Worker Monitoring')) switchTabById('tab-monitor'); }
+
+
+// ================= APPLICANT WORKFLOW AUTOMATION (Lot अनुसार बाटो + अर्को काम + अड्किएको चेतावनी) =================
+const READY_ST = 'Ready For Labor Approval';
+function canFeims(){ return !!session && ['admin','manager','documentation','shram'].includes(session.role); }
+function canEditLead(){ return !!session && session.role !== 'shram'; }
+function isYes(v){ return String(v||'').trim().toLowerCase()==='yes'; }
+function lotOfLead(l){ const k = lotKey(l.lotNo); return k ? pres.find(p=>lotKey(p.lotNo)===k) : null; }
+// null = Lot नतोकिएको / Lot मा नभनिएको (दुवै बाटो देखाउने)
+function leadFlags(l){ const p = lotOfLead(l); return { iv: p && p.hasInterview ? isYes(p.hasInterview) : null, of: p && p.hasOffer ? isYes(p.hasOffer) : null }; }
+function leadNext(l){
+  const f = leadFlags(l);
+  switch(l.leadStatus){
+    case 'New': return ['Document Received'];
+    case 'Document Received': return f.iv===true ? ['Interview'] : f.iv===false ? ['Medical'] : ['Interview','Medical'];
+    case 'Shortlisted': return ['Interview'];
+    case 'Interview': return ['Interview Passed','Interview Failed'];
+    case 'Interview Passed': return ['Medical'];
+    case 'Medical': return ['Medical Fit','Medical Unfit'];
+    case 'Medical Fit': case 'Selected': return f.of===true ? ['Offer Letter'] : f.of===false ? [READY_ST] : ['Offer Letter', READY_ST];
+    case 'Offer Letter': return ['Offer Accepted','Offer Rejected'];
+    case 'Offer Accepted': return [READY_ST];
+    default: return [];
+  }
+}
+const LEAD_TASK = {
+  'New':               { t:'Lead — कागजात बुझाउन बोलाउने', r:'receptionist', d:2 },
+  'Document Received': { t:l=>leadFlags(l).iv===false ? 'Medical पठाउने' : 'Interview मिलाउने', r:'receptionist', d:3 },
+  'Shortlisted':       { t:'Interview मिलाउने', r:'receptionist', d:3 },
+  'Interview':         { t:'Interview नतिजा राख्ने', r:'receptionist', d:3 },
+  'Interview Passed':  { t:'Medical र office sign का लागि बोलाउने', r:'receptionist', d:3 },
+  'Medical':           { t:'Medical report लिने', r:'receptionist', d:3 },
+  'Medical Fit':       { t:l=>leadFlags(l).of===false ? 'Lot/FEIMS राखी Ready मा सार्ने' : 'Offer Letter तयार गर्ने', r:'documentation', d:3 },
+  'Selected':          { t:l=>leadFlags(l).of===false ? 'Lot/FEIMS राखी Ready मा सार्ने' : 'Offer Letter तयार गर्ने', r:'documentation', d:3 },
+  'Offer Letter':      { t:'Offer sign गराउने', r:'documentation', d:3 },
+  'Offer Accepted':    { t:'Lot/FEIMS राखी Ready मा सार्ने', r:'documentation', d:2 },
+  'Ready For Labor Approval': { t:'Candidates मा सार्ने', r:'documentation', d:2 }
+};
+const ROLE_NP = { receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि', admin:'Admin', manager:'Manager' };
+function leadTask(l){
+  if(l.convertedWorkerId) return null;
+  const x = LEAD_TASK[l.leadStatus]; if(!x) return null;
+  const since = l.stageDate || String(l.createdAt||'').slice(0,10);
+  const du = since ? daysUntil(since) : null, age = du===null ? 0 : -du;
+  return { text: typeof x.t==='function' ? x.t(l) : x.t, role:x.r, sla:x.d, age, overdue: age > x.d };
+}
+// Ready अघि (र छनौट नभएकाको DoFE सूचीका लागि) Lot/कम्पनी/विज्ञापन मिति चाहिने
+function needsFeims(l){
+  return !l.convertedWorkerId && ['Medical Fit','Selected','Offer Letter','Offer Accepted',READY_ST].concat(LEAD_NOT_SELECTED).includes(l.leadStatus)
+    && (!l.lotNo || !l.company || !l.adDate);
+}
+async function leadMove(id, to){
+  const l = leads.find(x=>x.id===id); if(!l) return;
+  if(!requireAccess(canEditLead(),'Applicant Status')) return;
+  if(to===READY_ST && (!l.lotNo || !l.company || !l.adDate)){
+    if(canFeims()){ alert('⚠️ Ready अघि Lot, कम्पनी र विज्ञापन मिति राख्नुपर्छ।'); openAssign([id]); }
+    else alert('⚠️ Ready अघि Documentation वा श्रम प्रतिनिधिले Lot / FEIMS विवरण राख्नुपर्छ।');
+    return;
+  }
+  let reason = '';
+  if(LEAD_NOT_SELECTED.includes(to)){
+    reason = prompt(`${l.name} — छनौट नहुनुको कारण (DoFE सूचीमा जाने):`, LEAD_REASON_DEFAULT[to]||'');
+    if(reason===null) return; reason = reason.trim();
+    if(!reason){ alert('कारण अनिवार्य छ।'); return; }
+  } else if(!confirm(l.leadStatus==='New' && to==='Document Received' ? `${l.name}\nकागजात बुझायो — Lead बाट Applicant मा सार्ने?` : `${l.name}\n"${l.leadStatus}" → "${to}" मा सार्ने?`)) return;
+  const upd = Object.assign({}, l, { leadStatus:to, rejectReason: LEAD_NOT_SELECTED.includes(to) ? reason : '' });
+  const r = await api('updatelead', { lead: upd }, null, true);
+  if(r && r.ok && r.lead){ const i = leads.findIndex(x=>x.id===id); if(i>=0) leads[i] = normRec(r.lead); renderAll(); toast(`✅ ${l.name} → ${to}`); }
+  else alert(r && r.error==='FEIMS_REQUIRED' ? '⚠️ Lot / कम्पनी / विज्ञापन मिति नभई Ready गर्न मिल्दैन।' : '⚠️ भएन: ' + ((r&&r.error)||''));
+}
+
+// ---------- Lot / FEIMS विवरण राख्ने (Documentation / श्रम प्रतिनिधि) ----------
+let asgIds = [];
+const selectedLIds = new Set();
+function toggleLeadSel(id, on){ if(on) selectedLIds.add(id); else selectedLIds.delete(id); updateLeadBulk(); }
+function toggleLeadSelAll(on){ (window._lPageIds||[]).forEach(id=>on ? selectedLIds.add(id) : selectedLIds.delete(id)); renderLeads(); }
+function updateLeadBulk(){
+  const b = document.getElementById('l-bulk'); if(!b) return;
+  b.style.display = (canFeims() && selectedLIds.size) ? 'flex' : 'none';
+  document.getElementById('l-bulk-n').textContent = selectedLIds.size + ' selected';
+}
+function openAssign(ids){
+  if(!requireAccess(canFeims(),'Lot / FEIMS विवरण')) return;
+  asgIds = (ids && ids.length) ? ids.slice() : [...selectedLIds];
+  if(!asgIds.length){ alert('Applicant छान्नुहोस्।'); return; }
+  const first = leads.find(x=>x.id===asgIds[0]) || {};
+  document.getElementById('asg-who').textContent = asgIds.length===1 ? (first.name + ' (' + first.passport + ')') : (asgIds.length + ' जना Applicant');
+  document.getElementById('asg-lot').value = asgIds.length===1 ? (first.lotNo||'') : '';
+  document.getElementById('asg-ad').value = asgIds.length===1 ? (first.adDate||'') : '';
+  document.getElementById('asg-job').value = '';
+  asgLotInput(true);
+  document.getElementById('asg-modal').style.display = 'flex';
+}
+function closeAssign(){ document.getElementById('asg-modal').style.display = 'none'; }
+function asgLotInput(keepAd){
+  const k = lotKey(document.getElementById('asg-lot').value), h = document.getElementById('asg-hint');
+  const p = k ? pres.find(x=>lotKey(x.lotNo)===k) : null;
+  if(!k){ h.className='lot-hint'; h.innerHTML=''; return; }
+  if(!p){ h.className='lot-hint bad'; h.innerHTML='⛔ यो Lot Pre-Permission मा छैन — पहिले Pre-Permission दर्ता गर्नुहोस्'; return; }
+  const iv = p.hasInterview ? (isYes(p.hasInterview)?'Interview हुने':'Interview नहुने') : 'Interview: नतोकिएको';
+  const of = p.hasOffer ? (isYes(p.hasOffer)?'Offer Letter आउने':'Offer Letter नआउने') : 'Offer: नतोकिएको';
+  h.className='lot-hint ok'; h.innerHTML = `✓ <b>${gsEsc(p.company||'')}</b> · ${gsEsc(p.country||'')} · ${iv} · ${of}` + (p.adDate ? ` · विज्ञापन ${pbs(p.adDate)}` : ' · <span style="color:#a15c00">Lot मा विज्ञापन मिति छैन</span>');
+  const ad = document.getElementById('asg-ad'); if(p.adDate && (!keepAd || !ad.value)) ad.value = p.adDate;
+  const dl = ensureDatalist('dl-asg-job'); dl.innerHTML = lotPositions(p).filter(x=>x&&x.name).map(x=>`<option value="${gsEsc(x.name)}">`).join('');
+}
+async function saveAssign(){
+  const lot = lotKey(document.getElementById('asg-lot').value), ad = document.getElementById('asg-ad').value, job = document.getElementById('asg-job').value.trim();
+  const p = lot ? pres.find(x=>lotKey(x.lotNo)===lot) : null;
+  if(!p){ alert('⚠️ Pre-Permission मा भएको Lot No. छान्नुहोस्।'); return; }
+  if(!ad){ alert('⚠️ विज्ञापन प्रकाशित मिति राख्नुहोस्।'); return; }
+  const r = await api('assignlead', { ids: asgIds, lotNo: lot, adDate: ad, jobTitle: job }, null, true);
+  if(!r || !r.ok){ alert('⚠️ भएन: ' + ({LOT_NOT_FOUND:'Lot भेटिएन', ADDATE_REQUIRED:'विज्ञापन मिति चाहिन्छ', FORBIDDEN:'अनुमति छैन'}[r&&r.error] || (r&&r.error) || '')); return; }
+  (r.leads||[]).forEach(nl=>{ const i = leads.findIndex(x=>x.id===nl.id); if(i>=0) leads[i] = normRec(nl); });
+  // Lot मा विज्ञापन मिति नभए त्यहीँ पनि राख्ने (श्रम प्रतिनिधि/Admin)
+  if(!p.adDate && canManagePre()){ const up = Object.assign({}, p, { adDate: ad }); p.adDate = ad; api('updatepre', { pre: up }, null, 'silent'); }
+  selectedLIds.clear(); closeAssign(); renderAll();
+  toast(`✅ ${(r.leads||[]).length} जना Lot ${lot} मा राखियो` + (r.skipped ? ` · ${r.skipped} skip` : ''));
+}
+function applyLeadFieldLocks(){
+  const lock = !canFeims();
+  ['l-lotno','l-country','l-company','l-addate','le-lotno','le-country','le-company','le-addate'].forEach(id=>{
+    const el = document.getElementById(id); if(!el) return;
+    if(lock){ el.disabled = true; el.title = 'Lot / कम्पनी / विज्ञापन मिति Documentation वा श्रम प्रतिनिधिले राख्छन्'; }
+  });
+  const n = document.getElementById('l-feims-note'); if(n) n.style.display = lock ? '' : 'none';
+}
+
+// ---------- Applicant list: काम अनुसार filter (Dashboard बाट) ----------
+let leadFocus = null;
+function focusLeads(label, ids){
+  if(!requireAccess(notShram() || canFeims(),'Applicants')) return;
+  leadFocus = { label, ids:new Set(ids) };
+  ['seg-lead','seg-app'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.remove('on'); });
+  switchTabById('tab-leads');
+  document.getElementById('l-status-filter').value = ''; document.getElementById('l-search').value = '';
+  renderLeads();
+}
+function clearLeadFocus(){ leadFocus = null; renderLeads(); }
+
+// ---------- भूमिका अनुसार Dashboard: My Tasks + Applicant funnel ----------
+function workerStatusFilter(st){ switchTabById('tab-workers'); if(typeof clearCardFilter==='function') clearCardFilter(); document.getElementById('w-status-filter').value = st; renderWorkers(); }
+function buildTasks(){
+  const role = session ? session.role : '', out = [];
+  const active = leads.filter(l=>!l.convertedWorkerId);
+  // Applicant चरणका काम (Status अनुसार समूह)
+  const groups = {};
+  active.forEach(l=>{ const t = leadTask(l); if(!t) return; const k = t.role + '|' + t.text;
+    (groups[k] = groups[k] || { role:t.role, text:t.text, ids:[], over:0 }); groups[k].ids.push(l.id); if(t.overdue) groups[k].over++; });
+  Object.values(groups).forEach(g=>out.push({ role:g.role, label:g.text, n:g.ids.length, over:g.over, act:()=>focusLeads(g.text, g.ids) }));
+  const fe = active.filter(needsFeims);
+  out.push({ role:'feims', label:'Lot / विज्ञापन मिति (FEIMS) राख्न बाँकी', n:fe.length, over:0, act:()=>focusLeads('Lot / FEIMS बाँकी', fe.map(x=>x.id)) });
+  const w = workers;
+  out.push({ role:'shram', label:'FEIMS मा Upload गर्न बाँकी (Entry)', n:w.filter(x=>x.status==='Entry').length, act:()=>workerStatusFilter('Entry') });
+  out.push({ role:'shram', label:'Submit गर्न बाँकी (Upload)', n:w.filter(x=>x.status==='Upload').length, act:()=>workerStatusFilter('Upload') });
+  out.push({ role:'shram', label:'श्रम स्वीकृति पर्खँदै (Submitted)', n:w.filter(x=>x.status==='Submitted').length, act:()=>workerStatusFilter('Submitted') });
+  out.push({ role:'shram', label:'Lot म्याद ३० दिनभित्र', n:pres.filter(isLotExpiringSoon).length, act:()=>openLotExpiring() });
+  if(canGrievance()) out.push({ role:'shram', label:'Likhit Jawab म्याद (≤ २ दिन)', n:grvDueCount(), act:()=>openGrievanceDue() });
+  out.push({ role:'documentation', label:'Medical बाँकी (Candidate)', n:w.filter(x=>x.status!=='Cancel'&&x.status!=='Rejected'&&x.medical!=='Yes').length, act:()=>openActionFilter('medicalpending','🩺 Medical Pending') });
+  out.push({ role:'documentation', label:'Orientation बाँकी (Candidate)', n:w.filter(x=>x.status!=='Cancel'&&x.status!=='Rejected'&&x.orientation!=='Yes').length, act:()=>openActionFilter('orientationpending','📘 Orientation Pending') });
+  out.push({ role:'manager', label:'अनुगमन लक्ष्य नपुगेका Lot (यो महिना)', n:monDueLots().filter(x=>x.done<x.target).length, act:()=>openMonitorDue() });
+  out.push({ role:'receptionist', label:'उडान मिति राख्न बाँकी (Approved)', n:w.filter(x=>x.status==='Approved'&&!x.departDate).length, act:()=>openDeparture('pending') });
+  const mine = r => role==='admin' || role==='manager' || r===role || (r==='feims' && canFeims());
+  return out.filter(t=>mine(t.role));
+}
+let dashTaskIdx = [];
+function renderMyTasks(){
+  const box = document.getElementById('my-tasks'); if(!box || !session) return;
+  const tasks = buildTasks();
+  dashTaskIdx = tasks.map(t=>t.act);
+  const pending = tasks.filter(t=>t.n>0).length;
+  const item = (t,i)=>`<button class="task ${t.n?'':'zero'} ${t.over?'late':''}" onclick="dashTaskIdx[${i}]()"><span class="tn">${t.n}</span><span class="tl">${gsEsc(t.label)}${t.over?`<small>⏰ ${t.over} जना म्याद नाघेको</small>`:''}</span>${(session.role==='admin'||session.role==='manager')?`<span class="tr">${ROLE_NP[t.role]||'Doc / श्रम'}</span>`:''}</button>`;
+  box.innerHTML = `<div class="card-title title-row" style="margin-bottom:12px;"><span>✅ My Tasks — ${gsEsc(ROLE_NP[session.role]||session.role)}</span><small style="color:var(--muted);font-weight:600;">${pending ? pending + ' प्रकारका काम बाँकी' : 'सबै काम सकियो 🎉'}</small></div>
+    <div class="tasks">${tasks.map((t,i)=>({t,i})).sort((a,b)=>(b.t.n>0)-(a.t.n>0) || b.t.over-a.t.over).map(x=>item(x.t,x.i)).join('')}</div>`;
+  // Applicant funnel
+  const fb = document.getElementById('lead-funnel'); if(!fb) return;
+  const act = leads.filter(l=>!l.convertedWorkerId);
+  const F = [
+    ['🆕 Leads', ['New'], 'f1'],
+    ['📂 Documents', ['Document Received','Shortlisted'], 'f1'],
+    ['🎤 Interview', ['Interview','Interview Passed'], 'f2'],
+    ['🩺 Medical', ['Medical','Medical Fit','Selected'], 'f3'],
+    ['📄 Offer', ['Offer Letter','Offer Accepted'], 'f4'],
+    ['✅ Ready (Labour Approval)', [READY_ST], 'f5'],
+    ['✗ छनौट नभएका', LEAD_NOT_SELECTED, 'f6']
+  ];
+  window._funnelAct = F.map(f=>()=>focusLeads(f[0], act.filter(l=>f[1].includes(l.leadStatus)).map(l=>l.id)));
+  fb.innerHTML = F.map((f,i)=>`<div class="stat-card clickable-card fcard ${f[2]}" onclick="_funnelAct[${i}]()"><h3>${f[0]}</h3><div class="value">${act.filter(l=>f[1].includes(l.leadStatus)).length}</div><div class="sub">Applicants (active)</div></div>`).join('');
+}
+// भूमिका अनुसार कुन Dashboard भाग देखाउने
+function applyRoleDashboard(){
+  const role = session ? session.role : '';
+  const kpi = document.querySelector('#tab-dashboard .dashboard-grid:not(#lead-funnel)');
+  const fun = document.getElementById('lead-funnel'), fh = document.getElementById('lead-funnel-h'), kh = document.getElementById('kpi-h');
+  const showKpi = role!=='receptionist', showFun = role!=='shram';
+  if(kpi) kpi.style.display = showKpi ? '' : 'none'; if(kh) kh.style.display = showKpi ? '' : 'none';
+  if(fun) fun.style.display = showFun ? '' : 'none'; if(fh) fh.style.display = showFun ? '' : 'none';
+}
+
+
+// ================= LEADS ↔ APPLICANTS (एउटै Sheet — Status 'New' = Lead) =================
+let leadMode = 'applicant';
+function setLeadMode(m){
+  leadMode = m === 'lead' ? 'lead' : 'applicant'; leadFocus = null;
+  document.getElementById('seg-lead').classList.toggle('on', leadMode==='lead');
+  document.getElementById('seg-app').classList.toggle('on', leadMode==='applicant');
+  const sf = document.getElementById('l-status-filter');
+  if(sf){ sf.style.display = leadMode==='lead' ? 'none' : ''; sf.value=''; [...sf.options].forEach(o=>{ if(o.value==='New') o.hidden = true; }); }
+  document.querySelectorAll('#nav .tab-btn').forEach(b=>b.classList.remove('active'));
+  const nb = document.getElementById(leadMode==='lead' ? 'nav-leads' : 'nav-applicants'); if(nb) nb.classList.add('active');
+  renderLeads();
+}
+// ================= DEPARTURE (Receptionist: उडान/ठेगाना विवरण) =================
+let depMode = 'pending';
+function openDeparture(m){ switchTabById('tab-departure'); setDepMode(m||'pending'); }
+function setDepMode(m){ depMode = m==='departed' ? 'departed' : 'pending'; document.getElementById('seg-dp-p').classList.toggle('on', depMode==='pending'); document.getElementById('seg-dp-d').classList.toggle('on', depMode==='departed'); renderDeparture(); }
+function renderDeparture(){
+  const tb = document.getElementById('dp-table'); if(!tb) return;
+  const fy = currentFY(), q = (document.getElementById('dp-search').value||'').toLowerCase();
+  const pend = workers.filter(w=>w.status==='Approved' && !w.departDate);
+  const dep = workers.filter(w=>w.departDate && w.status!=='Cancel' && inFY(w.departDate, fy));
+  document.getElementById('seg-dp-p-n').textContent = pend.length; document.getElementById('seg-dp-d-n').textContent = dep.length;
+  let rows = (depMode==='pending' ? pend : dep).filter(w=>!q || [w.name,w.passport,w.lotNo,w.company,w.country].some(v=>String(v||'').toLowerCase().includes(q)));
+  rows = rows.slice().sort((a,b)=> depMode==='pending' ? String(a.approveDate||'').localeCompare(String(b.approveDate||'')) : String(b.departDate||'').localeCompare(String(a.departDate||'')));
+  const pr = pageSlice('dp', rows, [depMode, q, fy?fy.label:''].join('|'));
+  tb.innerHTML = pr.map(w=>{
+    const wait = (depMode==='pending' && w.approveDate) ? -daysUntil(w.approveDate) : null;
+    return `<tr>
+      <td>${gsEsc(w.name)}<br><small style="color:var(--muted)">${gsEsc(w.passport)}${w.foreignPhone?' · 📞 '+gsEsc(w.foreignPhone):''}</small></td>
+      <td>LOT ${gsEsc(w.lotNo||'-')}<br><small>${gsEsc(w.company||'')} · ${gsEsc(w.country||'')}</small></td>
+      <td>${w.approveDate?pbs(w.approveDate):'-'}${wait!==null?`<br><small class="due ${wait>30?'over':wait>14?'soon':'ok'}">${wait} दिन भयो</small>`:''}</td>
+      <td>${w.departDate?pbs(w.departDate):'<span style="color:#a15c00">—</span>'}${w.arrivedDate?`<br><small>पुगेको ${pbs(w.arrivedDate)}</small>`:''}</td>
+      <td>${w.contractEndDate?pbs(w.contractEndDate):'-'}</td>
+      <td><button class="btn btn-sm" onclick="openWModal('${w.id}')">${depMode==='pending'?'✈ उडान विवरण':'View'}</button></td></tr>`; }).join('')
+    || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">${depMode==='pending'?'उडान बाँकी कोही छैन':'यो आ.व.मा उडेका छैनन्'}</td></tr>`;
+}
 
 // ================= PAGINATION (एक page मा १० row, default) =================
 const PAGER = {};
-const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances(), m:()=>renderMonitor() };
+const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances(), m:()=>renderMonitor(), dp:()=>renderDeparture() };
 // filter/search बदलिए page 1 मा फर्कने; save/refresh ले भने हालकै page राख्ने
 function pageSlice(key, rows, fkey){
   const st = PAGER[key] || (PAGER[key] = { page:1, size:10, fkey:null });
@@ -2356,13 +2657,13 @@ function globalSearch(q){
   const res = [];
   workers.forEach(w=>{
     if(hit([w.name,w.passport,w.lotNo,w.visaNo,w.company,w.country]))
-      res.push({type:'Worker', color:'#1e6e3c', label:w.name, sub:[w.passport, w.lotNo?'LOT '+w.lotNo:'', w.status].filter(Boolean).join(' · '),
+      res.push({type:'Candidate', color:'#1e6e3c', label:w.name, sub:[w.passport, w.lotNo?'LOT '+w.lotNo:'', w.status].filter(Boolean).join(' · '),
         act:()=>{ switchTabById('tab-workers'); openWModal(w.id); }});
   });
   (leads||[]).filter(l=>!l.convertedWorkerId).forEach(l=>{
     if(hit([l.name,l.passport,l.phone,l.lotNo,l.company]))
-      res.push({type:'Applicant', color:'#2055a6', label:l.name, sub:[l.passport, l.phone, l.leadStatus].filter(Boolean).join(' · '),
-        act:()=>{ if(!requireAccess(notShram(),'Applicants')) return; switchTabById('tab-leads'); openLModal(l.id); }});
+      res.push({type: l.leadStatus==='New' ? 'Lead' : 'Applicant', color: l.leadStatus==='New' ? '#6b7a90' : '#2055a6', label:l.name, sub:[l.passport, l.phone, l.leadStatus].filter(Boolean).join(' · '),
+        act:()=>{ if(!requireAccess(notShram()||canFeims(),'Applicants')) return; switchTabById('tab-leads'); openLModal(l.id); }});
   });
   pres.forEach(p=>{
     if(hit([p.lotNo,p.company,p.country]))
@@ -2457,28 +2758,27 @@ function renderDashboard(){
 function renderActionCenter(){
   const el = document.getElementById('action-center-list');
   if(!el) return;
-  const medicalPending = workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.medical!=='Yes').length;
-  const orientationPending = workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.orientation!=='Yes').length;
-  const departurePending = workers.filter(w=>w.status==='Approved' && !w.departDate).length;
-  const lotExpiring = pres.filter(isLotExpiringSoon).length;
-  const items = [
-    { n:medicalPending, label:'🩺 Medical Pending', act:()=>openActionFilter('medicalpending','🩺 Medical Pending') },
-    { n:orientationPending, label:'📘 Orientation Pending', act:()=>openActionFilter('orientationpending','📘 Orientation Pending') },
-    { n:departurePending, label:'✈️ Departure Pending', act:()=>openActionFilter('departurependingall','✈️ Departure Pending') },
-    { n:lotExpiring, label:'⏰ Lot Expiring < 30 Days', act:()=>openLotExpiring() }
+  // Alert भूमिका अनुसार: जसको काम, उसैलाई मात्र (Admin/Manager लाई सबै)। नचाहिने गणना गरिँदैन — हल्का।
+  const role = session ? session.role : '', all = role==='admin' || role==='manager';
+  const DEFS = [
+    { roles:['documentation'], label:'🩺 Medical Pending', n:()=>workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.medical!=='Yes').length, act:()=>openActionFilter('medicalpending','🩺 Medical Pending') },
+    { roles:['documentation'], label:'📘 Orientation Pending', n:()=>workers.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.orientation!=='Yes').length, act:()=>openActionFilter('orientationpending','📘 Orientation Pending') },
+    { roles:['receptionist'], label:'✈️ Departure Pending (उडान मिति राख्ने)', n:()=>workers.filter(w=>w.status==='Approved' && !w.departDate).length, act:()=>openDeparture('pending') },
+    { roles:['shram'], label:'⏰ Lot Expiring < 30 Days', n:()=>pres.filter(isLotExpiringSoon).length, act:()=>openLotExpiring() },
+    { roles:['shram'], label:'⚖️ Likhit Jawab Due (≤ 2 days)', n:()=>grvDueCount(), act:()=>openGrievanceDue(), need:()=>canGrievance() },
+    { roles:['manager'], label:'📞 Monitoring Due (Lots, this month)', n:()=>monDueLots().filter(x=>x.done < x.target).length, act:()=>openMonitorDue() },
+    { roles:['documentation','shram'], label:'📌 Lot / FEIMS बाँकी', n:()=>leads.filter(needsFeims).length, act:()=>focusLeads('Lot / FEIMS बाँकी', leads.filter(needsFeims).map(l=>l.id)) },
+    { roles:['receptionist','documentation'], label:'⏰ अड्किएका Applicant', n:()=>stuckLeads().length, act:()=>focusLeads('म्याद नाघेका (अड्किएका) Applicant', stuckLeads().map(l=>l.id)) }
   ];
-  const grvDueN = canGrievance() ? grvDueCount() : 0;
-  if(canGrievance()) items.push({ n:grvDueN, label:'⚖️ Likhit Jawab Due (≤ 2 days)', act:()=>openGrievanceDue() });
-  const monDueN = monDueLots().filter(x=>x.done < x.target).length;
-  items.push({ n:monDueN, label:'📞 Monitoring Due (Lots, this month)', act:()=>openMonitorDue() });
-  window._acActions = items.map(i=>i.act);   // onclick बाट index अनुसार बोलाउने
+  function stuckLeads(){ return leads.filter(l=>{ const t=leadTask(l); return t && t.overdue && (all || t.role===role); }); }
+  const items = DEFS.filter(d=>(all || d.roles.includes(role)) && (!d.need || d.need())).map(d=>({ label:d.label, n:d.n(), act:d.act }));
+  window._acActions = items.map(i=>i.act);
   el.innerHTML = items.map((it,i)=>
     `<div class="ac-item${it.n===0?' ac-zero':''}" onclick="_acActions[${i}]()" title="क्लिक गर्नुहोस् । सम्बन्धित सूची हेर्न">
       <span>${it.label}</span><span class="ac-count">${it.n}</span>
     </div>`
-  ).join('');
-  // ट्याब बटनमा मात्र कुल Action आवश्यक संख्या (header बाट दोहोरो badge हटाइयो)
-  const total = medicalPending + orientationPending + departurePending + lotExpiring + grvDueN + monDueN;
+  ).join('') || '<div style="color:var(--muted);font-size:13px;">तपाईंका लागि कुनै Alert छैन।</div>';
+  const total = items.reduce((a,b)=>a+b.n,0);
   const badge = document.getElementById('alert-badge');
   if(badge){ badge.textContent = total > 99 ? '99+' : total; badge.style.display = total ? 'inline-flex' : 'none'; }
 }
@@ -2990,7 +3290,7 @@ const LEAD_STATUS_BADGE = {
 let editingLId = null;
 function renderLeads(){
   const searchEl = document.getElementById('l-search');
-  if(!searchEl) return;   // shram भूमिकामा यो ट्याब नै छैन
+  if(!searchEl) return;
   const q = (searchEl.value||'').toLowerCase();
   const sf = document.getElementById('l-status-filter').value;
   // Worker मा सारिसकेका Applicant अब सधैं list बाट लुकाइन्छ (Worker मास्टर रेकर्डमा नै हेर्न मिल्छ)
@@ -2999,6 +3299,7 @@ function renderLeads(){
      || (l.country||'').toLowerCase().includes(q) || (l.company||'').toLowerCase().includes(q)
      || (l.phone||'').toLowerCase().includes(q))
     && (!sf || l.leadStatus===sf)
+    && (leadFocus ? leadFocus.ids.has(l.id) : (leadMode==='lead' ? l.leadStatus==='New' : l.leadStatus!=='New'))
     && !l.convertedWorkerId
   );
   rows.sort((a,b)=>{
@@ -3006,14 +3307,28 @@ function renderLeads(){
     if(ca && cb && ca!==cb) return cb.localeCompare(ca);
     return String(b.id||'').localeCompare(String(a.id||''));
   });
-  const pageRows = pageSlice('l', rows, [q, sf].join('|'));
-  document.getElementById('l-table').innerHTML = pageRows.map(l=>`
-    <tr>
-      <td>${l.name}<br><small style="color:var(--muted)">${l.passport}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+l.phone:''}</small></td>
-      <td>${l.country}<br><small>${l.company}</small></td>
-      <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span>${l.rejectReason?`<br><small style="color:#ba1a1a">${gsEsc(l.rejectReason)}</small>`:''}</td>
-      <td><button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
-    </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">No applicants found</td></tr>';
+  const nAct = leads.filter(l=>!l.convertedWorkerId), nLead = nAct.filter(l=>l.leadStatus==='New').length;
+  document.getElementById('seg-lead-n').textContent = nLead; document.getElementById('seg-app-n').textContent = nAct.length - nLead;
+  const pageRows = pageSlice('l', rows, [q, sf, leadMode, leadFocus ? leadFocus.label : ''].join('|'));
+  window._lPageIds = pageRows.map(l=>l.id);
+  const fe = canFeims(), ed = canEditLead();
+  const fb = document.getElementById('l-focus');
+  fb.innerHTML = leadFocus ? `<div class="lfocus"><span>🎯 <b>${gsEsc(leadFocus.label)}</b> — ${rows.length} जना</span><button onclick="clearLeadFocus()" title="Clear">✕</button></div>` : '';
+  const sa = document.getElementById('l-selall'); if(sa){ sa.style.display = fe ? '' : 'none'; sa.checked = pageRows.length>0 && pageRows.every(l=>selectedLIds.has(l.id)); }
+  document.getElementById('l-table').innerHTML = pageRows.map(l=>{
+    const t = leadTask(l), nx = ed ? leadNext(l) : [];
+    const lotCell = l.lotNo
+      ? `LOT <b>${gsEsc(l.lotNo)}</b><br><small>${gsEsc(l.company||'')}${l.country?' · '+gsEsc(l.country):''}</small><br><small style="color:var(--muted)">विज्ञापन ${l.adDate?pbs(l.adDate):'<span style="color:#a15c00">—</span>'}</small>`
+      : `<small style="color:var(--muted)">${gsEsc(l.company||'')}</small>${needsFeims(l)?'<br><span class="due soon">📌 Lot / FEIMS बाँकी</span>':'<br><small style="color:var(--muted)">Lot नतोकिएको</small>'}`;
+    return `<tr>
+      <td>${fe?`<input type="checkbox" ${selectedLIds.has(l.id)?'checked':''} onchange="toggleLeadSel('${l.id}',this.checked)">`:''}</td>
+      <td>${gsEsc(l.name)}<br><small style="color:var(--muted)">${gsEsc(l.passport)}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+gsEsc(l.phone):''}</small></td>
+      <td>${lotCell}</td>
+      <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span>${l.rejectReason?`<br><small style="color:#ba1a1a">${gsEsc(l.rejectReason)}</small>`:''}
+        ${t?`<div class="ltask ${t.overdue?'late':''}">→ ${gsEsc(t.text)} · ${ROLE_NP[t.role]||''}${t.overdue?` · ⏰ ${t.age} दिन`:''}</div>`:''}</td>
+      <td style="white-space:nowrap;">${nx.length?`<span class="nx">${nx.map(to=>`<button class="btn btn-sm ${LEAD_NOT_SELECTED.includes(to)?'neg':''}" onclick="leadMove('${l.id}','${to}')" title="${to} मा सार्ने">${LEAD_NOT_SELECTED.includes(to)?'✗':'▶'} ${to==='Ready For Labor Approval'?'Ready':(to==='Document Received'&&l.leadStatus==='New'?'Applicant (Docs बुझायो)':to)}</button>`).join('')}</span>`:''}${fe?`<button class="btn btn-sm btn-ghost" onclick="openAssign(['${l.id}'])" title="Lot / FEIMS विवरण">📌</button> `:''}<button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
+    </tr>`; }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">No applicants found</td></tr>';
+  updateLeadBulk();
 }
 function openLModal(id){
   editingLId = id;
@@ -3045,7 +3360,9 @@ function openLModal(id){
   ['le-name','le-passport','le-age','le-gender','le-lotno','le-country','le-company','le-jobtitle','le-phone','le-orientation','le-medical','le-status','le-nepal-addr','le-contact-addr','le-remarks','le-addate','le-applied','le-reason'].forEach(id=>{
     document.getElementById(id).disabled = converted;
   });
-  document.getElementById('l-save-btn').style.display = converted ? 'none' : '';
+  applyLeadFieldLocks();
+  if(session && session.role==='shram'){ ['l-save-btn','l-convert-btn'].forEach(id=>{ const b=document.getElementById(id); if(b) b.style.display='none'; }); }
+  else document.getElementById('l-save-btn').style.display = converted ? 'none' : '';
   document.getElementById('l-convert-btn').style.display = (!converted && l.leadStatus==='Ready For Labor Approval') ? '' : 'none';
   loadLeadHistory(id);
   document.getElementById('l-modal').style.display='flex';
@@ -3099,7 +3416,7 @@ async function convertLead(){
   if(!l) return;
   if(l.convertedWorkerId){ alert('पहिल्यै सारिएको छ।'); return; }
   if(l.leadStatus!=='Ready For Labor Approval'){ alert('⚠️ पहिले Status "Ready For Labor Approval" राख्नुहोस्।'); return; }
-  if(!confirm(l.name+' लाई Worker/श्रम स्वीकृति रेकर्डमा सार्ने हो? यसपछि श्रम प्रतिनिधिको Master Record मा नयाँ केस देखिन्छ।')) return;
+  if(!confirm(l.name+' लाई Candidates (श्रम स्वीकृति) मा सार्ने हो? यसपछि श्रम प्रतिनिधिको Candidates सूचीमा नयाँ केस देखिन्छ।')) return;
   const r = await api('convertlead', { id: l.id }, null, true);
   if(r.ok){
     if(r.lead){ const i=leads.findIndex(x=>x.id===r.lead.id); if(i>=0) leads[i]=r.lead; }
@@ -3139,6 +3456,7 @@ document.getElementById('pre-form').addEventListener('submit', async function(e)
     costExpense: document.getElementById('p-cost').value.trim(),
     professions: JSON.stringify(positions),  // पूरा पद विवरण (नाम, M/F, तलब)
     contractYears: document.getElementById('p-contract-years').value.trim() || '2',
+    hasInterview: document.getElementById('p-iv').value, hasOffer: document.getElementById('p-of').value, adDate: document.getElementById('p-addate').value,
     remarks: document.getElementById('p-remarks').value.trim()
   };
   const r = await api('addpre', { pre: p }, null, true);
@@ -3265,6 +3583,7 @@ function openPModal(id){
   document.getElementById('pe-expiry').value = p.expiryDate||'';
   document.getElementById('pe-cost').value = (p.costExpense!==undefined && p.costExpense!==null) ? p.costExpense : '';
   document.getElementById('pe-remarks').value = p.remarks||'';
+  document.getElementById('pe-iv').value = p.hasInterview||''; document.getElementById('pe-of').value = p.hasOffer||''; document.getElementById('pe-addate').value = p.adDate||'';
   renderPosBreakdown(p);
   document.getElementById('p-modal').style.display='flex';
 }
@@ -3307,6 +3626,7 @@ function savePre(){
     salary: p.salary||'', costExpense: document.getElementById('pe-cost').value.trim(),
     professions: p.professions||'', contractYears: p.contractYears||'2',
     foreignAddress: p.foreignAddress||'',
+    hasInterview: document.getElementById('pe-iv').value, hasOffer: document.getElementById('pe-of').value, adDate: document.getElementById('pe-addate').value,
     remarks: document.getElementById('pe-remarks').value.trim()
   };
   Object.assign(p, updated);
