@@ -276,6 +276,61 @@ textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-famil
 .seg button b{font-size:11.5px;background:#dfe5ee;color:var(--text);border-radius:10px;padding:1px 7px;}
 .seg button.on{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08);}
 .seg button.on b{background:var(--primary);color:#fff;}
+/* ===== DASHBOARD v2 ===== */
+.dh{display:flex;align-items:flex-end;justify-content:space-between;margin:2px 0 14px;}
+.dh h1{font-size:22px;font-weight:800;color:var(--primary);margin:0 0 3px;}
+.dh p{font-size:13px;color:var(--muted);margin:0;}
+.dash-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px;}
+.dk{background:#fff;border:1px solid var(--border);border-top:4px solid var(--primary);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:box-shadow .15s;}
+.dk:hover{box-shadow:0 4px 14px rgba(16,42,67,.08);}
+.dk-l{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;}
+.dk-v{font-size:30px;font-weight:800;line-height:1;}
+.dk-s{font-size:12px;color:var(--muted);}
+.dg{display:grid;gap:14px;margin-bottom:14px;}
+.dg-2{grid-template-columns:repeat(2,minmax(0,1fr));} .dg-3{grid-template-columns:repeat(3,minmax(0,1fr));} .dg-21{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);}
+@media(max-width:1100px){ .dg-3{grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media(max-width:800px){ .dg-2,.dg-3,.dg-21{grid-template-columns:1fr;} }
+.dc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0;margin-bottom:14px;}
+.dg .dc{margin-bottom:0;}
+.dc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.dc-h h2{margin:0;font-size:14px;font-weight:800;color:var(--primary);}
+.dc-a{font-size:12px;font-weight:700;color:#0a8f7a;cursor:pointer;white-space:nowrap;}
+.dc-a:hover{text-decoration:underline;}
+.db{display:flex;flex-direction:column;gap:5px;}
+.dbs{display:flex;flex-direction:column;gap:11px;}
+.db-t{display:flex;justify-content:space-between;font-size:12.5px;} .db-t span:first-child{font-weight:600;} .db-t span:last-child{color:var(--muted);}
+.db-b{height:8px;background:#e9edf3;border-radius:4px;overflow:hidden;} .db-b div{height:8px;border-radius:4px;}
+.dp{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.dp-red{background:#fde4e2;color:#b3261e;} .dp-amber{background:#fdf0d6;color:#8a5a00;} .dp-green{background:#e2f3ea;color:#16603a;} .dp-grey{background:#eef2f7;color:#4a5260;}
+.dt{width:100%;border-collapse:collapse;margin:0;}
+.dt th{text-align:left;padding:7px 8px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:transparent;}
+.dt td{padding:8px;font-size:12.5px;border-bottom:1px solid #eef1f5;vertical-align:top;}
+.dt tr:last-child td{border-bottom:none;}
+.d-empty{font-size:13px;color:var(--muted);padding:6px 0;}
+.dm{display:flex;align-items:flex-end;gap:6px;height:140px;}
+.dm-c{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;min-width:0;}
+.dm-bars{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;}
+.dm-bars div{width:40%;max-width:12px;min-height:2px;border-radius:3px 3px 0 0;}
+.dm-c span{font-size:10.5px;color:var(--muted);white-space:nowrap;}
+.dm-lg{display:flex;gap:16px;font-size:11.5px;color:var(--muted);} .dm-lg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;}
+.df{display:flex;flex-direction:column;gap:8px;}
+.df-r{display:flex;align-items:center;gap:10px;font-size:12.5px;cursor:pointer;}
+.df-r span{width:86px;font-weight:600;} .df-r > div{flex:1;height:22px;background:#eef2f7;border-radius:6px;overflow:hidden;} .df-r > div div{height:22px;border-radius:6px;}
+.df-r b{width:30px;text-align:right;}
+.df-r:hover span{color:#0a8f7a;}
+.d-warn{font-size:12px;color:#ba1a1a;font-weight:700;cursor:pointer;}
+.dtl{display:flex;flex-direction:column;gap:8px;}
+.dti{display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;color:var(--text);cursor:pointer;text-decoration:none;}
+.dti:hover{background:#f5f9fc;}
+.dti b{font-size:20px;font-weight:800;color:var(--primary);min-width:28px;text-align:center;}
+.dti.late b{color:#ba1a1a;}
+.dti span{font-size:13px;font-weight:600;display:flex;flex-direction:column;gap:2px;} .dti small{font-size:11.5px;color:var(--muted);font-weight:600;}
+.dsteps{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;}
+.dsteps > i{display:flex;align-items:center;color:var(--muted);font-style:normal;font-size:18px;}
+.ds{flex:1;min-width:120px;display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:10px;border:1px solid var(--border);border-top:4px solid #ccc;cursor:pointer;background:#fff;}
+.ds:hover{box-shadow:0 4px 14px rgba(16,42,67,.08);}
+.ds span{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.04em;} .ds b{font-size:26px;font-weight:800;} .ds small{font-size:11.5px;color:var(--muted);}
+.stat-card{border-radius:12px;}
 /* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#10263f;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:4000;}
 #toast.show{opacity:1;transform:translate(-50%,0);}
@@ -449,9 +504,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <div class="content-scroll">
   <!-- TAB 0: DASHBOARD -->
   <div id="tab-dashboard" class="tab-content active">
-    <div class="card" id="my-tasks"></div>
-    <div class="dash-h" id="lead-funnel-h">Lead → Applicant Pipeline</div>
-    <div class="dashboard-grid" id="lead-funnel"></div>
+    <div id="dash-hello"></div>
+    <div class="dash-kpis" id="dash-kpi2"></div>
+    <div class="dash-h" id="lead-funnel-h" style="display:none">Lead → Applicant Pipeline</div>
+    <div class="dashboard-grid" id="lead-funnel" style="display:none"></div>
     <div class="dash-h" id="kpi-h">Candidates / Lot — छानिएको आ.व.</div>
     <div class="dashboard-grid">
       <div class="stat-card c-pre clickable-card" onclick="if(requireAccess(canManageClient(),'Pre-Permission')){cardFilter('pre');}" title="Click to view this FY pre-permissions"><h3>Pre-Permission</h3><div class="value" id="d-pre-total">0</div><div class="sub" id="d-pre-sub">&nbsp;</div></div>
@@ -461,6 +517,8 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <div class="stat-card c-can clickable-card" onclick="cardFilter('cancel')" title="Click to view this FY cancellations"><h3>⊘ Cancel</h3><div class="value" id="d-cancel">0</div><div class="sub">&nbsp;</div></div>
       <div class="stat-card c-can clickable-card" onclick="cardFilter('rejected')" title="Click to view this FY rejections"><h3>✗ Rejected</h3><div class="value" id="d-rejected">0</div><div class="sub" id="d-rej-sub">&nbsp;</div></div>
     </div>
+    <div class="card" id="my-tasks"></div>
+    <div id="dash-extra"></div>
   </div>
 
     <!-- TAB 1: WORKERS -->
@@ -1444,7 +1502,7 @@ async function refreshData(blocking){
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
 }
-function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); fillLookups(); }
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); renderDash2(); fillLookups(); }
 
 // ================= SIDEBAR (mobile toggle) =================
 function toggleSidebar(){
@@ -2519,11 +2577,9 @@ function renderMyTasks(){
 // भूमिका अनुसार कुन Dashboard भाग देखाउने
 function applyRoleDashboard(){
   const role = session ? session.role : '';
-  const kpi = document.querySelector('#tab-dashboard .dashboard-grid:not(#lead-funnel)');
-  const fun = document.getElementById('lead-funnel'), fh = document.getElementById('lead-funnel-h'), kh = document.getElementById('kpi-h');
-  const showKpi = role!=='receptionist', showFun = role!=='shram';
+  const kpi = document.querySelector('#tab-dashboard .dashboard-grid:not(#lead-funnel)'), kh = document.getElementById('kpi-h');
+  const showKpi = ['admin','manager','shram'].includes(role) && role!=='shram';   // shram लाई प्रक्रिया-stepper, admin/manager लाई पुरानै KPI
   if(kpi) kpi.style.display = showKpi ? '' : 'none'; if(kh) kh.style.display = showKpi ? '' : 'none';
-  if(fun) fun.style.display = showFun ? '' : 'none'; if(fh) fh.style.display = showFun ? '' : 'none';
 }
 
 
@@ -2583,6 +2639,166 @@ document.addEventListener('keydown', function(e){
   if(k){ toggleEntry(k, false); e.preventDefault(); return; }
   const sb = document.getElementById('sidebar'); if(sb && sb.classList.contains('open')) closeSidebar();
 });
+
+
+// ================= DASHBOARD v2 — भूमिका अनुसार (पहिल्यै load भएको data बाट; थप server call छैन) =================
+const DI = {
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>', plane:'<path d="M2 22h20"/><path d="M6.4 17.4 3 11l2-1 4 2 4-2-5-7 3-1 8 7 3-1a1.5 1.5 0 0 1 1 3l-15 6.4z"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', user:'<circle cx="10" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6"/>',
+  alert:'<path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/>',
+  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+  pin:'<path d="M12 22s7-7.5 7-13a7 7 0 0 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/>'
+};
+const dic = (k,c) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${c||'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${DI[k]||''}</svg>`;
+const NP_WEEK = ['आइतबार','सोमबार','मंगलबार','बुधबार','बिहीबार','शुक्रबार','शनिबार'];
+let _dAct = [];
+function dA(fn){ _dAct.push(fn); return `onclick="_dAct[${_dAct.length-1}]()"`; }
+function dKpi(label, val, sub, color, icon, fn){
+  return `<div class="dk" style="border-top-color:${color}" ${fn?dA(fn):''}><div class="dk-l">${dic(icon,color)}${label}</div><div class="dk-v" style="color:${color}">${val}</div><div class="dk-s">${sub}</div></div>`;
+}
+function dCard(title, body, right, cls){ return `<section class="dc ${cls||''}"><div class="dc-h"><h2>${title}</h2>${right||''}</div>${body}</section>`; }
+function dLink(t, fn){ return `<a class="dc-a" ${dA(fn)}>${t}</a>`; }
+function dBar(label, v, mx, color, right){ const p = mx ? Math.round(v/mx*100) : 0; return `<div class="db"><div class="db-t"><span>${label}</span><span>${right}</span></div><div class="db-b"><div style="width:${p}%;background:${color}"></div></div></div>`; }
+function dPill(t, k){ return `<span class="dp dp-${k}">${t}</span>`; }
+function dTable(h, rows, empty){ return rows.length ? `<table class="dt"><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>` : `<div class="d-empty">${empty||'केही छैन'}</div>`; }
+function fyMonthIdx(m){ return (m + 8) % 12; }   // साउन(4)=0 … असार(3)=11
+function prevFY(fy){ const i = FY_LIST.findIndex(f=>f.label===fy.label); return i>0 ? FY_LIST[i-1] : null; }
+function dMonthly(field, fy, filterFn){
+  const cur = Array(12).fill(0), prev = Array(12).fill(0), pf = prevFY(fy);
+  workers.forEach(w=>{ const d = w[field]; if(!d || (filterFn && !filterFn(w))) return; const b = bsOf(d); if(!b) return;
+    if(inFY(d, fy)) cur[fyMonthIdx(b.m)]++; else if(pf && inFY(d, pf)) prev[fyMonthIdx(b.m)]++; });
+  const mx = Math.max(1, ...cur, ...prev);
+  const cols = FY_MONTH_ORDER.map((mn,i)=>`<div class="dm-c" title="${mn}: ${cur[i]} (अघिल्लो ${prev[i]})"><div class="dm-bars"><div style="height:${Math.round(cur[i]/mx*100)}%;background:#0a8f7a"></div>${pf?`<div style="height:${Math.round(prev[i]/mx*100)}%;background:#b8c4d6"></div>`:''}</div><span>${mn}</span></div>`).join('');
+  return `<div class="dm">${cols}</div><div class="dm-lg"><span><i style="background:#0a8f7a"></i>${fy.label.replace('-','/')} (${cur.reduce((a,b)=>a+b,0)})</span>${pf?`<span><i style="background:#b8c4d6"></i>${pf.label.replace('-','/')} (${prev.reduce((a,b)=>a+b,0)})</span>`:''}</div>`;
+}
+function dFunnel(){
+  const act = leads.filter(l=>!l.convertedWorkerId);
+  const F = [['Leads',['New'],'#8fa3bf'],['Documents',['Document Received','Shortlisted'],'#6b87ad'],['Interview',['Interview','Interview Passed'],'#2b5585'],['Medical',['Medical','Medical Fit','Selected'],'#0a8f7a'],['Offer',['Offer Letter','Offer Accepted'],'#b58a2a'],['Ready',[READY_ST],'#1e6e3c']];
+  const counts = F.map(f=>act.filter(l=>f[1].includes(l.leadStatus)));
+  const mx = Math.max(1, ...counts.map(c=>c.length));
+  const stuck = act.filter(l=>{ const t=leadTask(l); return t && t.overdue; });
+  return `<div class="df">${F.map((f,i)=>`<div class="df-r" ${dA(()=>focusLeads(f[0], counts[i].map(l=>l.id)))}><span>${f[0]}</span><div><div style="width:${Math.max(4,Math.round(counts[i].length/mx*100))}%;background:${f[2]}"></div></div><b>${counts[i].length}</b></div>`).join('')}</div>`
+    + (stuck.length ? `<div class="d-warn" ${dA(()=>focusLeads('म्याद नाघेका (अड्किएका) Applicant', stuck.map(l=>l.id)))}>${stuck.length} जना म्याद नाघेर अड्किएका</div>` : '');
+}
+function dLotTable(n){
+  const u = usedByLotMap(), today = fmtDate(new Date());
+  const rows = pres.filter(p=>p.lotNo && (!p.expiryDate || p.expiryDate >= today)).map(p=>{
+    const k = lotKey(p.lotNo), x = u[k] || {M:0,F:0}, dem = (+p.maleCount||0)+(+p.femaleCount||0), used = x.M + x.F, days = p.expiryDate ? daysUntil(p.expiryDate) : null;
+    return { p, k, dem, used, days };
+  }).sort((a,b)=>(a.used>=a.dem)-(b.used>=b.dem) || (a.days??9999)-(b.days??9999)).slice(0, n||6);
+  return dTable(['Lot','Company','प्रयोग','म्याद'], rows.map(r=>[`<b>${gsEsc(r.k)}</b>`, `${gsEsc(r.p.company||'')}<br><small>${gsEsc(r.p.country||'')}</small>`, `${r.used} / ${r.dem}`,
+    r.dem && r.used>=r.dem ? dPill('कोटा पूरा','grey') : r.days===null ? '-' : r.days<=15 ? dPill(r.days+' दिन','red') : r.days<=45 ? dPill(r.days+' दिन','amber') : dPill(Math.round(r.days/30)+' महिना','green')]), 'चालु Lot छैन');
+}
+function dCountry(fy){
+  const m = {}; workers.forEach(w=>{ if(w.departDate && inFY(w.departDate, fy)){ const c = w.country||'-'; m[c]=(m[c]||0)+1; } });
+  const arr = Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,6), mx = arr.length ? arr[0][1] : 1;
+  const col = ['#0a8f7a','#2b5585','#b58a2a','#6b87ad','#8fa3bf','#9b6b9b'];
+  return arr.length ? `<div class="dbs">${arr.map((x,i)=>dBar(gsEsc(x[0]), x[1], mx, col[i], x[1])).join('')}</div>` : '<div class="d-empty">यो आ.व.मा उडान छैन</div>';
+}
+function dRecent(){
+  const items = [];
+  leads.forEach(l=>items.push({ t:String(l.createdAt||''), who:l.name, what: l.convertedWorkerId ? 'Applicant → Candidates' : (l.leadStatus==='New'?'नयाँ Lead':'Applicant: '+l.leadStatus) }));
+  workers.forEach(w=>items.push({ t:String(w.createdAt||''), who:w.name, what:'Candidate: '+w.status }));
+  items.sort((a,b)=>b.t.localeCompare(a.t));
+  return dTable(['मिति','नाम','अवस्था'], items.slice(0,6).map(x=>[x.t?pbs(x.t.slice(0,10)):'-', gsEsc(x.who||''), gsEsc(x.what)]), 'रेकर्ड छैन');
+}
+function dStaff(){
+  const agg = {}; buildTasks().forEach(t=>{ const k = t.role==='feims' ? 'FEIMS (Doc / श्रम)' : (ROLE_NP[t.role]||t.role); (agg[k]=agg[k]||{n:0,o:0}); agg[k].n+=t.n; agg[k].o+=(t.over||0); });
+  const arr = Object.entries(agg).sort((a,b)=>b[1].n-a[1].n), mx = Math.max(1, ...arr.map(x=>x[1].n));
+  const col = ['#0a8f7a','#2b5585','#b58a2a','#ba1a1a','#6b87ad'];
+  return `<div class="dbs">${arr.map((x,i)=>dBar(x[0], x[1].n, mx, col[i%5], x[1].n + (x[1].o?` · ${x[1].o} ढिला`:''))).join('')}</div>`;
+}
+function dTaskList(items){
+  return `<div class="dtl">${items.map(t=>`<a class="dti ${t.late?'late':''}" ${dA(t.fn)}><b>${t.n}</b><span>${t.label}${t.sub?`<small>${t.sub}</small>`:''}</span></a>`).join('')}</div>`;
+}
+function renderDash2(){
+  const box = document.getElementById('dash-extra'); if(!box || !session) return;
+  _dAct = [];
+  const role = session.role, fy = currentFY(); if(!fy) return;
+  const t = bsOf(new Date());
+  document.getElementById('dash-hello').innerHTML = `<div class="dh"><div><h1>नमस्ते, ${gsEsc(session.fullName||session.username||'')}</h1><p>${gsEsc(ROLE_LABEL[role]||role)}${t?` · ${BS_NAMES[t.m-1]} ${toNepDigits(t.d)}, ${toNepDigits(t.y)} (${NP_WEEK[new Date().getDay()]})`:''}</p></div></div>`;
+  const W = workers, act = leads.filter(l=>!l.convertedWorkerId);
+  const lt = r => act.filter(l=>{ const x = leadTask(l); return x && x.role===r; });
+  const kp = document.getElementById('dash-kpi2'); let k = '', h = '';
+  const monitorCard = () => { const d = monDueLots(); const need = d.filter(x=>x.done<x.target); const done = d.reduce((a,b)=>a+Math.min(b.done,b.target),0), tgt = d.reduce((a,b)=>a+b.target,0);
+    return { need, html: `<div class="dbs">${d.slice(0,5).map(x=>dBar('LOT '+gsEsc(x.lot), Math.min(x.done,x.target), x.target||1, x.done>=x.target?'#1e6e3c':'#ba1a1a', x.done+' / '+x.target)).join('') || '<div class="d-empty">उडिसकेका कामदार छैनन्</div>'}</div><div class="dk-s" style="margin-top:6px">यो महिना जम्मा ${done} / ${tgt} सम्पर्क</div>` }; };
+  if(role==='receptionist'){
+    const today = fmtDate(new Date());
+    const newToday = leads.filter(l=>String(l.createdAt||'').slice(0,10)===today);
+    const med = act.filter(l=>l.leadStatus==='Interview Passed'), ivr = act.filter(l=>l.leadStatus==='Interview');
+    const dep = W.filter(w=>w.status==='Approved' && !w.departDate), late = lt('receptionist').filter(l=>leadTask(l).overdue);
+    k = dKpi('आज नयाँ Lead', newToday.length, 'यो हप्ता ' + leads.filter(l=>{ const du = daysUntil(String(l.createdAt||'').slice(0,10)); return du!==null && du>-7; }).length, '#0a8f7a','user', ()=>focusLeads('आज नयाँ', newToday.map(l=>l.id)))
+      + dKpi('Medical बोलाउन बाँकी', med.length, 'Interview Passed', '#8a6a12','phone', ()=>focusLeads('Medical बोलाउन बाँकी', med.map(l=>l.id)))
+      + dKpi('Interview नतिजा बाँकी', ivr.length, 'Interview भइसकेका', '#002045','clock', ()=>focusLeads('Interview नतिजा बाँकी', ivr.map(l=>l.id)))
+      + dKpi('उडान मिति राख्न बाँकी', dep.length, 'श्रम स्वीकृत', '#2b5585','plane', ()=>openDeparture('pending'))
+      + dKpi('म्याद नाघेका', late.length, 'अड्किएका Applicant', '#ba1a1a','alert', ()=>focusLeads('म्याद नाघेका', late.map(l=>l.id)));
+    const calls = lt('receptionist').map(l=>({ l, t:leadTask(l) })).sort((a,b)=>b.t.age-a.t.age).slice(0,8);
+    h = `<div class="dg dg-2">`
+      + dCard('आज सम्पर्क गर्नुपर्ने', dTable(['Applicant','काम',''], calls.map(x=>[`${gsEsc(x.l.name)}<br><small>${gsEsc(x.l.phone||'फोन नभएको')}</small>`, gsEsc(x.t.text), x.t.overdue?dPill(x.t.age+' दिन','red'):dPill(x.t.age+' दिन','grey')]), 'सबै काम सकियो'), dLink('सबै हेर्नुहोस्', ()=>{ switchTabById('tab-leads'); setLeadMode('applicant'); }))
+      + dCard('Lead → Applicant Pipeline', dFunnel()) + `</div>`
+      + `<div class="dg dg-2">` + dCard('उडान विवरण राख्न बाँकी', dTable(['Candidate','Lot','स्वीकृत'], dep.sort((a,b)=>String(a.approveDate).localeCompare(String(b.approveDate))).slice(0,6).map(w=>[gsEsc(w.name), gsEsc(w.lotNo||'-'), w.approveDate?pbs(w.approveDate):'-']), 'कोही बाँकी छैन'), dLink('सबै हेर्नुहोस्', ()=>openDeparture('pending'))) + dCard('हालै दर्ता', dRecent()) + `</div>`;
+  } else if(role==='documentation'){
+    const offer = lt('documentation').filter(l=>['Medical Fit','Selected'].includes(l.leadStatus) && leadFlags(l).of!==false);
+    const fe = act.filter(needsFeims), ready = act.filter(l=>l.leadStatus===READY_ST);
+    const live = W.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && !w.departDate);
+    const medP = live.filter(w=>w.medical!=='Yes'), oriP = live.filter(w=>w.orientation!=='Yes');
+    k = dKpi('Offer Letter बाँकी', offer.length, 'Medical Fit भएका', '#8a6a12','file', ()=>focusLeads('Offer Letter बाँकी', offer.map(l=>l.id)))
+      + dKpi('Lot / FEIMS बाँकी', fe.length, 'Ready अघि अनिवार्य', '#ba1a1a','pin', ()=>focusLeads('Lot / FEIMS बाँकी', fe.map(l=>l.id)))
+      + dKpi('Candidates मा सार्न तयार', ready.length, 'Ready For Labor Approval', '#1e6e3c','check', ()=>focusLeads('Ready', ready.map(l=>l.id)))
+      + dKpi('Medical बाँकी', medP.length, 'Candidates (उडान नभएका)', '#002045','file', ()=>openActionFilter('medicalpending','🩺 Medical Pending'))
+      + dKpi('Orientation बाँकी', oriP.length, 'Candidates (उडान नभएका)', '#0a8f7a','file', ()=>openActionFilter('orientationpending','📘 Orientation Pending'));
+    const byLot = {}; live.forEach(w=>{ const kk = lotKey(w.lotNo)||'(Lot छैन)'; (byLot[kk]=byLot[kk]||[]).push(w); });
+    const lots = Object.entries(byLot).sort((a,b)=>b[1].length-a[1].length).slice(0,6);
+    const frac = (n,d)=> dPill(n+' / '+d, n>=d?'green':n===0?'red':'amber');
+    const wait = act.filter(l=>{ const x=leadTask(l); return (x && x.role==='documentation') || needsFeims(l); }).map(l=>({l,t:leadTask(l)})).sort((a,b)=>(b.t?b.t.age:0)-(a.t?a.t.age:0)).slice(0,6);
+    h = `<div class="dg dg-2">`
+      + dCard('कागजात अवस्था — Lot अनुसार', dTable(['Lot','कामदार','Medical','Orientation','Visa नं.'], lots.map(([kk,ws])=>[`<b>${gsEsc(kk)}</b>`, ws.length, frac(ws.filter(w=>w.medical==='Yes').length, ws.length), frac(ws.filter(w=>w.orientation==='Yes').length, ws.length), frac(ws.filter(w=>String(w.visaNo||'').trim()).length, ws.length)]), 'प्रक्रियामा Candidates छैनन्'))
+      + dCard('Offer / FEIMS पर्खँदै', dTable(['Applicant','Status','बाँकी काम',''], wait.map(x=>[gsEsc(x.l.name), gsEsc(x.l.leadStatus), needsFeims(x.l)?'Lot / FEIMS':gsEsc(x.t?x.t.text:''), x.t&&x.t.overdue?dPill(x.t.age+' दिन','red'):dPill((x.t?x.t.age:0)+' दिन','grey')]), 'केही बाँकी छैन'), dLink('सबै हेर्नुहोस्', ()=>{ switchTabById('tab-leads'); setLeadMode('applicant'); })) + `</div>`
+      + `<div class="dg dg-2">` + dCard('Lead → Applicant Pipeline', dFunnel()) + dCard('DoFE Applicant सूची', dDofe(), dLink('खोल्नुहोस्', ()=>openDofeLists())) + `</div>`;
+  } else if(role==='shram'){
+    const st = s => W.filter(w=>w.status===s);
+    const appr = W.filter(w=>w.status==='Approved' && inFY(w.approveDate, fy)), depP = W.filter(w=>w.status==='Approved' && !w.departDate);
+    const step = (l,n,c,sub,fn)=>`<div class="ds" style="border-top-color:${c}" ${dA(fn)}><span>${l}</span><b style="color:${c}">${n}</b><small>${sub}</small></div>`;
+    k = ''; kp.innerHTML = '';
+    const g = canGrievance() ? grievances : [];
+    h = dCard('श्रम स्वीकृति प्रक्रिया', `<div class="dsteps">${step('ENTRY',st('Entry').length,'#8fa3bf','FEIMS Upload बाँकी',()=>workerStatusFilter('Entry'))}<i>›</i>${step('UPLOAD',st('Upload').length,'#6b87ad','Submit बाँकी',()=>workerStatusFilter('Upload'))}<i>›</i>${step('SUBMITTED',st('Submitted').length,'#8a6a12','स्वीकृति पर्खँदै',()=>workerStatusFilter('Submitted'))}<i>›</i>${step('APPROVED',appr.length,'#1e6e3c','यो आ.व.',()=>cardFilter('approved'))}<i>›</i>${step('उडान बाँकी',depP.length,'#ba1a1a','Departure pending',()=>openDeparture('pending'))}</div>`)
+      + `<div class="dg dg-2">` + dCard('Lot कोटा र म्याद', dLotTable(8), dLink('Quota हेर्नुहोस्', ()=>{ if(requireAccess(notReceptionist(),'Quota Details')) switchTabById('tab-quota'); })) + dCard('महिना अनुसार श्रम स्वीकृति', dMonthly('approveDate', fy, w=>w.status==='Approved')) + `</div>`
+      + `<div class="dg dg-2">` + dCard('Grievance / Rescue', dTaskList([
+          { n:g.filter(x=>{ const d=grvDue(x); return d.n!==null && d.n<=2; }).length, label:'Likhit Jawab म्याद (≤ २ दिन)', late:true, fn:()=>openGrievanceDue() },
+          { n:g.filter(grvOpen).length, label:'खुला case (New / In Progress)', fn:()=>{ switchTabById('tab-grievance'); document.getElementById('g-status-filter').value='__open'; renderGrievances(); } },
+          { n:g.filter(x=>x.caseStatus==='Reply Submitted').length, label:'जवाफ पेश भएका', fn:()=>{ switchTabById('tab-grievance'); document.getElementById('g-status-filter').value='Reply Submitted'; renderGrievances(); } }]))
+        + dCard('DoFE Applicant सूची', dDofe(), dLink('खोल्नुहोस्', ()=>openDofeLists())) + `</div>`;
+  } else {   // admin / manager
+    kp.innerHTML = '';
+    const mon = monitorCard();
+    h = `<div class="dg dg-21">` + dCard('महिना अनुसार उडान (आ.व. तुलना)', dMonthly('departDate', fy)) + dCard('Lead → Applicant Pipeline', dFunnel()) + `</div>`
+      + `<div class="dg dg-3">` + dCard('Lot कोटा र म्याद', dLotTable(6), dLink('सबै हेर्नुहोस्', ()=>switchTabById('tab-quota')))
+      + dCard('स्टाफ अनुसार बाँकी काम', dStaff())
+      + dCard('DoFE Compliance', dTaskList([
+          ...(canGrievance()?[{ n:grvDueCount(), label:'Likhit Jawab म्याद (≤ २ दिन)', late:true, fn:()=>openGrievanceDue() }]:[]),
+          { n:mon.need.length, label:'अनुगमन लक्ष्य नपुगेका Lot', sub:'यो महिना', fn:()=>openMonitorDue() },
+          { n:act.filter(needsFeims).length, label:'Lot / FEIMS बाँकी Applicant', fn:()=>focusLeads('Lot / FEIMS बाँकी', act.filter(needsFeims).map(l=>l.id)) },
+          { n:dDofeReady().length, label:'DoFE सूची प्रकाशित गर्न मिल्ने Lot', sub:'विज्ञापनको ७ दिन सकिएका', fn:()=>openDofeLists() }])) + `</div>`
+      + `<div class="dg dg-3">` + dCard('देश अनुसार उडान (यो आ.व.)', dCountry(fy)) + dCard('अनुगमन — यो महिना', mon.html, dLink('खोल्नुहोस्', ()=>openMonitorDue())) + dCard('हालै दर्ता', dRecent()) + `</div>`;
+  }
+  if(k) kp.innerHTML = k;
+  kp.style.display = k ? '' : 'none';
+  box.innerHTML = h;
+}
+function dDofeReady(){
+  const lots = {}; leads.forEach(l=>{ const kk = lotKey(l.lotNo); if(kk && l.adDate){ const end = offStr(adOff(l.adDate)+7); if(daysUntil(end) < 0) lots[kk] = true; } });
+  return Object.keys(lots);
+}
+function dDofe(){
+  const ready = dDofeReady();
+  const noReason = leads.filter(l=>LEAD_NOT_SELECTED.includes(l.leadStatus) && !String(l.rejectReason||'').trim() && !LEAD_REASON_DEFAULT[l.leadStatus]);
+  const noAd = pres.filter(p=>p.lotNo && !p.adDate && leads.some(l=>lotKey(l.lotNo)===lotKey(p.lotNo)));
+  return dTaskList([
+    { n:ready.length, label:'(क) सबै निवेदकको सूची — प्रकाशित गर्न मिल्ने Lot', sub:'विज्ञापनको ७ दिन सकिएका', fn:()=>openDofeLists() },
+    { n:noReason.length, label:'(ख) छनौट नभएका — कारण भर्न बाँकी', late:noReason.length>0, fn:()=>focusLeads('कारण बाँकी', noReason.map(l=>l.id)) },
+    { n:noAd.length, label:'Lot मा विज्ञापन मिति नभएका', fn:()=>{ if(requireAccess(canManageClient(),'Pre-Permission')) switchTabById('tab-pre'); } }]);
+}
 
 // ================= PAGINATION (एक page मा १० row, default) =================
 const PAGER = {};
