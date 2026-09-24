@@ -179,6 +179,9 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;
 .entry-card{max-width:1080px;width:100%;margin:0 auto 20px;padding:0;border-radius:12px;box-shadow:0 1px 4px rgba(16,42,67,.06);animation:entryIn .18s ease;}
 @keyframes entryIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 .entry-card > .entry-head{display:flex;align-items:center;gap:14px;margin:0;padding:14px 22px;border-bottom:1px solid var(--border);font-size:18px;font-weight:700;}
+/* × close */
+.entry-x{margin-left:auto;width:36px;height:36px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:#fff;border-radius:9px;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;}
+.entry-x:hover{background:#fde8e8;color:#ba1a1a;border-color:#f3c2c2;}
 .entry-back{display:inline-flex;align-items:center;gap:6px;background:#f5f7fa;border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-weight:700;font-size:13px;color:var(--primary);cursor:pointer;}
 .entry-back:hover{background:#eceff6;}
 .entry-card > .field-lock-note{margin:14px 22px 0;}
@@ -242,6 +245,7 @@ textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-famil
 .gj-paper{background:#fff;max-width:640px;margin:0 auto;padding:44px 42px 50px 50px;box-shadow:0 4px 18px rgba(0,0,0,.12);border-radius:2px;min-height:760px;}
 .gj-paper .lt{font-size:13.5px;}
 .gj-due{font-size:12.5px;color:var(--muted);margin-left:auto;font-weight:600;}
+.gj-due + .entry-x{margin-left:10px;}
 @media(max-width:1100px){ .gj-wrap{grid-template-columns:1fr;} .gj-preview-wrap{position:static;max-height:none;} }
 @media(max-width:760px){ .gj-wrap{padding:14px;} .gj-paper{padding:24px 18px;} }
 /* ===== MY TASKS / FUNNEL / APPLICANT FLOW ===== */
@@ -430,12 +434,10 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </div>
       </div>
     </header>
-
-    <button id="back-fab" class="back-fab" onclick="goBack()" title="Back to Dashboard"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span>BACK</span></button>
     <div class="pagehead">
       <div class="gsearch">
         <svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="gsearch" placeholder="Search — LOT / Passport / Name / Company" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)" onkeydown="gsKey(event)" autocomplete="off" spellcheck="false">
+        <input id="gsearch" placeholder="Search — LOT / Passport / Name / Company" oninput="globalSearchDebounced(this.value)" onfocus="globalSearch(this.value)" onkeydown="gsKey(event)" autocomplete="off" spellcheck="false">
         <div class="gsresults" id="gsResults"></div>
       </div>
       <div class="ph-right">
@@ -465,7 +467,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <div id="tab-workers" class="tab-content">
     <div class="main-grid form-closed" id="w-grid">
       <div class="card entry-card" id="w-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('w',false)">← Back to List</button><span>New Candidate Entry</span></div>
+        <div class="card-title entry-head"><span>New Candidate Entry</span><button type="button" class="entry-x" onclick="toggleEntry('w',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <div class="field-lock-note" id="intake-lock-note" style="display:none;">🔒 Your role cannot register new workers — only Receptionist/Admin can.</div>
         <div class="field-lock-note" id="doc-field-lock-note" style="display:none;">🔒 News/Issue Date, Visa No., Visa/Demand Profession, Orientation and Medical are filled later by Documentation/Admin (greyed out for Receptionist).</div>
         <form id="worker-form">
@@ -506,7 +508,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </form>
       </div>
       <div class="card entry-card" id="wi-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('wi',false)">← Back to List</button><span>Paste Import — Candidates</span></div>
+        <div class="card-title entry-head"><span>Paste Import — Candidates</span><button type="button" class="entry-x" onclick="toggleEntry('wi',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <div class="imp-body">
           <div class="imp-grid">
             <div>
@@ -567,7 +569,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <div id="tab-leads" class="tab-content">
     <div class="main-grid form-closed" id="l-grid">
       <div class="card entry-card" id="l-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('l',false)">← Back to List</button><span>New Lead Entry</span></div>
+        <div class="card-title entry-head"><span>New Lead Entry</span><button type="button" class="entry-x" onclick="toggleEntry('l',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <form id="lead-form">
           <div class="field-lock-note full" id="l-feims-note" style="display:none;">🔒 Lot No., Country, Company र विज्ञापन मिति Documentation / श्रम प्रतिनिधिले राख्नुहुन्छ (FEIMS अनुसार)।</div>
           <div class="form-group"><label>Name *</label><input type="text" id="l-name" class="form-control" required=""></div>
@@ -603,7 +605,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </form>
       </div>
       <div class="card entry-card" id="ld-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('ld',false)">← Back to List</button><span>DoFE Applicant Lists — ७ दिने विज्ञापन निर्देशन</span></div>
+        <div class="card-title entry-head"><span>DoFE Applicant Lists — ७ दिने विज्ञापन निर्देशन</span><button type="button" class="entry-x" onclick="toggleEntry('ld',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <div class="imp-body">
           <div class="imp-grid">
             <div>
@@ -654,7 +656,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <div id="tab-pre" class="tab-content hide-for-receptionist hide-for-documentation">
     <div class="main-grid form-closed" id="p-grid">
       <div class="card entry-card" id="p-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('p',false)">← Back to List</button><span>New Pre-Permission Entry</span></div>
+        <div class="card-title entry-head"><span>New Pre-Permission Entry</span><button type="button" class="entry-x" onclick="toggleEntry('p',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <form id="pre-form">
           <div class="form-group"><label>Approval Date *</label><input type="date" id="p-date" class="form-control" required=""></div>
           <div class="form-group"><label>Lot No.</label><input type="text" id="p-lotno" class="form-control"></div>
@@ -703,7 +705,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <datalist id="dl-branch"><option value="राहत, उद्धार तथा समन्वय शाखा"><option value="संस्था अनुगमन शाखा"><option value="उजुरी व्यवस्थापन शाखा"></datalist>
     <div class="main-grid form-closed" id="g-grid">
       <div class="card entry-card" id="g-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('g',false)">← Back to List</button><span id="g-entry-title">New Grievance Case</span></div>
+        <div class="card-title entry-head"><span id="g-entry-title">New Grievance Case</span><button type="button" class="entry-x" onclick="toggleEntry('g',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <form id="g-form" autocomplete="off" onsubmit="grvSubmit(event)">
           <div class="sec-h">DoFE Letter (विभागको पत्र)</div>
           <div class="form-group"><label>Chalani No. (चलानी नं.) *</label><input type="text" id="g-chalani" class="form-control" placeholder="e.g. 2083/84-1444" ></div>
@@ -740,7 +742,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       </div>
 
       <div class="card entry-card" id="gj-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('gj',false)">← Back to List</button><span>Likhit Jawab — <span id="gj-case"></span></span><span class="gj-due" id="gj-due"></span></div>
+        <div class="card-title entry-head"><span>Likhit Jawab — <span id="gj-case"></span></span><span class="gj-due" id="gj-due"></span><button type="button" class="entry-x" onclick="toggleEntry('gj',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <div class="gj-wrap">
           <div class="gj-editor" oninput="jwPreview()">
             <div class="gj-row">
@@ -785,7 +787,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
   <div id="tab-monitor" class="tab-content">
     <div class="main-grid form-closed" id="m-grid">
       <div class="card entry-card" id="m-entry">
-        <div class="card-title entry-head"><button type="button" class="entry-back" onclick="toggleEntry('m',false)">← Back to List</button><span id="m-entry-title">New Monitoring Call</span></div>
+        <div class="card-title entry-head"><span id="m-entry-title">New Monitoring Call</span><button type="button" class="entry-x" onclick="toggleEntry('m',false)" title="Close (Esc)" aria-label="Close">×</button></div>
         <form id="m-form" autocomplete="off" onsubmit="monSubmit(event)">
           <div class="sec-h">Worker (कामदार)</div>
           <div class="form-group"><label>Passport No.</label><input type="text" id="m-passport" class="form-control" list="dl-wpass" oninput="this.value=cleanPassport(this.value);monPassInput()"><div class="lot-hint" id="m-pass-hint"></div></div>
@@ -2387,9 +2389,14 @@ async function leadMove(id, to){
     if(!reason){ alert('कारण अनिवार्य छ।'); return; }
   } else if(!confirm(l.leadStatus==='New' && to==='Document Received' ? `${l.name}\nकागजात बुझायो — Lead बाट Applicant मा सार्ने?` : `${l.name}\n"${l.leadStatus}" → "${to}" मा सार्ने?`)) return;
   const upd = Object.assign({}, l, { leadStatus:to, rejectReason: LEAD_NOT_SELECTED.includes(to) ? reason : '' });
-  const r = await api('updatelead', { lead: upd }, null, true);
-  if(r && r.ok && r.lead){ const i = leads.findIndex(x=>x.id===id); if(i>=0) leads[i] = normRec(r.lead); renderAll(); toast(`✅ ${l.name} → ${to}`); }
-  else alert(r && r.error==='FEIMS_REQUIRED' ? '⚠️ Lot / कम्पनी / विज्ञापन मिति नभई Ready गर्न मिल्दैन।' : '⚠️ भएन: ' + ((r&&r.error)||''));
+  // SPEED: screen तुरुन्तै update (optimistic), save पछाडि हुन्छ; fail भए पुरानै अवस्थामा फर्काउने
+  const i0 = leads.findIndex(x=>x.id===id), before = leads[i0];
+  leads[i0] = Object.assign({}, l, { leadStatus:to, rejectReason:upd.rejectReason, stageDate: fmtDate(new Date()) });
+  renderAll(); toast(`✅ ${l.name} → ${to}`);
+  const r = await api('updatelead', { lead: upd }, null, false);
+  const i1 = leads.findIndex(x=>x.id===id);
+  if(r && r.ok && r.lead){ if(i1>=0) leads[i1] = normRec(r.lead); renderAll(); }
+  else { if(i1>=0) leads[i1] = before; renderAll(); alert('⚠️ Save भएन — पहिलेकै अवस्थामा फर्काइयो।\n' + (r && r.error==='FEIMS_REQUIRED' ? 'Lot / कम्पनी / विज्ञापन मिति नभई Ready गर्न मिल्दैन।' : ((r&&r.error)||''))); }
 }
 
 // ---------- Lot / FEIMS विवरण राख्ने (Documentation / श्रम प्रतिनिधि) ----------
@@ -2565,6 +2572,18 @@ function renderDeparture(){
     || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">${depMode==='pending'?'उडान बाँकी कोही छैन':'यो आ.व.मा उडेका छैनन्'}</td></tr>`;
 }
 
+
+// ================= Esc: खुला भाग बन्द गर्ने (Modal → Form/Panel → Search → Sidebar) =================
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Escape') return;
+  const modal = [...document.querySelectorAll('.modal')].reverse().find(m=>getComputedStyle(m).display!=='none');
+  if(modal){ const x = modal.querySelector('.close-modal'); if(x) x.click(); else modal.style.display='none'; e.preventDefault(); return; }
+  const gr = document.getElementById('gsResults'); if(gr && gr.classList.contains('show')){ gr.classList.remove('show'); return; }
+  const k = (typeof openEntryKey==='function') ? openEntryKey() : null;
+  if(k){ toggleEntry(k, false); e.preventDefault(); return; }
+  const sb = document.getElementById('sidebar'); if(sb && sb.classList.contains('open')) closeSidebar();
+});
+
 // ================= PAGINATION (एक page मा १० row, default) =================
 const PAGER = {};
 const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances(), m:()=>renderMonitor(), dp:()=>renderDeparture() };
@@ -2685,6 +2704,7 @@ function globalSearch(q){
     : '<div class="empty">No results found</div>';
   box.classList.add('show');
 }
+const globalSearchDebounced = (function(){ let t; return v=>{ clearTimeout(t); t=setTimeout(()=>globalSearch(v), 250); }; })();
 function gsPick(i){
   const r = gsRes[i]; if(!r) return;
   const box = document.getElementById('gsResults'); box.classList.remove('show');
