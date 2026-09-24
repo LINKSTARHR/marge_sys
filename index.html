@@ -892,65 +892,116 @@ let session = null;
 let workers = [], pres = [], leads = [];
 let editingWId = null, editingPId = null;
 
-// ================= नेपाली पात्रो (BS) =================
-const BS_START = {2078:new Date(2021,3,14),2079:new Date(2022,3,14),2080:new Date(2023,3,14),2081:new Date(2024,3,13),2082:new Date(2025,3,14),2083:new Date(2026,3,14),2084:new Date(2027,3,14),2085:new Date(2028,3,13),2086:new Date(2029,3,14),2087:new Date(2030,3,14),2088:new Date(2031,3,14),2089:new Date(2032,3,13),2090:new Date(2033,3,14),2091:new Date(2034,3,14),2092:new Date(2035,3,14),2093:new Date(2036,3,13),2094:new Date(2037,3,14),2095:new Date(2038,3,14)};
-const BS_DAYS = {2078:[31,31,31,32,31,31,30,29,30,29,30,30],2079:[31,31,32,31,31,31,30,29,30,30,29,31],2080:[31,32,31,32,31,30,30,30,29,30,29,31],2081:[31,31,32,32,31,30,30,29,30,29,30,30],2082:[31,31,32,31,31,31,30,29,30,29,30,30],2083:[31,32,31,31,31,30,30,29,30,29,30,30],2084:[31,31,32,31,31,30,30,29,30,29,30,30],2085:[31,32,31,32,30,31,30,29,30,29,30,30],2086:[31,32,31,32,31,30,30,29,30,29,30,30],2087:[31,31,32,31,31,31,30,29,30,29,30,30],2088:[30,31,32,32,30,31,30,29,30,29,30,30],2089:[31,31,32,31,31,30,30,29,30,29,30,30],2090:[31,32,31,32,31,30,30,29,30,29,30,30],2091:[31,31,32,31,31,31,30,29,30,29,30,30],2092:[31,31,32,32,31,30,30,29,30,29,30,30],2093:[31,32,31,32,31,30,30,29,30,29,30,30],2094:[31,31,32,31,31,31,30,29,30,29,30,30],2095:[31,31,32,31,31,31,30,29,30,29,30,30]};
-const BS_DEFAULT = [31,32,31,32,31,30,30,29,30,29,30,30];
+// ================= नेपाली पात्रो (BS) — प्रमाणित (Verified) वर्ष मात्र =================
+// • Entry सधैं AD मा; BS/आ.व. यही तालिकाबाट मात्र निकालिन्छ।
+// • पात्रो Google Sheet को "BS_Calendar" tab बाट आउँछ (नयाँ वर्ष = एक row थप्ने, Verified = Yes)।
+//   Server बाट नआउन्जेल तलको BS_SEED (२०८०–२०८३, तीनवटा स्वतन्त्र स्रोतसँग मिलाइएको) प्रयोग हुन्छ।
+// • पात्रोमा नभएको मिति convert गरिँदैन (अनुमान होइन) — खाली फर्किन्छ, र कुनै आ.व.मा गनिँदैन।
+// • छिटो: login मा एक पटक हरेक दिनको BS तालिका (Int32Array) बन्छ; त्यसपछि convert = एक lookup।
 const BS_NAMES = ["बैशाख","जेठ","असार","साउन","भदौ","असोज","कात्तिक","मंसिर","पुस","माघ","फागुन","चैत"];
 const FY_MONTH_ORDER = ["साउन","भदौ","असोज","कात्तिक","मंसिर","पुस","माघ","फागुन","चैत","बैशाख","जेठ","असार"];
-
-function adToBs(d){
-  const date = (d instanceof Date) ? d : new Date(d);
-  if(isNaN(date)) return null;
-  const years = Object.keys(BS_START).map(Number).sort((a,b)=>b-a);
-  for(const y of years){
-    if(date >= BS_START[y]){
-      let days = Math.floor((date - BS_START[y]) / 86400000);
-      const yd = BS_DAYS[y] || BS_DEFAULT;
-      for(let m=0;m<12;m++){
-        if(days < yd[m]) return {year:y, monthIdx:m, monthName:BS_NAMES[m]};
-        days -= yd[m];
-      }
-      return {year:y, monthIdx:11, monthName:BS_NAMES[11]};
+const BS_SEED = [
+  { year:2080, start:'2023-04-14', days:[31,32,31,32,31,30,30,30,29,29,30,30] },
+  { year:2081, start:'2024-04-13', days:[31,32,31,32,31,30,30,30,29,30,29,31] },
+  { year:2082, start:'2025-04-14', days:[31,31,32,31,31,31,30,29,30,29,30,30] },
+  { year:2083, start:'2026-04-14', days:[31,31,32,31,31,31,30,29,30,29,30,30] }
+];
+let BSCAL = null, FY_LIST = [], BSCAL_ERRORS = [];
+const pad2 = n => String(n).padStart(2,'0');
+// AD मिति → दिन-संख्या (UTC, timezone को असर नपर्ने)
+function adOff(v){
+  if(v instanceof Date){ if(isNaN(v)) return null; return Math.floor(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate()) / 864e5); }
+  const m = String(v==null?'':v).match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(!m) return null;
+  return Math.floor(Date.UTC(+m[1], +m[2]-1, +m[3]) / 864e5);
+}
+function offStr(o){ const d = new Date(o*864e5); return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth()+1) + '-' + pad2(d.getUTCDate()); }
+function offDate(o){ const d = new Date(o*864e5); return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); }
+// तालिका जाँच: हरेक महिना २९–३२, वर्ष ३६५/३६६, र यो वर्षको बैशाख १ = अघिल्लो वर्षको बैशाख १ + जम्मा दिन
+function validateBsRows(rows){
+  const errs = [], ok = [];
+  const list = (rows||[]).map(r=>({ year:+r.year, start:String(r.start||'').slice(0,10), days:(r.days||[]).map(Number) }))
+                         .filter(r=>r.year).sort((a,b)=>a.year-b.year);
+  for(const r of list){
+    if(r.days.length!==12 || r.days.some(d=>!(d>=29 && d<=32))){ errs.push(r.year + ': महिनाका दिन मिलेनन् (२९–३२ हुनुपर्ने)'); break; }
+    const s = adOff(r.start); if(s===null){ errs.push(r.year + ': बैशाख १ को AD मिति मिलेन'); break; }
+    const tot = r.days.reduce((a,b)=>a+b,0);
+    if(tot<365 || tot>366){ errs.push(r.year + ': जम्मा ' + tot + ' दिन (३६५/३६६ हुनुपर्ने)'); break; }
+    if(ok.length){
+      const p = ok[ok.length-1];
+      if(r.year !== p.year+1){ errs.push((p.year+1) + ' को row छुटेको'); break; }
+      if(s !== p.s + p.tot){ errs.push(r.year + ': बैशाख १ = ' + offStr(p.s+p.tot) + ' हुनुपर्ने, ' + r.start + ' लेखिएको'); break; }
     }
+    ok.push({ year:r.year, s, tot, days:r.days });
   }
-  return null;
+  return { ok, errs };
 }
-function nepaliMonth(d){ const b = adToBs(d); return b ? b.monthName : ''; }
-// आ.व.: साउन (idx 3) देखि असार (idx 2 अर्को वर्ष)
-function fiscalYearLabelOf(d){
-  const b = adToBs(d);
-  if(!b) return '';
-  const fyStart = (b.monthIdx >= 3) ? b.year : b.year - 1;
-  return fyStart + '-' + String((fyStart + 1) % 100).padStart(2,'0');
+function setBsCalendar(rows){
+  const v = validateBsRows(rows);
+  if(!v.ok.length) return false;
+  const first = v.ok[0].s, lastY = v.ok[v.ok.length-1], last = lastY.s + lastY.tot - 1;
+  const packed = new Int32Array(last - first + 1), years = {};
+  let i = 0;
+  for(const y of v.ok){
+    years[y.year] = { s:y.s, days:y.days, tot:y.tot };
+    for(let m=0;m<12;m++) for(let d=1; d<=y.days[m]; d++) packed[i++] = y.year*10000 + (m+1)*100 + d;
+  }
+  BSCAL = { first, last, years, packed, minYear:v.ok[0].year, maxYear:lastY.year };
+  BSCAL_ERRORS = v.errs;
+  FY_LIST = buildFYList();
+  return true;
 }
-function shrawan1(y){
-  const yd = BS_DAYS[y] || BS_DEFAULT;
-  const days = yd[0] + yd[1] + yd[2];
-  return new Date(BS_START[y].getTime() + days * 86400000);
+// AD → BS {y,m,d}; पात्रोमा नभए null
+function bsOf(ad){
+  if(!BSCAL) return null; const o = adOff(ad);
+  if(o===null || o<BSCAL.first || o>BSCAL.last) return null;
+  const p = BSCAL.packed[o - BSCAL.first];
+  return { y:Math.floor(p/10000), m:Math.floor(p/100)%100, d:p%100 };
 }
-function fiscalYears(){
+// BS → AD दिन-संख्या; पात्रोमा नभए null
+function adOfBs(y, m, d){
+  const Y = BSCAL && BSCAL.years[y]; if(!Y || m<1 || m>12 || d<1 || d>Y.days[m-1]) return null;
+  let o = Y.s + d - 1; for(let i=0;i<m-1;i++) o += Y.days[i]; return o;
+}
+// आ.व. = साउन १ देखि अर्को वर्षको असार मसान्तसम्म
+function buildFYList(){
   const list = [];
-  for(let y = 2080; y <= 2093; y++){
-    if(!BS_START[y] || !BS_START[y+1]) continue;
-    const start = shrawan1(y);
-    const end = new Date(shrawan1(y+1).getTime() - 86400000);
-    list.push({ label: y + '-' + String((y+1)%100).padStart(2,'0'), start, end });
+  for(let y=BSCAL.minYear; y<=BSCAL.maxYear; y++){
+    const s = adOfBs(y,4,1); if(s===null) continue;
+    const next = adOfBs(y+1,4,1), complete = next!==null, e = complete ? next-1 : BSCAL.last;
+    list.push({ label: y + '-' + pad2((y+1)%100), startStr:offStr(s), endStr:offStr(e), start:offDate(s), end:offDate(e), complete });
   }
   return list;
 }
-const FY_LIST = fiscalYears();
-function fmtDate(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+setBsCalendar(BS_SEED);
+
+// ---- पुराना function (बाँकी system ले यिनै प्रयोग गर्छ) ----
+function adToBs(d){ const b = bsOf(d); return b ? { year:b.y, monthIdx:b.m-1, monthName:BS_NAMES[b.m-1] } : null; }
+function nepaliMonth(d){ const b = bsOf(d); return b ? BS_NAMES[b.m-1] : ''; }
+function fiscalYearLabelOf(d){
+  const b = bsOf(d); if(!b) return '';
+  const fs = (b.m >= 4) ? b.y : b.y - 1;
+  return fs + '-' + pad2((fs+1)%100);
+}
+function fmtDate(d){ return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+// आ.व. भित्र पर्छ कि? — string तुलना (timezone ले १ दिन सार्ने समस्या नहुने)
 function inFY(dateStr, fy){
-  if(!dateStr) return false;
-  const d = new Date(dateStr);
-  if(isNaN(d)) return false;
-  return d >= fy.start && d <= fy.end;
+  if(!dateStr || !fy) return false;
+  const o = adOff(dateStr); if(o===null) return false;
+  const s = offStr(o);
+  return s >= fy.startStr && s <= fy.endStr;
 }
 function currentFY(){
-  const sel = document.getElementById('fy-select').value;
-  return FY_LIST.find(f => f.label === sel) || FY_LIST.find(f => f.label === fiscalYearLabelOf(new Date())) || FY_LIST[0];
+  const el = document.getElementById('fy-select'), sel = el ? el.value : '';
+  return FY_LIST.find(f => f.label === sel) || FY_LIST.find(f => f.label === fiscalYearLabelOf(new Date())) || FY_LIST[FY_LIST.length-1];
 }
+function fillFYSelect(){
+  const sel = document.getElementById('fy-select'); if(!sel) return;
+  const keep = sel.value || fiscalYearLabelOf(new Date());
+  sel.innerHTML = FY_LIST.map(f=>`<option value="${f.label}" ${f.label===keep?'selected':''}>FY ${f.label.replace('-','/')}${f.complete?'':' *'}</option>`).join('');
+}
+// Print को लागि: AD → "२०८३/०६/०७" (पात्रोमा नभए AD नै, "(AD)" लेखेर)
+function bsNep(ad){ const b = bsOf(ad); return b ? toNepDigits(b.y + '/' + pad2(b.m) + '/' + pad2(b.d)) : ''; }
+function pbs(ad){ if(!ad) return ''; return bsNep(ad) || (String(ad).slice(0,10) + ' (AD)'); }
 
 // ================= HELPERS =================
 function showLoading(on){ document.getElementById('loading-overlay').style.display = on ? 'flex' : 'none'; }
@@ -1096,8 +1147,7 @@ function initApp(){
   if(docNote) docNote.style.display = docLocked ? 'block' : 'none';
   // FY dropdown
   const sel = document.getElementById('fy-select');
-  const todayFY = fiscalYearLabelOf(new Date());
-  sel.innerHTML = FY_LIST.map(f=>`<option value="${f.label}" ${f.label===todayFY?'selected':''}>FY ${f.label.replace('-','/')}</option>`).join('');
+  fillFYSelect();
   // status filter
   document.getElementById('w-status-filter').innerHTML = '<option value="">— All Status —</option>' + Object.keys(STATUS_BADGE).map(s=>`<option>${s}</option>`).join('');
   const lsf = document.getElementById('l-status-filter');
@@ -1232,6 +1282,10 @@ async function refreshData(blocking){
   } else if(r.workers){
     workers = r.workers.map(w=>unpack(Object.keys(w), [Object.values(w)], true)[0]);
     pres    = r.pres || [];
+  }
+  if(r.bscal && r.bscal.length){
+    if(setBsCalendar(r.bscal)) fillFYSelect();
+    if(BSCAL_ERRORS.length && isAdmin()) alert('⚠️ BS_Calendar Sheet मा समस्या — त्यो वर्षदेखि पात्रो प्रयोग भएन:\n• ' + BSCAL_ERRORS.join('\n• '));
   }
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
@@ -1612,28 +1666,11 @@ function parseBs(v){
   const m = toEngDigits(v).trim().match(/^(\d{4})\D+(\d{1,2})\D+(\d{1,2})$/);
   if(!m) return null;
   const y=+m[1], mo=+m[2], d=+m[3];
-  if(!BS_START[y] || mo<1 || mo>12) return null;
-  if(d<1 || d>(BS_DAYS[y]||BS_DEFAULT)[mo-1]) return null;
-  return { y, m:mo, d };
+  return adOfBs(y, mo, d)===null ? null : { y, m:mo, d };   // पात्रोमा नभएको मिति = null
 }
-function fmtBs(b){ return b ? b.y + '-' + String(b.m).padStart(2,'0') + '-' + String(b.d).padStart(2,'0') : ''; }
-function bsToAd(b){
-  if(!b) return null;
-  const yd = BS_DAYS[b.y] || BS_DEFAULT; let days = b.d - 1;
-  for(let i=0;i<b.m-1;i++) days += yd[i];
-  const s = BS_START[b.y]; return new Date(s.getFullYear(), s.getMonth(), s.getDate() + days);
-}
-function adToBsFull(dt){
-  const x = dt instanceof Date ? dt : new Date(dt); if(isNaN(x)) return null;
-  const t = new Date(x.getFullYear(), x.getMonth(), x.getDate());
-  for(const y of Object.keys(BS_START).map(Number).sort((a,b)=>b-a)){
-    if(t >= BS_START[y]){
-      let days = Math.round((t - BS_START[y]) / 86400000); const yd = BS_DAYS[y] || BS_DEFAULT;
-      for(let m=0;m<12;m++){ if(days < yd[m]) return { y, m:m+1, d:days+1 }; days -= yd[m]; }
-    }
-  }
-  return null;
-}
+function fmtBs(b){ return b ? b.y + '-' + pad2(b.m) + '-' + pad2(b.d) : ''; }
+function bsToAd(b){ if(!b) return null; const o = adOfBs(b.y, b.m, b.d); return o===null ? null : offDate(o); }
+function adToBsFull(dt){ return bsOf(dt); }
 function todayBs(){ return fmtBs(adToBsFull(new Date())); }
 function daysUntil(adStr){
   if(!adStr) return null; const p = String(adStr).slice(0,10).split('-').map(Number); if(p.length<3 || !p[0]) return null;
@@ -1664,8 +1701,8 @@ function grvDue(g){
   return { cls:'ok', txt:`${n} days left`, n };
 }
 function grvDueCount(){ return grievances.filter(g=>{ const d=grvDue(g); return d.n!==null && d.n<=2; }).length; }
-function grvDeadlineFromBs(bsStr){ const ad = bsToAd(parseBs(bsStr)); if(!ad) return ''; ad.setDate(ad.getDate()+7); return fmtDate(ad); }
-function bsOfAd(adStr){ if(!adStr) return ''; const p=String(adStr).slice(0,10).split('-').map(Number); return fmtBs(adToBsFull(new Date(p[0],p[1]-1,p[2]))); }
+function grvDeadlineFromBs(bsStr){ const b = parseBs(bsStr); if(!b) return ''; return offStr(adOfBs(b.y,b.m,b.d) + 7); }
+function bsOfAd(adStr){ return adStr ? fmtBs(bsOf(adStr)) : ''; }
 
 // ---------- LIST ----------
 let grvDueOnly = false;
@@ -1724,7 +1761,7 @@ function grvLetterHint(){
   const v = document.getElementById('g-letterbs').value.trim();
   if(!v){ el.className='lot-hint'; el.innerHTML=''; return; }
   const b = parseBs(v);
-  if(!b){ el.className='lot-hint bad'; el.innerHTML='⛔ मिति मिलेन — ढाँचा: 2083-05-31 (बि.सं.)'; return; }
+  if(!b){ el.className='lot-hint bad'; el.innerHTML='⛔ मिति मिलेन वा पात्रोमा छैन — ढाँचा: 2083-05-31 (बि.सं.)'; return; }
   const dl = grvDeadlineFromBs(v), n = daysUntil(dl);
   const st = n<0 ? `<b>Overdue ${-n} day${-n>1?'s':''}</b>` : n===0 ? '<b>Due today</b>' : `${n} day${n>1?'s':''} left`;
   el.className = 'lot-hint ' + (n<=0 ? 'bad' : n<=2 ? 'warn' : 'ok');
@@ -2077,7 +2114,10 @@ function fyStats(fy){
 }
 function renderDashboard(){
   const fy = currentFY();
-  document.getElementById('fy-range').textContent = fmtDate(fy.start) + '  →  ' + fmtDate(fy.end);
+  { const fr = document.getElementById('fy-range');
+    fr.textContent = fy.startStr + '  →  ' + fy.endStr + (fy.complete ? '' : ' *');
+    fr.title = fy.complete ? ('बि.सं. ' + bsOfAd(fy.startStr) + ' → ' + bsOfAd(fy.endStr))
+      : ('* अर्को वर्षको पात्रो (BS_Calendar) थपिएको छैन — यो मितिसम्मका entry मात्र यो आ.व.मा गनिन्छन्।'); }
   const s = fyStats(fy);
   document.getElementById('d-pre-total').textContent = s.preM + s.preF;
   document.getElementById('d-pre-sub').textContent = `M ${s.preM} | F ${s.preF} | Lot ${s.preIn.length}`;
@@ -3109,13 +3149,13 @@ function renderSchedule6(list, subtitle, periodLabel, mode, refFYLabel){
       <td>${w.passport||''}</td>
       <td>${w.nepalAddress||''}</td>
       <td>${w.country||''}</td>
-      <td>${w.departDate||''}</td>
-      <td>${arrived}</td>
+      <td>${pbs(w.departDate)}</td>
+      <td>${pbs(arrived)}</td>
       <td style="text-align:left;">${w.company||''}</td>
       <td>${w.demandProfession||w.visaProfession||''}</td>
       <td>${salaryFor(info, w.demandProfession)}</td>
-      <td>${contractEnd}</td>
-      <td>${mode==='auditor' ? (w.approveDate||'') : (w.contactAddress||'')}</td>
+      <td>${pbs(contractEnd)}</td>
+      <td>${mode==='auditor' ? pbs(w.approveDate) : (w.contactAddress||'')}</td>
       <td>${(info.cost!==undefined && info.cost!=='') ? info.cost : ''}</td>
       <td>${w.remarks||''}</td>
     </tr>`;
@@ -3222,7 +3262,7 @@ function openReportWindow(title, bodyHtml){
   </style></head><body>
     <h2>Link Star Manpower Services Pvt. Ltd.</h2>
     <div class="sub">Tokha-10, Kathmandu</div>
-    <div class="meta">${title} — आ.व. ${fy.label} (${fmtDate(fy.start)} — ${fmtDate(fy.end)}) | Print: ${new Date().toLocaleString()}</div>
+    <div class="meta">${title} — आ.व. ${fy.label} (${bsNep(fy.startStr)} — ${bsNep(fy.endStr) || fy.endStr}) | Print: ${new Date().toLocaleString()}</div>
     ${bodyHtml}
   </body></html>`);
   win.document.close(); win.focus();
