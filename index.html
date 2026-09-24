@@ -530,7 +530,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </div>
       </div>
       <div class="card">
-        <div class="card-title title-row"><span>Candidate List</span><span class="title-actions"><button type="button" class="btn-outline" onclick="openImport()" title="Excel / Google Sheet बाट धेरै जना एकैचोटि">⇪ Paste Import</button><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Candidate</button></span></div>
+        <div class="card-title title-row"><span class="seg" role="tablist"><button type="button" id="seg-c-p" onclick="setCandMode('process')" title="Entry / Upload / Submitted — Approved भएपछि Departure मा सर्छ">प्रक्रियामा <b id="seg-c-p-n">0</b></button><button type="button" id="seg-c-x" onclick="setCandMode('closed')">Rejected / Cancel <b id="seg-c-x-n">0</b></button><button type="button" id="seg-c-a" onclick="setCandMode('all')">सबै (आ.व.) <b id="seg-c-a-n">0</b></button></span><span class="title-actions"><button type="button" class="btn-outline" onclick="openImport()" title="Excel / Google Sheet बाट धेरै जना एकैचोटि">⇪ Paste Import</button><button type="button" class="entry-btn" id="w-entry-btn" onclick="toggleEntry('w')">+ New Candidate</button></span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <input type="text" id="w-search" class="search-control" style="flex:1;min-width:220px;" placeholder="Search name, passport, country, company, visa no., lot no..." oninput="onManualFilter()">
           <select id="w-status-filter" class="form-control" style="width:auto;min-width:160px;margin-bottom:15px;font-weight:600;" onchange="onManualFilter()"><option value="">— All Status —</option><option>Entry</option><option>Upload</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Cancel</option></select>
@@ -2520,6 +2520,14 @@ function applyRoleDashboard(){
 }
 
 
+// ================= CANDIDATES: प्रक्रियामा / Rejected-Cancel / सबै =================
+let candMode = 'process';
+function setCandMode(m){
+  candMode = m;
+  if(activeCardFilter && typeof clearCardFilter==='function') clearCardFilter();
+  document.getElementById('w-search').value = ''; document.getElementById('w-status-filter').value = '';
+  renderWorkers();
+}
 // ================= LEADS ↔ APPLICANTS (एउटै Sheet — Status 'New' = Lead) =================
 let leadMode = 'applicant';
 function setLeadMode(m){
@@ -2974,14 +2982,18 @@ function renderWorkers(){
   // Search/status/card-filter नभएको बेला जुन आ.व. माथि छानिएको छ (fy-select) त्यही मात्र देखाउने —
   // खोज्दा/filter गर्दा भने पछिल्ला ३ आ.व. भित्रको सबैमा खोजिन्छ (माथि applyCardFilter अघि नै भइसक्यो)
   const noOtherFilter = !q && !sf && !activeCardFilter;
+  // Candidates: एक ठाउँबाट सरेपछि अर्को ठाउँमा मात्र — प्रक्रियामा (Entry/Upload/Submitted) यहाँ,
+  // Approved भएपछि Departure मा। खोज/Status/Card filter गर्दा भने सबैमा खोजिन्छ (कोही हराउँदैन)।
+  const fy0 = currentFY();
+  const inFyW = w=>{ const anchor = w.approveDate || (w.createdAt ? String(w.createdAt).slice(0,10) : ''); return inFY(anchor, fy0); };
+  const PROC = ['Entry','Upload','Submitted'], CLOSED = ['Rejected','Cancel'];
+  document.getElementById('seg-c-p-n').textContent = workers.filter(w=>PROC.includes(w.status)).length;
+  document.getElementById('seg-c-x-n').textContent = workers.filter(w=>CLOSED.includes(w.status) && inFyW(w)).length;
+  document.getElementById('seg-c-a-n').textContent = workers.filter(inFyW).length;
+  ['seg-c-p','seg-c-x','seg-c-a'].forEach((id,i)=>document.getElementById(id).classList.toggle('on', noOtherFilter && candMode===['process','closed','all'][i]));
   if(noOtherFilter){
-    const fy = currentFY();
-    // आधार मिति: स्वीकृति मिति (approveDate) — Archive मा प्रयोग हुने आधार सँगै मिलोस्; त्यो नभएका
-    // (Entry/Rejected/Cancel) worker मा दर्ता मिति (createdAt)
-    rows = rows.filter(w=>{
-      const anchor = w.approveDate || (w.createdAt ? String(w.createdAt).slice(0,10) : '');
-      return inFY(anchor, fy);
-    });
+    if(candMode==='process') rows = rows.filter(w=>PROC.includes(w.status));
+    else { rows = rows.filter(inFyW); if(candMode==='closed') rows = rows.filter(w=>CLOSED.includes(w.status)); }
   }
   // नयाँ इन्ट्री माथि (createdAt अनुसार; नभए id अनुसार)
   rows.sort((a,b)=>{
@@ -2996,7 +3008,7 @@ function renderWorkers(){
       ? `<b>${activeCardFilter.label}</b>`
       : `<b>${activeCardFilter.label}</b> — FY <b>${fy.label}</b>`;
   }
-  const pageRows = pageSlice('w', rows, [q, sf, activeCardFilter ? activeCardFilter.type : '', currentFY().label].join('|'));
+  const pageRows = pageSlice('w', rows, [q, sf, activeCardFilter ? activeCardFilter.type : '', currentFY().label, candMode].join('|'));
   lastVisibleWIds = pageRows.map(w=>w.id);
   document.getElementById('w-table').innerHTML = pageRows.map(w=>`
     <tr>
