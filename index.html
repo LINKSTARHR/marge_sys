@@ -361,6 +361,20 @@ textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-famil
 .app-footer span::before{content:'•';margin-right:14px;color:#c4c6cf;}
 @media(max-width:600px){ .app-footer b{flex-basis:100%;} .app-footer span:first-of-type::before{display:none;} }
 @media print{.app-footer{display:none !important;}}
+/* ===== CENTER ALERT ===== */
+.ua-back{position:fixed;inset:0;z-index:5000;background:rgba(15,23,42,.38);display:flex;align-items:center;justify-content:center;padding:20px;animation:uaIn .12s ease;}
+@keyframes uaIn{from{opacity:0;}to{opacity:1;}}
+.ua-box{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:22px 22px 16px;box-shadow:0 20px 50px rgba(0,0,0,.25);border-top:5px solid #2b5585;}
+.ua-bad{border-top-color:#ba1a1a;} .ua-warn{border-top-color:#b58a2a;} .ua-ok{border-top-color:#1e6e3c;}
+.ua-msg{font-size:14.5px;line-height:1.6;color:var(--text);white-space:pre-line;}
+.ua-act{display:flex;justify-content:flex-end;margin-top:16px;}
+.ua-act .btn{width:auto;padding:9px 26px;border-radius:9px;}
+/* ===== DOCS / REQUIRED ===== */
+.docchk{display:flex;flex-wrap:wrap;gap:8px;}
+.dck{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;}
+.dck.on{background:#e2f3ea;border-color:#9fd3b4;color:#16603a;}
+.dck input{margin:0;}
+.form-control.req-bad{border-color:#ba1a1a !important;box-shadow:0 0 0 3px rgba(186,26,26,.12);}
 /* ===== TOAST ===== */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#10263f;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:4000;}
 #toast.show{opacity:1;transform:translate(-50%,0);}
@@ -565,6 +579,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
           <div class="form-row doc-only-field">
             <div class="form-group"><label>News Date</label><input type="date" id="w-newsdate" class="form-control"></div>
             <div class="form-group"><label>Issue Date</label><input type="date" id="w-issuedate" class="form-control"></div>
+            <div class="form-group"><label>Passport Expiry</label><input type="date" id="w-ppexpiry" class="form-control" onchange="ppHint('w')"></div>
           </div>
           <div class="form-group doc-only-field"><label>Visa No.</label><input type="text" id="w-visano" class="form-control"></div>
           <div class="form-row">
@@ -650,13 +665,14 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <div class="main-grid form-closed" id="l-grid">
       <div class="card entry-card" id="l-entry">
         <div class="card-title entry-head"><span>New Lead Entry</span><button type="button" class="entry-x" onclick="toggleEntry('l',false)" title="Close (Esc)" aria-label="Close">×</button></div>
-        <form id="lead-form">
-          <div class="field-lock-note full" id="l-feims-note" style="display:none;">🔒 Lot No., Country, Company र विज्ञापन मिति Documentation / श्रम प्रतिनिधिले राख्नुहुन्छ (FEIMS अनुसार)।</div>
+        <form id="lead-form" novalidate>
+          <div class="field-lock-note full" id="l-feims-note" style="display:none;">🔒 Lot No., Company र विज्ञापन मिति Documentation / श्रम प्रतिनिधिले राख्नुहुन्छ (FEIMS अनुसार)। * भएका field अनिवार्य छन्।</div>
           <div class="form-group"><label>Name *</label><input type="text" id="l-name" class="form-control" required=""></div>
           <div class="form-row">
             <div class="form-group"><label>Passport No. *</label><input type="text" id="l-passport" class="form-control" required=""></div>
             <div class="form-group"><label>Age</label><input type="number" id="l-age" class="form-control" min="18" max="70"></div>
           </div>
+          <div class="form-row"><div class="form-group"><label>Date of Birth *</label><input type="date" id="l-dob" class="form-control" onchange="ageFromDob('l')"></div><div class="form-group"><label>Passport Issue *</label><input type="date" id="l-ppissue" class="form-control"></div><div class="form-group"><label>Passport Expiry *</label><input type="date" id="l-ppexpiry" class="form-control" onchange="ppHint('l')"></div><div class="form-group"><label>Ref By (Refer / Channel) *</label><input type="text" id="l-refby" class="form-control" list="dl-refby" placeholder="SELF / WHATSAPP / Agent नाम"><datalist id="dl-refby"><option value="SELF"><option value="WHATSAPP"><option value="FACEBOOK"><option value="TIKTOK"><option value="WALK-IN"><option value="AGENT"><option value="OFFICE"></datalist></div></div>
           <div class="form-row">
             <div class="form-group"><label>Gender *</label>
               <select id="l-gender" class="form-control" required=""><option value="">—</option><option value="Male">Male</option><option value="Female">Female</option></select>
@@ -668,15 +684,15 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>Company *</label><input type="text" id="l-company" class="form-control" required=""></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Job Title</label><input type="text" id="l-jobtitle" class="form-control" placeholder="Job applied for"></div>
-            <div class="form-group"><label>Phone No.</label><input type="text" id="l-phone" class="form-control" placeholder="For follow-up"></div>
+            <div class="form-group"><label>Job Title *</label><input type="text" id="l-jobtitle" class="form-control" placeholder="Job applied for"></div>
+            <div class="form-group"><label>Phone No. *</label><input type="text" id="l-phone" class="form-control" placeholder="For follow-up"></div>
           </div>
           <div class="form-row">
             <div class="form-group"><label>Orientation</label><select id="l-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
             <div class="form-group"><label>Medical</label><select id="l-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="l-nepal-addr" class="form-control"></div>
+            <div class="form-group"><label>District (जिल्ला) *</label><input type="text" id="l-nepal-addr" class="form-control"></div>
             <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="l-contact-addr" class="form-control"></div>
           </div>
           <div class="form-row"><div class="form-group"><label>Ad Date (विज्ञापन मिति)</label><input type="date" id="l-addate" class="form-control"></div><div class="form-group"><label>Applied Date (आवेदन मिति)</label><input type="date" id="l-applied" class="form-control"></div></div>
@@ -947,6 +963,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         <button class="btn btn-sm btn-secondary" style="width:auto;" onclick="document.getElementById('quota-lot-search').value='';renderQuotaArea();" title="Clear search">✕</button>
       </div>
       <div id="quota-area"></div>
+      <div class="pager" id="q-pager"></div>
     </div>
   </div>
     </div>
@@ -966,13 +983,14 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <div class="form-group"><label>Lot No.</label><input type="text" id="e-lotno" class="form-control"></div>
       <div class="form-group"><label>News Date</label><input type="date" id="e-newsdate" class="form-control"></div>
       <div class="form-group"><label>Issue Date</label><input type="date" id="e-issuedate" class="form-control"></div>
+      <div class="form-group"><label>Passport Expiry</label><input type="date" id="e-ppexpiry" class="form-control" onchange="ppHint('e')"></div>
       <div class="form-group"><label>Visa No.</label><input type="text" id="e-visano" class="form-control"></div>
       <div class="form-group"><label>Country</label><input type="text" id="e-country" class="form-control"></div>
       <div class="form-group"><label>Company</label><input type="text" id="e-company" class="form-control"></div>
       <div class="form-group"><label>Visa Profession</label><input type="text" id="e-visaprof" class="form-control"></div>
       <div class="form-group"><label>Demand Profession</label><input type="text" id="e-demandprof" class="form-control"></div>
       <div class="form-group"><label>Orientation</label><select id="e-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
-      <div class="form-group"><label>Medical</label><select id="e-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group full" id="e-docs-wrap"><label>📄 कागजात (Documentation ले चिन्ह लगाउने)</label><div class="docchk" id="e-docs"></div></div><div class="form-group"><label>Medical</label><select id="e-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group shram-only-field"><label>⚙️ Labor Approval Status</label>
         <select id="e-status" class="form-control" style="font-weight:700;" onchange="onStatusChange()">
           <option value="Entry">Entry (Registered)</option>
@@ -1026,9 +1044,9 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
       <div class="form-group"><label>Country</label><input type="text" id="le-country" class="form-control"></div>
       <div class="form-group"><label>Company</label><input type="text" id="le-company" class="form-control"></div>
       <div class="form-group"><label>Job Title</label><input type="text" id="le-jobtitle" class="form-control"></div>
-      <div class="form-group"><label>Phone No.</label><input type="text" id="le-phone" class="form-control"></div>
+      <div class="form-group"><label>Phone No.</label><input type="text" id="le-phone" class="form-control"></div><div class="form-group"><label>Date of Birth</label><input type="date" id="le-dob" class="form-control" onchange="ageFromDob('le')"></div><div class="form-group"><label>Passport Issue</label><input type="date" id="le-ppissue" class="form-control"></div><div class="form-group"><label>Passport Expiry</label><input type="date" id="le-ppexpiry" class="form-control" onchange="ppHint('le')"></div><div class="form-group"><label>Ref By</label><input type="text" id="le-refby" class="form-control" list="dl-refby"></div><div class="form-group"><label>Entered By (दर्ता गर्ने)</label><input type="text" id="le-enteredby" class="form-control" disabled></div>
       <div class="form-group"><label>Orientation</label><select id="le-orientation" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
-      <div class="form-group"><label>Medical</label><select id="le-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
+      <div class="form-group full" id="le-docs-wrap"><label>📄 कागजात (Documentation ले चिन्ह लगाउने)</label><div class="docchk" id="le-docs"></div></div><div class="form-group"><label>Medical</label><select id="le-medical" class="form-control"><option value="">—</option><option>Yes</option><option>No</option></select></div>
       <div class="form-group"><label>⚙️ Applicant Status</label>
         <select id="le-status" class="form-control" style="font-weight:700;" onchange="leadReasonAuto()">
           <optgroup label="Recruitment Pipeline">
@@ -1054,7 +1072,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         </select>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Address in Nepal (District)</label><input type="text" id="le-nepal-addr" class="form-control"></div>
+        <div class="form-group"><label>District (जिल्ला)</label><input type="text" id="le-nepal-addr" class="form-control"></div>
         <div class="form-group"><label>Contact Person in Nepal (Name, Address)</label><input type="text" id="le-contact-addr" class="form-control"></div>
       </div>
       <div class="form-row"><div class="form-group"><label>Ad Date (विज्ञापन मिति)</label><input type="date" id="le-addate" class="form-control"></div><div class="form-group"><label>Applied Date (आवेदन मिति)</label><input type="date" id="le-applied" class="form-control"></div></div>
@@ -1113,7 +1131,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
 // ═══════════════════════════════════════════════════════
 // ⚙️ GITHUB मा upload गर्नुअघि आफ्नो Web App URL यहाँ राख्नुहोस्:
 // ═══════════════════════════════════════════════════════
-const FIXED_API_URL = 'https://script.google.com/macros/s/AKfycbx3xG8KffwDv0G99jHgNFxMJanEccz91fBpQCrrZ0xSbc_3BtSV0XYRI0qDptGTqhk1/exec';
+const FIXED_API_URL = 'https://script.google.com/macros/s/AKfycbwKAz8lRW0yATDCiTJpRPlyJcQ5LTGlT5sHfDPJF-AyMvZuzsGiuS7QwhYBt-q6E7tPlQ/exec';
 const COMPANY_NAME = 'Link Star Manpower Services Pvt. Ltd.';
 const COMPANY_LICENSE = '1025/068/069';
 
@@ -1268,7 +1286,7 @@ const ROLE_STATUS_MAP = {
   documentation: [],
   shram: ['Entry','Upload','Submitted','Approved','Rejected','Cancel']
 };
-const ROLE_LABEL = { admin:'Admin', manager:'Manager', receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि' };
+const ROLE_LABEL = { admin:'Admin', manager:'Manager', receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि', pro:'P.R.O' };
 function allowedStatuses(){
   if(!session || session.role==='admin') return ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
   return ROLE_STATUS_MAP[session.role] || ['Entry','Upload','Submitted','Approved','Rejected','Cancel'];
@@ -1347,7 +1365,7 @@ async function doLogin(){
   try{ r = await api('login', {}, {u,p}, 'silent'); }
   finally{ loginBusy = false; setLoginLoading(false); }
   if(r.ok){
-    session = { token:r.token, role:r.role, fullName:r.fullName };
+    session = { token:r.token, role:r.role, fullName:r.fullName, username:u };
     sessionStorage.setItem(SS_KEY, JSON.stringify(session));
     document.getElementById('login-pass').value='';
     setPwVisible(false);
@@ -1365,9 +1383,9 @@ function initApp(){
   document.body.classList.remove('role-receptionist','role-documentation','role-shram');
   if(ROLE_STATUS_MAP[session.role]) document.body.classList.add('role-' + session.role);
   document.getElementById('who-is-in').textContent = session.fullName || session.username || 'User';
-  applyLeadFieldLocks(); applyRoleDashboard(); setTimeout(()=>{ setLeadMode(leadMode); setDepMode(depMode); switchTabById('tab-dashboard'); },0);
-  const leb = document.getElementById('l-entry-btn'); if(leb) leb.style.display = canEditLead() ? '' : 'none';
-  const ucr = document.getElementById('uc-role'); if(ucr) ucr.textContent = 'Signed in as ' + ({admin:'Admin',manager:'Manager',receptionist:'Receptionist',documentation:'Documentation',shram:'Labour Representative'}[session.role] || session.role || '-');
+  applyLeadFieldLocks(); applyRoleDashboard(); hideForbiddenUI(); setTimeout(()=>{ setLeadMode(leadMode); setDepMode(depMode); switchTabById('tab-dashboard'); },0);
+  const leb = document.getElementById('l-entry-btn'); if(leb) leb.style.display = (canEditLead() || isPro()) ? '' : 'none';
+  const ucr = document.getElementById('uc-role'); if(ucr) ucr.textContent = 'Signed in as ' + ({admin:'Admin',manager:'Manager',receptionist:'Receptionist',documentation:'Documentation',shram:'Labour Representative',pro:'P.R.O'}[session.role] || session.role || '-');
   // New Worker Entry — नयाँ दर्ता गर्न नमिल्ने भूमिका (documentation/shram) लाई form देखिन्छ तर submit हुँदा notice आउँछ
   const introLocked = !canIntakeClient();
   const introNote = document.getElementById('intake-lock-note');
@@ -1411,7 +1429,7 @@ async function manageUsers(){
     const fn=prompt('पूरा नाम:'); if(!fn) return;
     const nu=prompt('Username:'); if(!nu) return;
     const np=prompt('Password:'); if(!np) return;
-    const role=prompt('भूमिका छान्नुहोस् (एउटा शब्द लेख्नुहोस्):\n\nreceptionist = Worker/Applicant दर्ता, Applicant का चरण, उडान (Departure) विवरण\ndocumentation = कागजात, Offer Letter, Lot/FEIMS विवरण, DoFE सूची\nshram = श्रम प्रतिनिधि — Pre-Permission, श्रम स्वीकृति Status, Lot/FEIMS, Grievance\nmanager = Admin जस्तै सबै काम + कामदार अनुगमन (Users/Backup/Archive/Delete बाहेक)\nadmin = सबै अधिकार','receptionist'); if(!role) return;
+    const role=prompt('भूमिका छान्नुहोस् (एउटा शब्द लेख्नुहोस्):\n\nreceptionist = Worker/Applicant दर्ता, Applicant का चरण, उडान (Departure) विवरण\ndocumentation = कागजात, Offer Letter, Lot/FEIMS विवरण, DoFE सूची\nshram = श्रम प्रतिनिधि — Pre-Permission, श्रम स्वीकृति Status, Lot/FEIMS, Grievance\nmanager = Admin जस्तै सबै काम + कामदार अनुगमन (Users/Backup/Archive/Delete बाहेक)\npro = P.R.O — आफ्नो Refer को Lead दर्ता र आफ्ना मान्छेको अवस्था मात्र\nadmin = सबै अधिकार','receptionist'); if(!role) return;
     const r=await api('adduser',{newUsername:nu.trim(),newPassword:np,newRole:role.trim().toLowerCase(),newFullName:fn.trim()},null,true);
     if(r.ok) alert('थपियो।'); else if(r.error==='DUPLICATE_USER') alert('Username पहिल्यै छ।');
   } else if(cmd==='remove'){
@@ -1522,8 +1540,20 @@ async function refreshData(blocking){
     if(setBsCalendar(r.bscal)) fillFYSelect();
     if(BSCAL_ERRORS.length && isAdmin()) alert('⚠️ BS_Calendar Sheet मा समस्या — त्यो वर्षदेखि पात्रो प्रयोग भएन:\n• ' + BSCAL_ERRORS.join('\n• '));
   }
+  if(r.leadStats) leadStats = r.leadStats;
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
+  loadCandHistory();   // अघिल्ला आ.व. का Candidates पछाडि (login रोकिँदैन)
+}
+// ================= CANDIDATES HISTORY: login पछि पछाडि load (अघिल्ला आ.व. — Report/तुलना/अनुगमनका लागि) =================
+let candHistSeq = 0;
+async function loadCandHistory(){
+  const my = ++candHistSeq;
+  const r = await api('history', {}, null, 'silent');
+  if(my !== candHistSeq || !r || !r.ok || !r.wrows) return;
+  const hw = unpack(r.wcols, r.wrows, true), have = new Set(workers.map(w=>w.id));
+  let n = 0; hw.forEach(w=>{ if(!have.has(w.id)){ normRec(w); workers.push(w); n++; } });
+  if(n) renderAll();
 }
 function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); renderDash2(); fillLookups(); }
 
@@ -1648,6 +1678,7 @@ function normCountry(v){
 function normCompany(v){ return titleWords(v); }
 function normRec(o){
   if(!o) return o;
+  if(o.nepalAddress){ const d = normDistrict(o.nepalAddress); if(d) o.nepalAddress = d; }
   if(o.country) o.country = normCountry(o.country);
   if(o.company) o.company = normCompany(o.company);
   return o;
@@ -1755,7 +1786,8 @@ function applyLot(key){
   attach('imp-lotno','dl-lot');
 })();
 // modal खोल्दा हालको lot को hint देखाउने
-const _openWModal = openWModal; openWModal = function(id){ _openWModal(id); lotHint('e'); };
+const _openWModal = openWModal; openWModal = function(id){ _openWModal(id); lotHint('e');
+  if(isPro()){ document.querySelectorAll('#w-modal input, #w-modal select, #w-modal textarea').forEach(el=>el.disabled = true); document.querySelectorAll('#w-modal .btn').forEach(b=>{ if(!b.classList.contains('close-modal')) b.style.display = 'none'; }); } };
 const _openLModal = openLModal; openLModal = function(id){ _openLModal(id); lotHint('le'); };
 
 // ================= PASTE IMPORT (धेरै Worker एकैचोटि) =================
@@ -1808,7 +1840,7 @@ function impValidate(){
       name: titleCase(r.name), passport: cleanPassport(r.passport), gender: impGender(r.gender),
       age: parseInt(r.age,10) > 0 && parseInt(r.age,10) < 100 ? parseInt(r.age,10) : '',
       lotNo: lotKey(r.lotNo) || defLot, country: normCountry(r.country), company: normCompany(r.company),
-      demandProfession: String(r.demandProfession||'').trim(), nepalAddress: titleWords(r.nepalAddress),
+      demandProfession: String(r.demandProfession||'').trim(), nepalAddress: normDistrict(r.nepalAddress) || titleWords(r.nepalAddress),
       contactAddress: String(r.contactAddress||'').trim(), visaNo: String(r.visaNo||'').trim(),
       errs: [], warns: [], done:false
     };
@@ -2409,7 +2441,10 @@ function openMonitorDue(){ if(requireAccess(canMonitor(),'Worker Monitoring')) s
 // ================= APPLICANT WORKFLOW AUTOMATION (Lot अनुसार बाटो + अर्को काम + अड्किएको चेतावनी) =================
 const READY_ST = 'Ready For Labor Approval';
 function canFeims(){ return !!session && ['admin','manager','documentation','shram'].includes(session.role); }
-function canEditLead(){ return !!session && session.role !== 'shram'; }
+function canEditLead(){ return !!session && session.role !== 'shram' && session.role !== 'pro'; }
+function isPro(){ return !!session && session.role === 'pro'; }
+function canDocReceive(){ return !!session && ['documentation','admin','manager'].includes(session.role); }
+function ageFromDob(p){ const d = document.getElementById(p+'-dob').value; if(!d) return; const b = new Date(d), n = new Date(); let a = n.getFullYear()-b.getFullYear(); if(n.getMonth()<b.getMonth() || (n.getMonth()===b.getMonth() && n.getDate()<b.getDate())) a--; if(a>0 && a<100) document.getElementById(p+'-age').value = a; }
 function isYes(v){ return String(v||'').trim().toLowerCase()==='yes'; }
 function lotOfLead(l){ const k = lotKey(l.lotNo); return k ? pres.find(p=>lotKey(p.lotNo)===k) : null; }
 // null = Lot नतोकिएको / Lot मा नभनिएको (दुवै बाटो देखाउने)
@@ -2442,7 +2477,7 @@ const LEAD_TASK = {
   'Offer Accepted':    { t:'Lot/FEIMS राखी Ready मा सार्ने', r:'documentation', d:2 },
   'Ready For Labor Approval': { t:'Candidates मा सार्ने', r:'documentation', d:2 }
 };
-const ROLE_NP = { receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि', admin:'Admin', manager:'Manager' };
+const ROLE_NP = { receptionist:'Receptionist', documentation:'Documentation', shram:'श्रम प्रतिनिधि', admin:'Admin', manager:'Manager', pro:'P.R.O' };
 function leadTask(l){
   if(l.convertedWorkerId) return null;
   const x = LEAD_TASK[l.leadStatus]; if(!x) return null;
@@ -2456,8 +2491,9 @@ function needsFeims(l){
     && (!l.lotNo || !l.company || !l.adDate);
 }
 async function leadMove(id, to){
-  const l = leads.find(x=>x.id===id); if(!l) return;
+  let l = findLeadAny(id); if(!l) return;
   if(!requireAccess(canEditLead(),'Applicant Status')) return;
+  if(l.leadStatus==='New' && to!=='New' && !canDocReceive()){ alert('⛔ Lead लाई "Document Received" (Applicant) Documentation ले मात्र गर्न सक्नुहुन्छ।'); return; }
   if(to===READY_ST && (!l.lotNo || !l.company || !l.adDate)){
     if(canFeims()){ alert('⚠️ Ready अघि Lot, कम्पनी र विज्ञापन मिति राख्नुपर्छ।'); openAssign([id]); }
     else alert('⚠️ Ready अघि Documentation वा श्रम प्रतिनिधिले Lot / FEIMS विवरण राख्नुपर्छ।');
@@ -2469,15 +2505,16 @@ async function leadMove(id, to){
     if(reason===null) return; reason = reason.trim();
     if(!reason){ alert('कारण अनिवार्य छ।'); return; }
   } else if(!confirm(l.leadStatus==='New' && to==='Document Received' ? `${l.name}\nकागजात बुझायो — Lead बाट Applicant मा सार्ने?` : `${l.name}\n"${l.leadStatus}" → "${to}" मा सार्ने?`)) return;
+  // Leads page बाट आएको (अधुरो) record भए पहिले पूरा record ल्याउने — अरू field खाली नहोस्
+  if(l._p){ const g = await api('getlead', { id }, null, 'silent'); if(!g || !g.ok){ alert('⚠️ Lead भेटिएन — Refresh गर्नुहोस्।'); return; } l = normRec(g.lead); leadCache[id] = l; }
   const upd = Object.assign({}, l, { leadStatus:to, rejectReason: LEAD_NOT_SELECTED.includes(to) ? reason : '' });
-  // SPEED: screen तुरुन्तै update (optimistic), save पछाडि हुन्छ; fail भए पुरानै अवस्थामा फर्काउने
-  const i0 = leads.findIndex(x=>x.id===id), before = leads[i0];
-  leads[i0] = Object.assign({}, l, { leadStatus:to, rejectReason:upd.rejectReason, stageDate: fmtDate(new Date()) });
+  const before = Object.assign({}, l);
+  // SPEED: screen तुरुन्तै update (optimistic), save पछाडि; fail भए पुरानै अवस्थामा फर्काउने
+  upsertLead(Object.assign({}, upd, { stageDate: fmtDate(new Date()) }));
   renderAll(); toast(`✅ ${l.name} → ${to}`);
   const r = await api('updatelead', { lead: upd }, null, false);
-  const i1 = leads.findIndex(x=>x.id===id);
-  if(r && r.ok && r.lead){ if(i1>=0) leads[i1] = normRec(r.lead); renderAll(); }
-  else { if(i1>=0) leads[i1] = before; renderAll(); alert('⚠️ Save भएन — पहिलेकै अवस्थामा फर्काइयो।\n' + (r && r.error==='FEIMS_REQUIRED' ? 'Lot / कम्पनी / विज्ञापन मिति नभई Ready गर्न मिल्दैन।' : ((r&&r.error)||''))); }
+  if(r && r.ok && r.lead){ upsertLead(r.lead); renderAll(); }
+  else { upsertLead(before); if(before.leadStatus==='New') fetchLeadPage(); renderAll(); alert('⚠️ Save भएन — पहिलेकै अवस्थामा फर्काइयो।\n' + (r && r.error==='FEIMS_REQUIRED' ? 'Lot / कम्पनी / विज्ञापन मिति नभई Ready गर्न मिल्दैन।' : ((r&&r.error)||''))); }
 }
 
 // ---------- Lot / FEIMS विवरण राख्ने (Documentation / श्रम प्रतिनिधि) ----------
@@ -2521,7 +2558,7 @@ async function saveAssign(){
   if(!ad){ alert('⚠️ विज्ञापन प्रकाशित मिति राख्नुहोस्।'); return; }
   const r = await api('assignlead', { ids: asgIds, lotNo: lot, adDate: ad, jobTitle: job }, null, true);
   if(!r || !r.ok){ alert('⚠️ भएन: ' + ({LOT_NOT_FOUND:'Lot भेटिएन', ADDATE_REQUIRED:'विज्ञापन मिति चाहिन्छ', FORBIDDEN:'अनुमति छैन'}[r&&r.error] || (r&&r.error) || '')); return; }
-  (r.leads||[]).forEach(nl=>{ const i = leads.findIndex(x=>x.id===nl.id); if(i>=0) leads[i] = normRec(nl); });
+  (r.leads||[]).forEach(nl=>upsertLead(nl));
   // Lot मा विज्ञापन मिति नभए त्यहीँ पनि राख्ने (श्रम प्रतिनिधि/Admin)
   if(!p.adDate && canManagePre()){ const up = Object.assign({}, p, { adDate: ad }); p.adDate = ad; api('updatepre', { pre: up }, null, 'silent'); }
   selectedLIds.clear(); closeAssign(); renderAll();
@@ -2529,7 +2566,7 @@ async function saveAssign(){
 }
 function applyLeadFieldLocks(){
   const lock = !canFeims();
-  ['l-lotno','l-country','l-company','l-addate','le-lotno','le-country','le-company','le-addate'].forEach(id=>{
+  ['l-lotno','l-company','l-addate','le-lotno','le-country','le-company','le-addate'].forEach(id=>{
     const el = document.getElementById(id); if(!el) return;
     if(lock){ el.disabled = true; el.title = 'Lot / कम्पनी / विज्ञापन मिति Documentation वा श्रम प्रतिनिधिले राख्छन्'; }
   });
@@ -2569,6 +2606,7 @@ function buildTasks(){
   out.push({ role:'documentation', label:'Medical बाँकी (Candidate)', n:w.filter(x=>x.status!=='Cancel'&&x.status!=='Rejected'&&x.medical!=='Yes').length, act:()=>openActionFilter('medicalpending','🩺 Medical Pending') });
   out.push({ role:'documentation', label:'Orientation बाँकी (Candidate)', n:w.filter(x=>x.status!=='Cancel'&&x.status!=='Rejected'&&x.orientation!=='Yes').length, act:()=>openActionFilter('orientationpending','📘 Orientation Pending') });
   out.push({ role:'manager', label:'अनुगमन लक्ष्य नपुगेका Lot (यो महिना)', n:monDueLots().filter(x=>x.done<x.target).length, act:()=>openMonitorDue() });
+  out.push({ role:'documentation', label:'Passport म्याद < १४ महिना', n:ppLowApplicants().length + ppLowCandidates().length, act:()=>{ const a = ppLowApplicants(); if(a.length) focusLeads('Passport म्याद < १४ महिना', a.map(l=>l.id)); else openActionFilter('ppexpiry','🛂 Passport म्याद < १४ महिना'); } });
   out.push({ role:'receptionist', label:'उडान मिति राख्न बाँकी (Approved)', n:w.filter(x=>x.status==='Approved'&&!x.departDate).length, act:()=>openDeparture('pending') });
   const mine = r => role==='admin' || role==='manager' || r===role || (r==='feims' && canFeims());
   return out.filter(t=>mine(t.role));
@@ -2622,6 +2660,7 @@ function setLeadMode(m){
   if(sf){ sf.style.display = leadMode==='lead' ? 'none' : ''; sf.value=''; [...sf.options].forEach(o=>{ if(o.value==='New') o.hidden = true; }); }
   document.querySelectorAll('#nav .tab-btn').forEach(b=>b.classList.remove('active'));
   const nb = document.getElementById(leadMode==='lead' ? 'nav-leads' : 'nav-applicants'); if(nb) nb.classList.add('active');
+  if(leadMode==='lead'){ const se = document.getElementById('l-search'); if(se) se.value = LP.q; if(session) fetchLeadPage(); }
   renderLeads();
 }
 // ================= DEPARTURE (Receptionist: उडान/ठेगाना विवरण) =================
@@ -2697,9 +2736,10 @@ function dFunnel(){
   const act = leads.filter(l=>!l.convertedWorkerId);
   const F = [['Leads',['New'],'#8fa3bf'],['Documents',['Document Received','Shortlisted'],'#6b87ad'],['Interview',['Interview','Interview Passed'],'#2b5585'],['Medical',['Medical','Medical Fit','Selected'],'#0a8f7a'],['Offer',['Offer Letter','Offer Accepted'],'#b58a2a'],['Ready',[READY_ST],'#1e6e3c']];
   const counts = F.map(f=>act.filter(l=>f[1].includes(l.leadStatus)));
+  counts[0] = { length: leadStats.total, map: ()=>[] };   // Lead हरू server मा — संख्या मात्र
   const mx = Math.max(1, ...counts.map(c=>c.length));
   const stuck = act.filter(l=>{ const t=leadTask(l); return t && t.overdue; });
-  return `<div class="df">${F.map((f,i)=>`<div class="df-r" ${dA(()=>focusLeads(f[0], counts[i].map(l=>l.id)))}><span>${f[0]}</span><div><div style="width:${Math.max(4,Math.round(counts[i].length/mx*100))}%;background:${f[2]}"></div></div><b>${counts[i].length}</b></div>`).join('')}</div>`
+  return `<div class="df">${F.map((f,i)=>`<div class="df-r" ${dA(i===0 ? ()=>{ switchTabById('tab-leads'); setLeadMode('lead'); } : ()=>focusLeads(f[0], counts[i].map(l=>l.id)))}><span>${f[0]}</span><div><div style="width:${Math.max(4,Math.round(counts[i].length/mx*100))}%;background:${f[2]}"></div></div><b>${counts[i].length}</b></div>`).join('')}</div>`
     + (stuck.length ? `<div class="d-warn" ${dA(()=>focusLeads('म्याद नाघेका (अड्किएका) Applicant', stuck.map(l=>l.id)))}>${stuck.length} जना म्याद नाघेर अड्किएका</div>` : '');
 }
 function dLotTable(n){
@@ -2746,10 +2786,10 @@ function renderDash2(){
     return { need, html: `<div class="dbs">${d.slice(0,5).map(x=>dBar('LOT '+gsEsc(x.lot), Math.min(x.done,x.target), x.target||1, x.done>=x.target?'#1e6e3c':'#ba1a1a', x.done+' / '+x.target)).join('') || '<div class="d-empty">उडिसकेका कामदार छैनन्</div>'}</div><div class="dk-s" style="margin-top:6px">यो महिना जम्मा ${done} / ${tgt} सम्पर्क</div>` }; };
   if(role==='receptionist'){
     const today = fmtDate(new Date());
-    const newToday = leads.filter(l=>String(l.createdAt||'').slice(0,10)===today);
+    const newToday = { length: leadStats.today };
     const med = act.filter(l=>l.leadStatus==='Interview Passed'), ivr = act.filter(l=>l.leadStatus==='Interview');
     const dep = W.filter(w=>w.status==='Approved' && !w.departDate), late = lt('receptionist').filter(l=>leadTask(l).overdue);
-    k = dKpi('आज नयाँ Lead', newToday.length, 'यो हप्ता ' + leads.filter(l=>{ const du = daysUntil(String(l.createdAt||'').slice(0,10)); return du!==null && du>-7; }).length, '#0a8f7a','user', ()=>focusLeads('आज नयाँ', newToday.map(l=>l.id)))
+    k = dKpi('आज नयाँ Lead', newToday.length, 'यो हप्ता ' + leadStats.week + ' · जम्मा ' + leadStats.total, '#0a8f7a','user', ()=>{ switchTabById('tab-leads'); setLeadMode('lead'); })
       + dKpi('Medical बोलाउन बाँकी', med.length, 'Interview Passed', '#8a6a12','phone', ()=>focusLeads('Medical बोलाउन बाँकी', med.map(l=>l.id)))
       + dKpi('Interview नतिजा बाँकी', ivr.length, 'Interview भइसकेका', '#002045','clock', ()=>focusLeads('Interview नतिजा बाँकी', ivr.map(l=>l.id)))
       + dKpi('उडान मिति राख्न बाँकी', dep.length, 'श्रम स्वीकृत', '#2b5585','plane', ()=>openDeparture('pending'))
@@ -2790,6 +2830,30 @@ function renderDash2(){
           { n:g.filter(grvOpen).length, label:'खुला case (New / In Progress)', fn:()=>{ switchTabById('tab-grievance'); document.getElementById('g-status-filter').value='__open'; renderGrievances(); } },
           { n:g.filter(x=>x.caseStatus==='Reply Submitted').length, label:'जवाफ पेश भएका', fn:()=>{ switchTabById('tab-grievance'); document.getElementById('g-status-filter').value='Reply Submitted'; renderGrievances(); } }]))
         + dCard('DoFE Applicant सूची', dDofe(), dLink('खोल्नुहोस्', ()=>openDofeLists())) + `</div>`;
+  } else if(role==='pro'){
+    const LNS = LEAD_NOT_SELECTED, liveA = act.filter(l=>!LNS.includes(l.leadStatus));
+    const inProc = W.filter(w=>['Entry','Upload','Submitted'].includes(w.status));
+    const appr = W.filter(w=>w.status==='Approved' && inFY(w.approveDate, fy));
+    const dep = W.filter(w=>w.departDate && inFY(w.departDate, fy) && w.status!=='Cancel');
+    k = dKpi('आज दर्ता', leadStats.today, 'यो हप्ता ' + leadStats.week, '#0a8f7a','user', ()=>{ switchTabById('tab-leads'); setLeadMode('lead'); })
+      + dKpi('मेरा Lead', leadStats.total, 'Document बुझाउन बाँकी', '#6b87ad','file', ()=>{ switchTabById('tab-leads'); setLeadMode('lead'); })
+      + dKpi('Applicants', liveA.length, 'Interview / Medical / Offer', '#2b5585','clock', ()=>{ switchTabById('tab-leads'); setLeadMode('applicant'); })
+      + dKpi('श्रम प्रक्रियामा', inProc.length, 'Candidates', '#8a6a12','check', ()=>switchTabById('tab-workers'))
+      + dKpi('श्रम स्वीकृत', appr.length, 'यो आ.व.', '#1e6e3c','check', ()=>switchTabById('tab-workers'))
+      + dKpi('उडेका', dep.length, 'यो आ.व.', '#002045','plane', ()=>openDeparture('departed'))
+      + dKpi('कागजात अपुरो', [...liveA, ...W.filter(w=>!w.departDate && w.status!=='Cancel' && w.status!=='Rejected')].filter(o=>docSet(o).size < DOC_ITEMS.length || o.medical!=='Yes').length, 'Applicants + Candidates', '#ba1a1a','file', ()=>{ switchTabById('tab-leads'); setLeadMode('applicant'); });
+    const ST = [['Lead', leadStats.total, '#8fa3bf'], ['Documents', act.filter(l=>['Document Received','Shortlisted'].includes(l.leadStatus)).length, '#6b87ad'],
+      ['Interview', act.filter(l=>['Interview','Interview Passed'].includes(l.leadStatus)).length, '#2b5585'], ['Medical', act.filter(l=>['Medical','Medical Fit','Selected'].includes(l.leadStatus)).length, '#0a8f7a'],
+      ['Offer / Ready', act.filter(l=>['Offer Letter','Offer Accepted',READY_ST].includes(l.leadStatus)).length, '#b58a2a'], ['श्रम प्रक्रियामा', inProc.length, '#8a6a12'],
+      ['श्रम स्वीकृत', appr.length, '#1e6e3c'], ['उडेका', dep.length, '#002045'], ['छनौट नभएका', act.filter(l=>LNS.includes(l.leadStatus)).length, '#ba1a1a']];
+    const mx = Math.max(1, ...ST.map(x=>x[1]));
+    const fun = `<div class="df">${ST.map(x=>`<div class="df-r"><span style="width:110px">${x[0]}</span><div><div style="width:${Math.max(3,Math.round(x[1]/mx*100))}%;background:${x[2]}"></div></div><b>${x[1]}</b></div>`).join('')}</div>`;
+    const stageOf = o => o._w ? (o.departDate ? 'उडिसके ✈' : o.status==='Approved' ? 'श्रम स्वीकृत' : ('Candidate: ' + o.status)) : (o.leadStatus + (o.rejectReason ? ' — ' + o.rejectReason : ''));
+    const lastD = o => String(o.departDate || o.approveDate || o.stageDate || o.createdAt || '').slice(0,10);
+    const people = [...leads.map(l=>Object.assign({}, l)), ...W.map(w=>Object.assign({ _w:true }, w))].filter(o=>!(o.convertedWorkerId)).sort((a,b)=>lastD(b).localeCompare(lastD(a))).slice(0, 12);
+    const tbl = dTable(['नाम','हालको अवस्था','कागजात','मिति'], people.map(o=>[gsEsc(o.name) + '<br><small style="color:var(--muted)">' + gsEsc(o.passport||'') + '</small>', (LNS.includes(o.leadStatus)?dPill('✗','red')+' ':'') + gsEsc(stageOf(o)), (o._w && o.departDate) ? '—' : docsBadge(o) + '<br><small style="color:var(--muted)">' + gsEsc(docsMissingText(o)) + '</small>', lastD(o) ? pbs(lastD(o)) : '-']), 'अहिलेसम्म कुनै Applicant / Candidate छैन');
+    const conv = leadStats.total + act.length + W.length ? Math.round(dep.length / Math.max(1, leadStats.total + act.length + W.length) * 100) : 0;
+    h = `<div class="dg dg-21 dgh-b">` + dCard('मेरा मान्छे — हालको अवस्था', tbl, dLink('Applicants', ()=>{ switchTabById('tab-leads'); setLeadMode('applicant'); })) + dCard('मेरो Pipeline', fun + `<div class="dk-s">उडान सफलता (यो आ.व.): ${conv}%</div>`) + `</div>`;
   } else {   // admin / manager
     const inF = d => d && inFY(d, fy);
     const pr = pres.filter(p=>inF(p.approvalDate)), pM = pr.reduce((a,p)=>a+(+p.maleCount||0),0), pF = pr.reduce((a,p)=>a+(+p.femaleCount||0),0);
@@ -2836,9 +2900,215 @@ function dDofe(){
     { n:noAd.length, label:'Lot मा विज्ञापन मिति नभएका', fn:()=>{ if(requireAccess(canManageClient(),'Pre-Permission')) switchTabById('tab-pre'); } }]);
 }
 
+
+// ================= सूचना (alert) — screen को बीचमा, system भित्रै (browser को माथिल्लो popup होइन) =================
+(function(){
+  const ERR_NP = { FIELD_LOCKED_SUBMITTED:'श्रम Submit भइसकेकाले यो विवरण बदल्न मिल्दैन (श्रम प्रतिनिधि/Admin ले मात्र)।',
+                   FIELD_LOCKED_POST_APPROVAL:'Approved भइसकेकाले उडान/ठेगाना विवरण बाहेक अरू बदल्न मिल्दैन।' };
+  const q = [];
+  function show(){
+    if(!q.length || document.getElementById('ui-alert')) return;
+    let msg = String(q[0]); for(const k in ERR_NP) msg = msg.split(k).join(ERR_NP[k]);
+    const kind = /^\s*(⛔|❌)/.test(msg) ? 'bad' : /^\s*⚠/.test(msg) ? 'warn' : /^\s*✅/.test(msg) ? 'ok' : 'info';
+    const w = document.createElement('div'); w.id = 'ui-alert'; w.className = 'ua-back'; w.setAttribute('role','alertdialog'); w.setAttribute('aria-modal','true');
+    w.innerHTML = `<div class="ua-box ua-${kind}"><div class="ua-msg"></div><div class="ua-act"><button type="button" class="btn">OK</button></div></div>`;
+    w.querySelector('.ua-msg').textContent = msg;
+    const close = ()=>{ w.remove(); q.shift(); document.removeEventListener('keydown', key, true); setTimeout(show, 0); };
+    const key = e=>{ if(e.key==='Escape' || e.key==='Enter'){ e.preventDefault(); e.stopPropagation(); close(); } };
+    w.querySelector('button').onclick = close;
+    w.addEventListener('click', e=>{ if(e.target===w) close(); });
+    document.addEventListener('keydown', key, true);
+    document.body.appendChild(w); w.querySelector('button').focus();
+  }
+  window.alert = function(m){ q.push(m); show(); };
+})();
+// ================= अनुमति नभएका Menu/बटन नदेखाउने (click गरेपछि "अनुमति छैन" आउनुभन्दा राम्रो) =================
+function hideForbiddenUI(){
+  if(!session) return;
+  const test = el => { const m = String(el.getAttribute('onclick')||'').match(/requireAccess\(([^,]+),/); if(!m) return true; try{ return !!(new Function('return (' + m[1] + ')'))(); }catch(e){ return true; } };
+  document.querySelectorAll('#nav .sub .item, .title-actions button, .entry-btn, #user-menu button').forEach(el=>{ el.style.display = test(el) ? '' : 'none'; });
+  document.querySelectorAll('[onclick*="openDofeLists"]').forEach(el=>{ if(!canFeims()) el.style.display = 'none'; });
+  document.querySelectorAll('[onclick*="openImport"]').forEach(el=>{ if(!canIntakeClient()) el.style.display = 'none'; });
+  const wb = document.getElementById('w-entry-btn'); if(wb && !canIntakeClient()) wb.style.display = 'none';
+  if(isPro()){
+    document.querySelectorAll('#nav .sub .item').forEach(el=>{ const oc = String(el.getAttribute('onclick')||''); const keep = el.id==='nav-leads' || el.id==='nav-applicants' || oc.includes("'tab-workers'") || oc.includes("'tab-departure'"); if(!keep) el.style.display = 'none'; });
+    document.querySelectorAll('.title-actions button, #w-entry-btn, [onclick*="openDofeLists"], [onclick*="openImport"], #l-bulk').forEach(el=>{ if(el.id!=='l-entry-btn') el.style.display = 'none'; });
+    const le = document.getElementById('l-entry-btn'); if(le) le.style.display = '';
+    const mt = document.getElementById('my-tasks'); if(mt) mt.style.display = 'none';
+  }
+  document.querySelectorAll('#nav .parent').forEach(p=>{ const sub = p.nextElementSibling; const any = sub && [...sub.querySelectorAll('.item')].some(x=>x.style.display!=='none'); p.style.display = any ? '' : 'none'; });
+}
+
+
+// ================= LEADS: server-side pagination (Leads tab — login मा आउँदैन) =================
+let leadStats = { total:0, today:0, week:0 };
+const leadCache = {};
+const LP = { page:1, size:25, q:'', rows:[], total:0, loading:false, err:'', t:null, seq:0 };
+function findLeadAny(id){ return leads.find(x=>x.id===id) || leadCache[id] || null; }
+// Status अनुसार सही ठाउँमा राख्ने: New → Leads (server page), अरू → Applicants (leads array)
+function upsertLead(nl){
+  nl = normRec(Object.assign({}, nl)); delete nl._p;
+  const i = leads.findIndex(x=>x.id===nl.id);
+  if(nl.leadStatus==='New' && !nl.convertedWorkerId){
+    if(i>=0){ leads.splice(i,1); leadStats.total++; LP.total++; }
+    leadCache[nl.id] = nl;
+    const j = LP.rows.findIndex(x=>x.id===nl.id); if(j>=0) LP.rows[j] = Object.assign({}, nl, { _p:false });
+  } else {
+    const wasLead = i<0 && (!!leadCache[nl.id] || LP.rows.some(x=>x.id===nl.id));
+    if(i>=0) leads[i] = nl; else leads.push(nl);
+    if(wasLead){ leadStats.total = Math.max(0, leadStats.total-1); LP.total = Math.max(0, LP.total-1); }
+    delete leadCache[nl.id]; LP.rows = LP.rows.filter(x=>x.id!==nl.id);
+  }
+}
+async function fetchLeadPage(){
+  const my = ++LP.seq; LP.loading = true; renderLeadServerPage();
+  const r = await api('leadspage', { page:LP.page, size:LP.size, q:LP.q }, null, 'silent');
+  if(my !== LP.seq) return;   // पछिल्लो request मात्र देखाउने
+  LP.loading = false;
+  if(r && r.ok){
+    LP.rows = (r.rows||[]).map(x=>{ const o = normRec(x); o._p = true; if(!leadCache[o.id] || leadCache[o.id]._p) leadCache[o.id] = o; return o; });
+    LP.total = r.total||0; if(!LP.q) leadStats.total = LP.total; LP.err = '';
+  } else LP.err = 'Lead ल्याउन सकिएन — फेरि प्रयास गर्नुहोस्।';
+  renderLeadServerPage();
+}
+function gotoLeadServerPage(p){ LP.page = p; fetchLeadPage(); const card = document.getElementById('l-pager').closest('.card'); if(card) card.scrollIntoView({ behavior:'smooth', block:'start' }); }
+function setLeadPageSize(v){ LP.size = Number(v)||25; LP.page = 1; fetchLeadPage(); }
+function renderLeadServerPage(){
+  const tb = document.getElementById('l-table'); if(!tb) return;
+  const se = document.getElementById('l-search'), qv = se ? se.value.trim() : '';
+  if(qv !== LP.q){ clearTimeout(LP.t); LP.t = setTimeout(()=>{ LP.q = qv; LP.page = 1; fetchLeadPage(); }, 400); }
+  document.getElementById('seg-lead-n').textContent = leadStats.total;
+  document.getElementById('seg-app-n').textContent = leads.filter(l=>!l.convertedWorkerId).length;
+  document.getElementById('seg-lead').classList.add('on'); document.getElementById('seg-app').classList.remove('on');
+  const sa = document.getElementById('l-selall'); if(sa) sa.style.display = 'none';
+  document.getElementById('l-focus').innerHTML = '';
+  const ed = canEditLead();
+  if(LP.loading && !LP.rows.length){ tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:22px;">Loading...</td></tr>'; }
+  else if(LP.err){ tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#ba1a1a;padding:18px;">${LP.err} <button class="btn btn-sm" style="width:auto" onclick="fetchLeadPage()">Retry</button></td></tr>`; }
+  else tb.innerHTML = LP.rows.map(l=>`<tr style="${LP.loading?'opacity:.55':''}">
+      <td></td>
+      <td>${gsEsc(l.name)}${ppWarn(l.ppExpiryDate)}<br><small style="color:var(--muted)">${gsEsc(l.passport)}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+gsEsc(l.phone):''}</small></td>
+      <td><small style="color:var(--muted)">${gsEsc(l.company||'')}${l.country?' · '+gsEsc(l.country):''}${l.jobTitle?'<br>'+gsEsc(l.jobTitle):''}</small></td>
+      <td><span class="badge s-entry">Lead</span><div class="ltask">दर्ता: ${l.createdAt?pbs(String(l.createdAt).slice(0,10)):'-'}${(!isPro() && l.enteredBy)?' · '+gsEsc(l.enteredBy):''}${l.refBy?' · Ref: '+gsEsc(l.refBy):''}</div></td>
+      <td style="white-space:nowrap;">${(ed && canDocReceive())?`<span class="nx"><button class="btn btn-sm" onclick="leadMove('${l.id}','Document Received')" title="कागजात बुझायो — Applicant मा सार्ने">▶ Applicant (Docs बुझायो)</button></span>`:''}<button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
+    </tr>`).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:18px;">${LP.q ? 'खोजमा कोही भेटिएन' : 'Lead छैनन्'}</td></tr>`;
+  // server pager
+  const el = document.getElementById('l-pager'), pages = Math.max(1, Math.ceil(LP.total / LP.size)), cur = Math.min(LP.page, pages);
+  if(!LP.total){ el.innerHTML = ''; return; }
+  const nums = []; for(let i=1;i<=pages;i++){ if(i===1||i===pages||Math.abs(i-cur)<=1) nums.push(i); else if(nums[nums.length-1]!=='…') nums.push('…'); }
+  el.innerHTML = `<div class="pg-nums">${pages>1?`<button class="arr" ${cur===1?'disabled':''} onclick="gotoLeadServerPage(${cur-1})">‹</button>`:''}${nums.map(n=>n==='…'?'<span class="dots">…</span>':`<button class="${n===cur?'cur':''}" ${n===cur?'disabled':''} onclick="gotoLeadServerPage(${n})">${n}</button>`).join('')}${pages>1?`<button class="arr" ${cur===pages?'disabled':''} onclick="gotoLeadServerPage(${cur+1})">›</button>`:''}</div>
+    <div class="pg-size">View Per Page: <select onchange="setLeadPageSize(this.value)">${[25,50,100].map(n=>`<option ${n===LP.size?'selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="pg-info">Page ${cur} of ${pages} · ${LP.total} leads${LP.loading?' · Loading…':''}</div>`;
+}
+// Global search: Lead हरू server बाट (३ अक्षरभन्दा बढी)
+let gsLeadSeq = 0;
+async function gsServerLeads(q){
+  q = String(q||'').trim(); if(q.length < 3 || !session) return;
+  const my = ++gsLeadSeq;
+  const r = await api('leadspage', { page:1, size:8, q }, null, 'silent');
+  if(my !== gsLeadSeq || !r || !r.ok || !(r.rows||[]).length) return;
+  const box = document.getElementById('gsResults'); if(!box.classList.contains('show')) return;
+  const inp = document.getElementById('gsearch'); if(String(inp.value||'').trim().toLowerCase() !== q.toLowerCase()) return;
+  const em = box.querySelector('.empty'); if(em && /No results/.test(em.textContent)) em.remove();
+  r.rows.forEach(x=>{
+    const o = normRec(x); o._p = true; if(!leadCache[o.id]) leadCache[o.id] = o;
+    const idx = gsRes.length;
+    gsRes.push({ type:'Lead', color:'#6b7a90', label:o.name, sub:[o.passport, o.phone, 'Lead'].filter(Boolean).join(' · '), act:()=>{ switchTabById('tab-leads'); setLeadMode('lead'); openLModal(o.id); } });
+    box.insertAdjacentHTML('beforeend', `<div class="gr" onmousedown="event.preventDefault()" onclick="gsPick(${idx})"><span class="tag" style="background:#6b7a90">Lead</span><span><b>${gsEsc(o.name)}</b><br><small>${gsEsc([o.passport,o.phone].filter(Boolean).join(' · '))}</small></span></div>`);
+  });
+}
+// Lead modal: अधुरो (page) record भए पूरा record ल्याएर खोल्ने
+const _openLModalFull = openLModal;
+openLModal = async function(id){
+  let l = findLeadAny(id);
+  if(!l || l._p){ const g = await api('getlead', { id }, null, 'silent'); if(!g || !g.ok){ alert('⚠️ Lead खुलेन — फेरि प्रयास गर्नुहोस्।'); return; } leadCache[id] = normRec(g.lead); }
+  _openLModalFull(id);
+};
+
+
+// ================= PASSPORT म्याद (१४ महिनाभन्दा कम भए चेतावनी) =================
+const PP_WARN_MONTHS = 14;
+function ppMonthsLeft(d){ if(!d) return null; const p = String(d).slice(0,10).split('-').map(Number); if(p.length<3 || !p[0]) return null;
+  const e = new Date(p[0], p[1]-1, p[2]), n = new Date(); return (e.getFullYear()-n.getFullYear())*12 + (e.getMonth()-n.getMonth()) - (e.getDate()<n.getDate()?1:0); }
+function ppLow(d){ const m = ppMonthsLeft(d); return m!==null && m < PP_WARN_MONTHS; }
+function ppWarn(d){ const m = ppMonthsLeft(d); if(m===null || m >= PP_WARN_MONTHS) return '';
+  return `<span class="dp dp-red" title="Passport म्याद: ${gsEsc(String(d).slice(0,10))}" style="margin-left:4px">🛂 ${m<0?'Passport म्याद सकियो':'PP '+m+' महिना'}</span>`; }
+function ppHint(prefix){ const el = document.getElementById(prefix+'-ppexpiry'); if(!el) return; let h = document.getElementById(prefix+'-pphint');
+  if(!h){ h = document.createElement('div'); h.id = prefix+'-pphint'; h.className = 'lot-hint'; el.insertAdjacentElement('afterend', h); }
+  const m = ppMonthsLeft(el.value); if(m===null){ h.className='lot-hint'; h.innerHTML=''; return; }
+  h.className = 'lot-hint ' + (m < PP_WARN_MONTHS ? 'bad' : 'ok'); h.innerHTML = m < 0 ? '⛔ Passport को म्याद सकिसक्यो' : (m < PP_WARN_MONTHS ? `⚠️ म्याद ${m} महिना मात्र बाँकी (${PP_WARN_MONTHS} महिनाभन्दा कम) — नवीकरण गराउनुहोस्` : `✓ म्याद ${m} महिना बाँकी`); }
+function ppLowApplicants(){ return leads.filter(l=>!l.convertedWorkerId && !LEAD_NOT_SELECTED.includes(l.leadStatus) && ppLow(l.ppExpiryDate)); }
+function ppLowCandidates(){ return workers.filter(w=>!w.departDate && w.status!=='Cancel' && w.status!=='Rejected' && ppLow(w.ppExpiryDate)); }
+
+// ================= नेपालका ७७ जिल्ला (एकरूपता — Jhapa, jhapaa, JHAAPA → Jhapa) =================
+const DISTRICTS = [["Taplejung", "ताप्लेजुङ", "Koshi"], ["Panchthar", "पाँचथर", "Koshi"], ["Ilam", "इलाम", "Koshi"], ["Jhapa", "झापा", "Koshi"], ["Morang", "मोरङ", "Koshi"], ["Sunsari", "सुनसरी", "Koshi"], ["Dhankuta", "धनकुटा", "Koshi"], ["Terhathum", "तेह्रथुम", "Koshi"], ["Sankhuwasabha", "सङ्खुवासभा", "Koshi"], ["Bhojpur", "भोजपुर", "Koshi"], ["Solukhumbu", "सोलुखुम्बु", "Koshi"], ["Okhaldhunga", "ओखलढुङ्गा", "Koshi"], ["Khotang", "खोटाङ", "Koshi"], ["Udayapur", "उदयपुर", "Koshi"], ["Saptari", "सप्तरी", "Madhesh"], ["Siraha", "सिराहा", "Madhesh"], ["Dhanusha", "धनुषा", "Madhesh"], ["Mahottari", "महोत्तरी", "Madhesh"], ["Sarlahi", "सर्लाही", "Madhesh"], ["Rautahat", "रौतहट", "Madhesh"], ["Bara", "बारा", "Madhesh"], ["Parsa", "पर्सा", "Madhesh"], ["Dolakha", "दोलखा", "Bagmati"], ["Sindhupalchok", "सिन्धुपाल्चोक", "Bagmati"], ["Rasuwa", "रसुवा", "Bagmati"], ["Dhading", "धादिङ", "Bagmati"], ["Nuwakot", "नुवाकोट", "Bagmati"], ["Kathmandu", "काठमाडौं", "Bagmati"], ["Bhaktapur", "भक्तपुर", "Bagmati"], ["Lalitpur", "ललितपुर", "Bagmati"], ["Kavrepalanchok", "काभ्रेपलाञ्चोक", "Bagmati"], ["Ramechhap", "रामेछाप", "Bagmati"], ["Sindhuli", "सिन्धुली", "Bagmati"], ["Makwanpur", "मकवानपुर", "Bagmati"], ["Chitwan", "चितवन", "Bagmati"], ["Gorkha", "गोरखा", "Gandaki"], ["Manang", "मनाङ", "Gandaki"], ["Mustang", "मुस्ताङ", "Gandaki"], ["Myagdi", "म्याग्दी", "Gandaki"], ["Kaski", "कास्की", "Gandaki"], ["Lamjung", "लमजुङ", "Gandaki"], ["Tanahun", "तनहुँ", "Gandaki"], ["Nawalpur", "नवलपुर", "Gandaki"], ["Syangja", "स्याङ्जा", "Gandaki"], ["Parbat", "पर्वत", "Gandaki"], ["Baglung", "बागलुङ", "Gandaki"], ["Rukum East", "रुकुम पूर्व", "Lumbini"], ["Rolpa", "रोल्पा", "Lumbini"], ["Pyuthan", "प्युठान", "Lumbini"], ["Gulmi", "गुल्मी", "Lumbini"], ["Arghakhanchi", "अर्घाखाँची", "Lumbini"], ["Palpa", "पाल्पा", "Lumbini"], ["Parasi", "परासी", "Lumbini"], ["Rupandehi", "रुपन्देही", "Lumbini"], ["Kapilvastu", "कपिलवस्तु", "Lumbini"], ["Dang", "दाङ", "Lumbini"], ["Banke", "बाँके", "Lumbini"], ["Bardiya", "बर्दिया", "Lumbini"], ["Dolpa", "डोल्पा", "Karnali"], ["Mugu", "मुगु", "Karnali"], ["Humla", "हुम्ला", "Karnali"], ["Jumla", "जुम्ला", "Karnali"], ["Kalikot", "कालिकोट", "Karnali"], ["Dailekh", "दैलेख", "Karnali"], ["Jajarkot", "जाजरकोट", "Karnali"], ["Rukum West", "रुकुम पश्चिम", "Karnali"], ["Salyan", "सल्यान", "Karnali"], ["Surkhet", "सुर्खेत", "Karnali"], ["Bajura", "बाजुरा", "Sudurpashchim"], ["Bajhang", "बझाङ", "Sudurpashchim"], ["Darchula", "दार्चुला", "Sudurpashchim"], ["Baitadi", "बैतडी", "Sudurpashchim"], ["Dadeldhura", "डडेल्धुरा", "Sudurpashchim"], ["Doti", "डोटी", "Sudurpashchim"], ["Achham", "अछाम", "Sudurpashchim"], ["Kailali", "कैलाली", "Sudurpashchim"], ["Kanchanpur", "कञ्चनपुर", "Sudurpashchim"]];
+const DIST_ALIAS = {"tanahu": "Tanahun", "kabre": "Kavrepalanchok", "kabhre": "Kavrepalanchok", "kabrepalanchok": "Kavrepalanchok", "terathum": "Terhathum", "tehrathum": "Terhathum", "sankhuasaba": "Sankhuwasabha", "okhaldunga": "Okhaldhunga", "ktm": "Kathmandu", "patan": "Lalitpur", "naalparasieast": "Nawalpur", "naalparasiest": "Parasi", "rukumpurba": "Rukum East", "rukumpurb": "Rukum East", "rukumpaschim": "Rukum West", "rukumpaschimi": "Rukum West", "udaypur": "Udayapur", "sindhupalchok": "Sindhupalchok", "dhanusa": "Dhanusha", "kanchanpur": "Kanchanpur", "dadheldhura": "Dadeldhura", "acham": "Achham", "arghakhachi": "Arghakhanchi", "nuakot": "Nuwakot", "makaanpur": "Makwanpur", "mahotari": "Mahottari", "solu": "Solukhumbu", "panchthar": "Panchthar"};
+function distK1(s){ return String(s||'').toLowerCase().replace(/[^a-z]/g,'').replace(/(.)\1+/g,'$1').replace(/v/g,'b').replace(/sh/g,'s').replace(/w/g,''); }
+function distK2(s){ return distK1(s).replace(/[aeiouy]/g,''); }
+const DIST_BY_K1 = {}, DIST_BY_K2 = {}, DIST_BY_NP = {};
+DISTRICTS.forEach(([e,n])=>{ DIST_BY_K1[distK1(e)] = e; const k2 = distK2(e); DIST_BY_K2[k2] = (k2 in DIST_BY_K2) ? null : e; DIST_BY_NP[n] = e; });
+const _distCache = {};
+// टाइप गरिएको जिल्ला → सही नाम (नमिले null)
+function normDistrict(v){
+  const t = String(v==null?'':v).trim(); if(!t) return '';
+  if(t in _distCache) return _distCache[t];
+  const base = t.replace(/\s*\(.*\)\s*$/,'').replace(/\s*[—-]\s*.*$/,'').trim();
+  let r = DIST_BY_NP[base] || DIST_BY_K1[distK1(base)] || DIST_ALIAS[distK1(base)] || DIST_BY_K2[distK2(base)] || null;
+  if(!r){ const hit = DISTRICTS.find(([e,n])=>n===base); r = hit ? hit[0] : null; }
+  return (_distCache[t] = r);
+}
+function districtHint(id){
+  const el = document.getElementById(id); if(!el) return true;
+  let h = document.getElementById(id + '-dh');
+  if(!h){ h = document.createElement('div'); h.id = id + '-dh'; h.className = 'lot-hint'; el.insertAdjacentElement('afterend', h); }
+  const v = el.value.trim(); if(!v){ h.className = 'lot-hint'; h.innerHTML = ''; return true; }
+  const d = normDistrict(v);
+  if(d){ el.value = d; const row = DISTRICTS.find(x=>x[0]===d); h.className = 'lot-hint ok'; h.innerHTML = `✓ ${gsEsc(d)} (${row?row[1]:''}) — ${row?row[2]:''} प्रदेश`; return true; }
+  h.className = 'lot-hint bad'; h.innerHTML = '⛔ जिल्ला मिलेन — टाइप गर्दा आउने सूचीबाट छान्नुहोस्'; return false;
+}
+(function setupDistricts(){
+  const dl = document.createElement('datalist'); dl.id = 'dl-district';
+  dl.innerHTML = DISTRICTS.map(([e,n,p])=>`<option value="${e}">${n} — ${p}</option>`).join('');
+  document.body.appendChild(dl);
+  ['l-nepal-addr','le-nepal-addr','w-nepal-addr','e-nepal-addr'].forEach(id=>{
+    const el = document.getElementById(id); if(!el) return;
+    el.setAttribute('list','dl-district'); el.setAttribute('autocomplete','off'); el.placeholder = 'जिल्ला टाइप गर्नुहोस् (जस्तै: jha → Jhapa)';
+    el.addEventListener('change', ()=>districtHint(id)); el.addEventListener('blur', ()=>districtHint(id));
+  });
+})();
+
+// ================= कागजात (Documents) =================
+const DOC_ITEMS = [['PP','Passport Copy'],['PHOTO','Photo'],['CV','CV / अनुभव पत्र'],['POLICE','Police Report']];
+function canDocs(){ return !!session && ['documentation','admin','manager'].includes(session.role); }
+function docSet(o){ return new Set(String(o && o.docs || '').split(',').map(x=>x.trim()).filter(Boolean)); }
+function docsRender(prefix, o){
+  const box = document.getElementById(prefix+'-docs'); if(!box) return;
+  const have = docSet(o), ed = canDocs();
+  box.innerHTML = DOC_ITEMS.map(([k,l])=>`<label class="dck ${have.has(k)?'on':''}"><input type="checkbox" value="${k}" ${have.has(k)?'checked':''} ${ed?'':'disabled'} onchange="this.parentNode.classList.toggle('on',this.checked)"> ${l}</label>`).join('');
+}
+function docsCollect(prefix){ const box = document.getElementById(prefix+'-docs'); if(!box) return undefined; return [...box.querySelectorAll('input:checked')].map(x=>x.value).join(','); }
+function docsBadge(o){
+  const n = docSet(o).size, t = DOC_ITEMS.length, med = o.medical==='Yes';
+  const miss = DOC_ITEMS.filter(([k])=>!docSet(o).has(k)).map(([,l])=>l);
+  return `<span class="dp ${n===t && med ? 'dp-green' : n===0 ? 'dp-red' : 'dp-amber'}" title="${miss.length ? 'बाँकी: ' + gsEsc(miss.join(', ')) : 'सबै कागजात पुगेको'}${med ? '' : ' · Medical बाँकी'}" style="margin-left:4px">📄 ${n}/${t}${med?' · 🩺✓':''}</span>`;
+}
+function docsMissingText(o){ const miss = DOC_ITEMS.filter(([k])=>!docSet(o).has(k)).map(([,l])=>l); if(o.medical!=='Yes') miss.push('Medical'); return miss.length ? 'बाँकी: ' + miss.join(', ') : '✓ पूरा'; }
+// ================= Lead अनिवार्य field (Save अघि जाँच) =================
+const REQ_LEAD = [['l-name','नाम'],['l-passport','Passport'],['l-gender','Gender'],['l-phone','फोन'],['l-dob','जन्ममिति'],['l-ppissue','Passport Issue'],['l-ppexpiry','Passport Expiry'],['l-country','देश'],['l-jobtitle','पद (Job)'],['l-refby','Ref By'],['l-nepal-addr','जिल्ला']];
+function validateLeadForm(prefix){
+  const map = prefix==='l' ? REQ_LEAD : REQ_LEAD.map(([id,l])=>['le'+id.slice(1),l]);
+  const miss = [];
+  map.forEach(([id,l])=>{ const el = document.getElementById(id); if(!el) return; const bad = !String(el.value||'').trim(); el.classList.toggle('req-bad', bad); if(bad) miss.push(l); });
+  if(miss.length){ alert('⚠️ यी field अनिवार्य छन् — भर्नुहोस्:\n• ' + miss.join('\n• ')); return false; }
+  if(!districtHint(prefix+'-nepal-addr')){ alert('⛔ जिल्ला मिलेन — टाइप गर्दा आउने सूचीबाट छान्नुहोस् (जस्तै: jha → Jhapa)।'); return false; }
+  const ph = document.getElementById(prefix+'-phone').value.replace(/[^0-9]/g,''); if(ph.length<7 || ph.length>15){ alert('⚠️ फोन नम्बर मिलेन।'); return false; }
+  if(document.getElementById(prefix+'-ppexpiry').value <= document.getElementById(prefix+'-ppissue').value){ alert('⚠️ Passport Expiry मिति Issue मिति भन्दा पछि हुनुपर्छ।'); return false; }
+  return true;
+}
+
 // ================= PAGINATION (एक page मा १० row, default) =================
 const PAGER = {};
-const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances(), m:()=>renderMonitor(), dp:()=>renderDeparture() };
+const PAGER_RENDER = { w:()=>renderWorkers(), l:()=>renderLeads(), p:()=>renderPres(), g:()=>renderGrievances(), m:()=>renderMonitor(), dp:()=>renderDeparture(), q:()=>renderQuotaArea() };
 // filter/search बदलिए page 1 मा फर्कने; save/refresh ले भने हालकै page राख्ने
 function pageSlice(key, rows, fkey){
   const st = PAGER[key] || (PAGER[key] = { page:1, size:10, fkey:null });
@@ -2955,6 +3225,7 @@ function globalSearch(q){
       + (res.length > 30 ? `<div class="empty">+${res.length-30} more — type more to narrow down</div>` : '')
     : '<div class="empty">No results found</div>';
   box.classList.add('show');
+  gsServerLeads(q);
 }
 const globalSearchDebounced = (function(){ let t; return v=>{ clearTimeout(t); t=setTimeout(()=>globalSearch(v), 250); }; })();
 function gsPick(i){
@@ -3048,6 +3319,8 @@ function renderActionCenter(){
     { roles:['shram'], label:'⚖️ Likhit Jawab Due (≤ 2 days)', n:()=>grvDueCount(), act:()=>openGrievanceDue(), need:()=>canGrievance() },
     { roles:['manager'], label:'📞 Monitoring Due (Lots, this month)', n:()=>monDueLots().filter(x=>x.done < x.target).length, act:()=>openMonitorDue() },
     { roles:['documentation','shram'], label:'📌 Lot / FEIMS बाँकी', n:()=>leads.filter(needsFeims).length, act:()=>focusLeads('Lot / FEIMS बाँकी', leads.filter(needsFeims).map(l=>l.id)) },
+    { roles:['receptionist','documentation'], label:'🛂 Passport म्याद < १४ महिना (Applicants)', n:()=>ppLowApplicants().length, act:()=>focusLeads('Passport म्याद < १४ महिना', ppLowApplicants().map(l=>l.id)) },
+    { roles:['receptionist','documentation','shram'], label:'🛂 Passport म्याद < १४ महिना (Candidates)', n:()=>ppLowCandidates().length, act:()=>openActionFilter('ppexpiry','🛂 Passport म्याद < १४ महिना') },
     { roles:['receptionist','documentation'], label:'⏰ अड्किएका Applicant', n:()=>stuckLeads().length, act:()=>focusLeads('म्याद नाघेका (अड्किएका) Applicant', stuckLeads().map(l=>l.id)) }
   ];
   function stuckLeads(){ return leads.filter(l=>{ const t=leadTask(l); return t && t.overdue && (all || t.role===role); }); }
@@ -3077,6 +3350,7 @@ document.getElementById('worker-form').addEventListener('submit', async function
     lotNo: document.getElementById('w-lotno').value.trim(),
     newsDate: document.getElementById('w-newsdate').value,
     issueDate: document.getElementById('w-issuedate').value,
+    ppExpiryDate: document.getElementById('w-ppexpiry').value,
     visaNo: document.getElementById('w-visano').value.trim(),
     country: document.getElementById('w-country').value.trim(),
     company: document.getElementById('w-company').value.trim(),
@@ -3101,6 +3375,7 @@ if(leadForm) leadForm.addEventListener('submit', async function(e){
   e.preventDefault();
   const passport = cleanPassport(document.getElementById('l-passport').value);
   if(!validPassport(passport)){ alert(PP_ERROR); return; }
+  if(!validateLeadForm('l')) return;
   const l = {
     name: document.getElementById('l-name').value.trim(),
     passport,
@@ -3118,11 +3393,19 @@ if(leadForm) leadForm.addEventListener('submit', async function(e){
     remarks: document.getElementById('l-remarks').value.trim(),
     adDate: document.getElementById('l-addate').value,
     appliedDate: document.getElementById('l-applied').value || fmtDate(new Date()),
+    dob: document.getElementById('l-dob').value, ppIssueDate: document.getElementById('l-ppissue').value, ppExpiryDate: document.getElementById('l-ppexpiry').value,
+    refBy: document.getElementById('l-refby').value.trim().toUpperCase(),
     leadStatus:'New'
   };
   const r = await api('addlead', { lead: l }, null, true);
-  if(r.ok){ leads.push(r.lead); this.reset(); renderAll(); entrySaved('l', e); }
-  else if(r.error==='DUPLICATE_PASSPORT') alert('⛔ यो पासपोर्ट पहिल्यै दर्ता छ!\nनाम: '+(r.workerName||'')+'\nStatus: '+(r.status||''));
+  if(r.ok){ leadStats.total++; leadStats.today++; leadStats.week++; if(leadMode==='lead'){ LP.page = 1; fetchLeadPage(); } this.reset(); renderAll(); entrySaved('l', e); toast('✅ Lead मा थपियो'); }
+  else if(r.error==='DUPLICATE_PASSPORT') alert(r.workerName ? ('⛔ यो पासपोर्ट पहिल्यै दर्ता छ!\nनाम: '+r.workerName+'\nStatus: '+(r.status||'')) : '⛔ यो Passport पहिले नै दर्ता भइसकेको छ। (पहिले दर्ता गर्नेको हुन्छ)');
+  else if(r.error==='BLACKLISTED') alert('⛔ यो Passport Blacklist मा छ।' + (r.reason ? '\nकारण: '+r.reason : '\nOffice सँग सम्पर्क गर्नुहोस्।'));
+  else if(r.error==='MISSING_FIELDS') alert('⚠️ अनिवार्य field बाँकी: ' + (r.fields||[]).join(', '));
+  else if(r.error==='INVALID_DISTRICT') alert('⛔ जिल्ला मिलेन — सूचीबाट छान्नुहोस्।');
+  else if(r.error==='INVALID_PHONE') alert('⚠️ फोन नम्बर मिलेन।');
+  else if(r.error==='AGE_RANGE') alert('⛔ उमेर १८–६५ वर्षभित्र हुनुपर्छ (जन्ममिति जाँच्नुहोस्)।');
+  else if(r.error==='INVALID_DATES') alert('⚠️ Passport Expiry मिति Issue मिति भन्दा पछि हुनुपर्छ।');
   else if(r.error==='INVALID_PASSPORT') alert(PP_ERROR);
   else if(r.error==='FORBIDDEN') alert('⛔ तपाईंलाई Applicant थप्ने अनुमति छैन।');
 });
@@ -3201,6 +3484,7 @@ function applyCardFilter(list){
   if(t==='medicalpending') return list.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.medical!=='Yes');
   if(t==='orientationpending') return list.filter(w=>w.status!=='Cancel' && w.status!=='Rejected' && w.orientation!=='Yes');
   if(t==='departurependingall') return list.filter(w=>w.status==='Approved' && !w.departDate);
+  if(t==='ppexpiry') return list.filter(w=>!w.departDate && w.status!=='Cancel' && w.status!=='Rejected' && ppLow(w.ppExpiryDate));
   return list;
 }
 // Action Center बाट खोल्ने — Worker List मा (FY सीमा नराखी) फिल्टर गरेर देखाउने
@@ -3285,7 +3569,7 @@ function renderWorkers(){
   document.getElementById('w-table').innerHTML = pageRows.map(w=>`
     <tr>
       <td class="shram-only-field"><input type="checkbox" ${selectedWIds.has(w.id)?'checked':''} onchange="toggleSelect('${w.id}', this.checked)"></td>
-      <td>${w.name}<br><small style="color:var(--muted)">${w.passport}${w.gender?' • '+gShort(w.gender):''}${w.age?' • '+w.age:''}</small></td>
+      <td>${w.name}${(!w.departDate && w.status!=='Cancel' && w.status!=='Rejected') ? ppWarn(w.ppExpiryDate) + docsBadge(w) : ''}<br><small style="color:var(--muted)">${w.passport}${w.gender?' • '+gShort(w.gender):''}${w.age?' • '+w.age:''}</small></td>
       <td>${w.country}<br><small>${w.company}</small></td>
       <td><small>${w.demandProfession||w.visaProfession||'-'}</small></td>
       <td>${statusBadge(w.status)}</td>
@@ -3448,6 +3732,8 @@ function openWModal(id){
   document.getElementById('e-lotno').value = w.lotNo||'';
   document.getElementById('e-newsdate').value = w.newsDate||'';
   document.getElementById('e-issuedate').value = w.issueDate||'';
+  document.getElementById('e-ppexpiry').value = w.ppExpiryDate||''; ppHint('e');
+  docsRender('e', w);
   document.getElementById('e-visano').value = w.visaNo||'';
   document.getElementById('e-country').value = w.country||'';
   document.getElementById('e-company').value = w.company||'';
@@ -3474,8 +3760,10 @@ function openWModal(id){
   // (उडान मिति/विदेश पुगेको मिति/नेपाल ठेगाना/सम्पर्क व्यक्ति) बाहेक अरु सबै field lock गर्ने
   const limitedRole = session && (session.role==='receptionist' || session.role==='documentation');
   const postApprovalLocked = !!(limitedRole && w.status==='Approved');
-  const LOCK_IDS = ['e-name','e-passport','e-age','e-gender','e-lotno','e-newsdate','e-issuedate','e-visano','e-country','e-company','e-visaprof','e-demandprof','e-orientation','e-medical','e-remarks'];
-  LOCK_IDS.forEach(fid=>{ const el=document.getElementById(fid); if(el) el.disabled = postApprovalLocked; });
+  const submitLocked = !!(limitedRole && w.status==='Submitted');   // श्रम Submit भएपछि मुख्य विवरण lock
+  const LOCK_IDS = ['e-name','e-passport','e-age','e-gender','e-lotno','e-newsdate','e-issuedate','e-visano','e-country','e-company','e-visaprof','e-demandprof','e-orientation','e-medical','e-remarks','e-ppexpiry'];
+  const SUBMIT_LOCK_IDS = ['e-name','e-passport','e-age','e-gender','e-lotno','e-newsdate','e-issuedate','e-visano','e-country','e-company','e-visaprof','e-demandprof','e-ppexpiry'];
+  LOCK_IDS.forEach(fid=>{ const el=document.getElementById(fid); if(el) el.disabled = postApprovalLocked || (submitLocked && SUBMIT_LOCK_IDS.includes(fid)); });
   // Labor Approval Status/स्वीकृति मिति सधैँ श्रम प्रतिनिधि/Admin ले मात्र बदल्ने — receptionist/documentation लाई देखिन्छ तर disabled
   const roleLocked = !canManageClient();
   document.getElementById('e-status').disabled = roleLocked;
@@ -3483,6 +3771,7 @@ function openWModal(id){
   document.getElementById('w-modal-meta').textContent = 'Registered: ' + (w.createdAt||'');
   const lockMsgs = [];
   if(roleLocked) lockMsgs.push('🔒 Labor Approval Status/स्वीकृति मिति तपाईंको भूमिकाबाट बदल्न मिल्दैन — श्रम प्रतिनिधि/Admin ले मात्र बदल्छन्।');
+  if(submitLocked) lockMsgs.push('🔒 श्रम प्रतिनिधिले Submit गरिसकेकाले नाम, पासपोर्ट, Lot, Visa नं., देश-कम्पनी आदि अब बदल्न मिल्दैन। Medical, Orientation र Remarks मात्र भर्न सकिन्छ।');
   if(postApprovalLocked) lockMsgs.push('🔒 Approved भइसकेकाले नाम/पासपोर्ट/देश-कम्पनी आदि अब सम्पादन गर्न मिल्दैन — उडान मिति/विदेश पुगेको मिति/नेपाल ठेगाना/सम्पर्क व्यक्ति मात्र भर्न सकिन्छ।');
   document.getElementById('w-lock-note-wrap').style.display = lockMsgs.length ? 'block' : 'none';
   document.getElementById('w-lock-note').style.display = 'none';
@@ -3530,6 +3819,8 @@ function saveWorker(){
     lotNo: document.getElementById('e-lotno').value.trim(),
     newsDate: document.getElementById('e-newsdate').value,
     issueDate: document.getElementById('e-issuedate').value,
+    ppExpiryDate: document.getElementById('e-ppexpiry').value,
+    docs: canDocs() ? docsCollect('e') : (w.docs||''),
     visaNo: document.getElementById('e-visano').value.trim(),
     country: document.getElementById('e-country').value.trim(),
     company: document.getElementById('e-company').value.trim(),
@@ -3575,6 +3866,7 @@ let editingLId = null;
 function renderLeads(){
   const searchEl = document.getElementById('l-search');
   if(!searchEl) return;
+  if(leadMode==='lead' && !leadFocus){ renderLeadServerPage(); return; }
   const q = (searchEl.value||'').toLowerCase();
   const sf = document.getElementById('l-status-filter').value;
   // Worker मा सारिसकेका Applicant अब सधैं list बाट लुकाइन्छ (Worker मास्टर रेकर्डमा नै हेर्न मिल्छ)
@@ -3592,7 +3884,7 @@ function renderLeads(){
     return String(b.id||'').localeCompare(String(a.id||''));
   });
   const nAct = leads.filter(l=>!l.convertedWorkerId), nLead = nAct.filter(l=>l.leadStatus==='New').length;
-  document.getElementById('seg-lead-n').textContent = nLead; document.getElementById('seg-app-n').textContent = nAct.length - nLead;
+  document.getElementById('seg-lead-n').textContent = leadStats.total; document.getElementById('seg-app-n').textContent = nAct.length - nLead;
   const pageRows = pageSlice('l', rows, [q, sf, leadMode, leadFocus ? leadFocus.label : ''].join('|'));
   window._lPageIds = pageRows.map(l=>l.id);
   const fe = canFeims(), ed = canEditLead();
@@ -3606,9 +3898,9 @@ function renderLeads(){
       : `<small style="color:var(--muted)">${gsEsc(l.company||'')}</small>${needsFeims(l)?'<br><span class="due soon">📌 Lot / FEIMS बाँकी</span>':'<br><small style="color:var(--muted)">Lot नतोकिएको</small>'}`;
     return `<tr>
       <td>${fe?`<input type="checkbox" ${selectedLIds.has(l.id)?'checked':''} onchange="toggleLeadSel('${l.id}',this.checked)">`:''}</td>
-      <td>${gsEsc(l.name)}<br><small style="color:var(--muted)">${gsEsc(l.passport)}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+gsEsc(l.phone):''}</small></td>
+      <td>${gsEsc(l.name)}${ppWarn(l.ppExpiryDate)}<br><small style="color:var(--muted)">${gsEsc(l.passport)}${l.gender?' • '+gShort(l.gender):''}${l.phone?' • 📞 '+gsEsc(l.phone):''}</small></td>
       <td>${lotCell}</td>
-      <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span>${l.rejectReason?`<br><small style="color:#ba1a1a">${gsEsc(l.rejectReason)}</small>`:''}
+      <td><span class="badge ${LEAD_STATUS_BADGE[l.leadStatus]||'s-entry'}">${l.leadStatus}</span>${docsBadge(l)}${l.rejectReason?`<br><small style="color:#ba1a1a">${gsEsc(l.rejectReason)}</small>`:''}
         ${t?`<div class="ltask ${t.overdue?'late':''}">→ ${gsEsc(t.text)} · ${ROLE_NP[t.role]||''}${t.overdue?` · ⏰ ${t.age} दिन`:''}</div>`:''}</td>
       <td style="white-space:nowrap;">${nx.length?`<span class="nx">${nx.map(to=>`<button class="btn btn-sm ${LEAD_NOT_SELECTED.includes(to)?'neg':''}" onclick="leadMove('${l.id}','${to}')" title="${to} मा सार्ने">${LEAD_NOT_SELECTED.includes(to)?'✗':'▶'} ${to==='Ready For Labor Approval'?'Ready':(to==='Document Received'&&l.leadStatus==='New'?'Applicant (Docs बुझायो)':to)}</button>`).join('')}</span>`:''}${fe?`<button class="btn btn-sm btn-ghost" onclick="openAssign(['${l.id}'])" title="Lot / FEIMS विवरण">📌</button> `:''}<button class="btn btn-sm" onclick="openLModal('${l.id}')">View</button></td>
     </tr>`; }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">No applicants found</td></tr>';
@@ -3616,7 +3908,7 @@ function renderLeads(){
 }
 function openLModal(id){
   editingLId = id;
-  const l = leads.find(x=>x.id===id);
+  const l = findLeadAny(id);
   if(!l) return;
   document.getElementById('l-modal-title').textContent = l.name + ' — Applicant Details / Edit';
   document.getElementById('le-name').value = l.name;
@@ -3634,6 +3926,9 @@ function openLModal(id){
   document.getElementById('le-nepal-addr').value = l.nepalAddress||'';
   document.getElementById('le-contact-addr').value = l.contactAddress||'';
   document.getElementById('le-remarks').value = l.remarks||'';
+  document.getElementById('le-dob').value = l.dob||''; document.getElementById('le-ppissue').value = l.ppIssueDate||''; document.getElementById('le-ppexpiry').value = l.ppExpiryDate||''; ppHint('le');
+  document.getElementById('le-refby').value = l.refBy||''; document.getElementById('le-enteredby').value = l.enteredBy||'';
+  docsRender('le', l); districtHint('le-nepal-addr');
   document.getElementById('le-addate').value = l.adDate||'';
   document.getElementById('le-applied').value = l.appliedDate||'';
   document.getElementById('le-reason').value = l.rejectReason||'';
@@ -3645,6 +3940,16 @@ function openLModal(id){
     document.getElementById(id).disabled = converted;
   });
   applyLeadFieldLocks();
+  { const lc = document.getElementById('le-country'); if(lc && !canFeims()) lc.disabled = !(l.leadStatus==='New' && (!isPro() || l.enteredBy===session.username));
+    const stSel = document.getElementById('le-status');
+    stSel.disabled = !!l.convertedWorkerId || isPro() || (l.leadStatus==='New' && !canDocReceive());
+    if(isPro()){ const own = l.enteredBy===session.username || !l.enteredBy; const editable = own && l.leadStatus==='New';
+      document.querySelectorAll('#l-modal input, #l-modal select, #l-modal textarea').forEach(el=>{ if(!['le-lotno','le-company','le-addate','le-status','le-enteredby'].includes(el.id) && !el.closest('#le-docs')) el.disabled = !editable; });
+      const sb = document.getElementById('l-save-btn'); if(sb) sb.style.display = editable ? '' : 'none';
+      const cb = document.getElementById('l-convert-btn'); if(cb) cb.style.display = 'none';
+      document.getElementById('l-history').innerHTML = '<div style="color:var(--muted)">' + (editable ? '✏️ Document Received नहुन्जेल सच्याउन मिल्छ।' : '🔒 Documentation ले Document Received गरिसकेकाले अब सच्याउन मिल्दैन।') + '</div>';
+      document.getElementById('l-modal').style.display = 'flex';
+      return; } }
   if(session && session.role==='shram'){ ['l-save-btn','l-convert-btn'].forEach(id=>{ const b=document.getElementById(id); if(b) b.style.display='none'; }); }
   else document.getElementById('l-save-btn').style.display = converted ? 'none' : '';
   document.getElementById('l-convert-btn').style.display = (!converted && l.leadStatus==='Ready For Labor Approval') ? '' : 'none';
@@ -3662,8 +3967,9 @@ async function loadLeadHistory(id){
   ).join('') || '<div style="color:var(--muted)">No history yet</div>';
 }
 function saveLead(){
-  const l = leads.find(x=>x.id===editingLId);
+  const l = findLeadAny(editingLId);
   if(!l) return;
+  if(l.leadStatus==='New' && !validateLeadForm('le')) return;
   if(l.convertedWorkerId){ alert('⚠️ यो Applicant पहिल्यै Worker मा सारिएको छ, अब संशोधन गर्न मिल्दैन।'); return; }
   const passport = cleanPassport(document.getElementById('le-passport').value);
   if(!validPassport(passport)){ alert(PP_ERROR); return; }
@@ -3684,26 +3990,36 @@ function saveLead(){
     remarks: document.getElementById('le-remarks').value.trim(),
     adDate: document.getElementById('le-addate').value,
     appliedDate: document.getElementById('le-applied').value,
+    dob: document.getElementById('le-dob').value, ppIssueDate: document.getElementById('le-ppissue').value, ppExpiryDate: document.getElementById('le-ppexpiry').value,
+    refBy: document.getElementById('le-refby').value.trim().toUpperCase(),
+    docs: canDocs() ? docsCollect('le') : (l.docs||''),
     rejectReason: LEAD_NOT_SELECTED.includes(document.getElementById('le-status').value) ? document.getElementById('le-reason').value.trim() : ''
   };
   if(LEAD_NOT_SELECTED.includes(updated.leadStatus) && !updated.rejectReason){ alert('⚠️ छनौट नहुनुको कारण लेख्नुहोस् — DoFE सूचीमा कारणसहित पठाउनुपर्छ।'); document.getElementById('le-reason').focus(); return; }
   Object.assign(l, updated);
   renderAll(); closeLModal(); if(document.getElementById('ld-entry').classList.contains('panel-on')) ldRender();
   api('updatelead', { lead: updated }).then(r=>{
-    if(r.ok && r.lead){ const i=leads.findIndex(x=>x.id===r.lead.id); if(i>=0) leads[i]=r.lead; renderAll(); }
-    else if(r.error==='DUPLICATE_PASSPORT'){ alert('⚠️ पासपोर्ट अर्को व्यक्तिमा छ: '+(r.workerName||'')); refreshData(false); }
+    if(r.ok && r.lead){ upsertLead(r.lead); renderAll(); }
+    else if(r.error==='DUPLICATE_PASSPORT'){ alert(r.workerName ? ('⚠️ पासपोर्ट अर्को व्यक्तिमा छ: '+r.workerName) : '⛔ यो Passport पहिले नै दर्ता भइसकेको छ।'); refreshData(false); }
+    else if(r.error==='MISSING_FIELDS'){ alert('⚠️ अनिवार्य field बाँकी: ' + (r.fields||[]).join(', ')); refreshData(false); }
+    else if(r.error==='INVALID_DISTRICT'){ alert('⛔ जिल्ला मिलेन — सूचीबाट छान्नुहोस्।'); refreshData(false); }
+    else if(r.error==='AGE_RANGE'){ alert('⛔ उमेर १८–६५ वर्षभित्र हुनुपर्छ।'); refreshData(false); }
+    else if(r.error==='INVALID_PHONE' || r.error==='INVALID_DATES'){ alert('⚠️ फोन वा Passport मिति मिलेन।'); refreshData(false); }
+    else if(r.error==='LEAD_LOCKED'){ alert('🔒 Documentation ले "Document Received" गरिसकेकाले अब सच्याउन मिल्दैन। Office लाई भन्नुहोस्।'); refreshData(false); }
+    else if(r.error==='DOC_RECEIVE_ROLE'){ alert('⛔ Lead लाई "Document Received" (Applicant) Documentation ले मात्र गर्न सक्नुहुन्छ।'); refreshData(false); }
+    else if(r.error==='BLACKLISTED'){ alert('⛔ यो Passport Blacklist मा छ।' + (r.reason ? '\nकारण: '+r.reason : '')); refreshData(false); }
     else if(r.error){ alert('⚠️ सेभ भएन: '+r.error); refreshData(false); }
   });
 }
 async function convertLead(){
-  const l = leads.find(x=>x.id===editingLId);
+  const l = findLeadAny(editingLId);
   if(!l) return;
   if(l.convertedWorkerId){ alert('पहिल्यै सारिएको छ।'); return; }
   if(l.leadStatus!=='Ready For Labor Approval'){ alert('⚠️ पहिले Status "Ready For Labor Approval" राख्नुहोस्।'); return; }
   if(!confirm(l.name+' लाई Candidates (श्रम स्वीकृति) मा सार्ने हो? यसपछि श्रम प्रतिनिधिको Candidates सूचीमा नयाँ केस देखिन्छ।')) return;
   const r = await api('convertlead', { id: l.id }, null, true);
   if(r.ok){
-    if(r.lead){ const i=leads.findIndex(x=>x.id===r.lead.id); if(i>=0) leads[i]=r.lead; }
+    if(r.lead){ upsertLead(r.lead); }
     if(r.worker){ workers.push(r.worker); }
     renderAll(); closeLModal();
     alert('✅ Worker मा सारियो (Status: Upload)। श्रम प्रतिनिधिलाई notice गयो।');
@@ -3716,7 +4032,7 @@ async function deleteLead(){
   if(!requireAccess(isAdmin(), 'Applicant मेटाउने')) return;
   if(!confirm('यो Applicant मेटाउने हो?')) return;
   const r = await api('deletelead', { id: editingLId }, null, true);
-  if(r.ok){ leads = leads.filter(x=>x.id!==editingLId); closeLModal(); renderAll(); }
+  if(r.ok){ const wasLead = !!leadCache[editingLId] && !leads.some(x=>x.id===editingLId); leads = leads.filter(x=>x.id!==editingLId); delete leadCache[editingLId]; LP.rows = LP.rows.filter(x=>x.id!==editingLId); if(wasLead){ leadStats.total = Math.max(0, leadStats.total-1); LP.total = Math.max(0, LP.total-1); } closeLModal(); renderAll(); }
 }
 
 // ================= PRE-APPROVAL =================
@@ -3987,7 +4303,7 @@ function buildReportHTML(fy){
     <tbody>${pRows}<tr class="report-total"><td colspan="2">Total</td><td>${s.preIn.length}</td><td>${s.preM}</td><td>${s.preF}</td><td>${s.preM+s.preF}</td></tr></tbody></table>`;
 }
 
-function buildQuotaHTML(fy, filterText){
+function buildQuotaHTML(fy, filterText, paged){
   const today = new Date().toISOString().slice(0,10);
   const normLot = v => String(v==null?'':v).trim().replace(/\.0+$/,'');
   // Use = कुनै पनि आ.व.को अन्तिम स्वीकृति (कोटा जहिले प्रयोग भए पनि घट्छ)
@@ -4010,6 +4326,7 @@ function buildQuotaHTML(fy, filterText){
       normLot(p.lotNo).toLowerCase().includes(filt) || String(p.company||'').toLowerCase().includes(filt));
   }
 
+  if(paged) activeLots = pageSlice('q', activeLots, filt);
   const lotRows = activeLots.map(p=>{
     const L = normLot(p.lotNo);
     const dM=Number(p.maleCount)||0, dF=Number(p.femaleCount)||0, dT=dM+dF;
@@ -4036,7 +4353,7 @@ function renderQuotaArea(){
   const fy = currentFY();
   const qa = document.getElementById('quota-area');
   const search = document.getElementById('quota-lot-search');
-  if(qa) qa.innerHTML = buildQuotaHTML(fy, search ? search.value : '');
+  if(qa) qa.innerHTML = buildQuotaHTML(fy, search ? search.value : '', true);
 }
 function renderReport(){
   const fy = currentFY();
