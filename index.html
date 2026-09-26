@@ -252,6 +252,33 @@ textarea.form-control{min-height:74px;resize:vertical;line-height:1.5;font-famil
 .gj-due + .entry-x{margin-left:10px;}
 @media(max-width:1100px){ .gj-wrap{grid-template-columns:1fr;} .gj-preview-wrap{position:static;max-height:none;} }
 @media(max-width:760px){ .gj-wrap{padding:14px;} .gj-paper{padding:24px 18px;} }
+/* ===== पत्र / निवेदन ===== */
+.lh-gap .form-group label{font-size:12px;}
+.gj-paper{box-sizing:border-box;}
+.jw-box{border:1px solid #d9e1ec;border-radius:10px;padding:10px 12px;margin:0 0 12px;background:#fbfcfe;}
+.jw-bh{font-weight:700;font-size:13px;color:var(--primary);margin-bottom:6px;}
+.jw-g{margin:6px 0 8px;} .jw-gh{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:none;margin:0 0 4px;}
+.jw-pt{display:flex;align-items:flex-start;gap:7px;font-size:12.8px;padding:4px 8px;border-radius:7px;cursor:pointer;margin:0 0 2px;line-height:1.35;}
+.jw-pt input{margin-top:2px;} .jw-pt.on{background:#e8f1ff;font-weight:600;}
+.jw-warn{font-size:11.8px;color:#9a3a00;background:#fff4e6;border:1px solid #f5d0a8;border-radius:7px;padding:6px 8px;margin-top:6px;}
+.rp-grid.rp-3{grid-template-columns:repeat(3,1fr);}
+.gj-paper{position:relative;}
+.gj-paper .lt,.gj-paper .lt-page{position:static;}
+.gj-paper.lt-sysmode{padding:16px 30px 74px 40px;min-height:900px;}
+.gj-paper .lt-wm{position:absolute;}
+.gj-paper .lf-prev{position:absolute;left:0;right:0;bottom:0;}
+.gj-paper .lh-name{max-height:34px;} .gj-paper .lh-l{width:96px;} .gj-paper .lh-l img{width:60px;height:60px;}
+#lt-body{min-height:240px;}
+.lt-tblbox{background:#f5f8fc;border:1px solid #dfe6ef;border-radius:10px;padding:10px 10px 4px;margin-bottom:12px;}
+.ltg{margin:4px 0 14px;} .ltg-h{font-weight:700;color:var(--primary);font-size:14px;margin:0 0 8px;}
+.ltg-b{display:flex;flex-wrap:wrap;gap:8px;}
+.ltg-i{display:inline-flex;align-items:center;gap:8px;border:1px solid #d9e1ec;background:#fff;border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--text);text-align:left;}
+.ltg-i:hover{border-color:var(--primary);background:#f3f7fd;}
+.rp-box{border:1px dashed #b9c8dc;border-radius:12px;padding:14px;margin-top:6px;background:#fbfcfe;}
+.rp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:900px){ .rp-grid{grid-template-columns:1fr 1fr;} }
+.cnt-pill{background:var(--primary);color:#fff;border-radius:10px;padding:1px 8px;font-size:12px;margin-left:4px;}
+#org-fields .full{grid-column:1/-1;}
 /* ===== MY TASKS / FUNNEL / APPLICANT FLOW ===== */
 .tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;}
 .task{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid var(--border);border-left:4px solid #0aa88f;border-radius:10px;padding:10px 12px;cursor:pointer;font:inherit;color:var(--text);}
@@ -496,6 +523,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         <button class="item tab-btn" onclick="if(requireAccess(canGrievance(),'Grievance / Rescue')){switchTab(event,'tab-grievance');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>Grievance / Rescue</span></button>
         <button class="item tab-btn" onclick="if(requireAccess(canMonitor(),'Worker Monitoring')){switchTab(event,'tab-monitor');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Worker Monitoring</span></button>
         <button class="item" onclick="openDofeLists();closeSidebar();"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg><span>DoFE Applicant Lists</span></button>
+        <button class="item tab-btn" id="nav-letters" onclick="if(requireAccess(canLetters(),'पत्र / निवेदन')){switchTab(event,'tab-letters');closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>पत्र / निवेदन</span></button>
       </div>
       <button class="item parent" onclick="toggleNav(this)"><span class="pit"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>Reporting</span></span><span class="chev"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
       <div class="sub">
@@ -510,6 +538,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
         <button class="item" onclick="if(requireAccess(isAdmin(),'Backup')){exportBackup();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg><span>Backup</span></button>
         <button class="item" onclick="if(requireAccess(isAdmin(),'Archive')){runArchiveNow();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg><span>Archive</span></button>
         <button class="item" onclick="if(requireAccess(canManageClient(),'Archive Search')){searchArchive();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Archive Search</span></button>
+        <button class="item" onclick="if(requireAccess(isAdmin(),'संस्था विवरण')){openOrgSettings();closeSidebar();}"><svg class="lic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg><span>संस्था विवरण</span></button>
       </div>
     </nav>
     <div class="sidebar-foot"><button class="side-tool" onclick="refreshData(true)" title="Reload latest data from Google Sheet"><svg class="lic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><span>Refresh</span></button></div>
@@ -851,6 +880,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>Body (व्यहोरा) — अनुच्छेद छुट्याउन खाली line राख्नुहोस्</label><textarea id="gj-body" class="form-control"></textarea></div>
             <div class="form-group"><label>Enclosure (सम्लग्न प्रमाण)</label><input type="text" id="gj-enc" class="form-control" placeholder="जस्तै: सम्बन्धित देशको भिसा कपी" ></div>
             <label class="gj-check"><input type="checkbox" id="gj-lh" onchange="jwPreview()"> Print with letterhead (company नाम/ठेगाना माथि)</label>
+            <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="gj-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);jwPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="gj-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);jwPreview()"></div></div>
             <div class="gj-note">⚠ यो draft हो — कानुनी व्यहोरा Manager/कानुनी सल्लाहकारले जाँचेर मात्र विभागमा पेश गर्नुहोस्। [ ] कोष्ठकभित्रको भाग आफ्नो विवरणले बदल्नुहोस्।</div>
           </div>
           <div class="gj-preview-wrap"><div class="gj-paper" id="gj-preview"></div></div>
@@ -875,6 +905,75 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
           <tbody id="g-table"></tbody></table>
         </div>
         <div class="pager" id="g-pager"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: पत्र / निवेदन (Letters) -->
+  <div id="tab-letters" class="tab-content">
+    <div class="main-grid form-closed" id="lt-grid">
+      <div class="card entry-card" id="lt-entry">
+        <div class="card-title entry-head"><span>✉️ <span id="lt-name"></span></span><button type="button" class="entry-x" onclick="toggleEntry('lt',false)" title="Close (Esc)" aria-label="Close">×</button></div>
+        <div class="gj-wrap">
+          <div class="gj-editor" oninput="ltPreview()">
+            <div class="gj-row">
+              <div class="form-group"><label>मिति — BS</label><input type="text" id="lt-date" class="form-control" placeholder="2083-06-10"></div>
+              <div class="form-group" id="lt-fy-wrap"><label id="lt-fy-label">आ.व.</label><select id="lt-fy" class="form-control" onchange="ltFyChanged()"></select></div>
+            </div>
+            <div class="form-group" id="lt-to-wrap"><label>कसलाई (ठेगाना)</label><textarea id="lt-to" class="form-control" rows="3"></textarea></div>
+            <div class="form-group"><label id="lt-sub-label">विषय (Subject)</label><input type="text" id="lt-subject" class="form-control"></div>
+            <div id="lt-tbl-wrap" class="lt-tblbox" style="display:none">
+              <div class="gj-row">
+                <div class="form-group"><label>पूर्व स्वीकृति लिएको</label><input type="number" id="lt-t-pre" class="form-control"></div>
+                <div class="form-group"><label>अन्तिम स्वीकृति लिएको</label><input type="number" id="lt-t-fin" class="form-control"></div>
+                <div class="form-group"><label>कामदार उडाएको</label><input type="number" id="lt-t-flown" class="form-control"></div>
+                <div class="form-group"><label>स्वीकृति लिएको तर उडान बाँकी</label><input type="number" id="lt-t-pend" class="form-control"></div>
+              </div>
+              <div class="lot-hint" id="lt-tbl-note"></div>
+            </div>
+            <div class="form-group"><label>व्यहोरा — अनुच्छेद छुट्याउन खाली line; <code># </code> ले उप-शीर्षक; <code>**शब्द**</code> ले bold</label><textarea id="lt-body" class="form-control"></textarea></div>
+            <div class="form-group"><label>संलग्न (optional)</label><input type="text" id="lt-enc" class="form-control" placeholder="जस्तै: बैंक भौचर, कर चुक्ता प्रमाणपत्र"></div>
+            <div id="lt-sign-wrap">
+              <div class="gj-row">
+                <div class="form-group"><label>हस्ताक्षर माथिको शब्द</label><input type="text" id="lt-signlabel" class="form-control"></div>
+                <div class="form-group"><label>नाम</label><input type="text" id="lt-signer" class="form-control"></div>
+                <div class="form-group"><label>पद</label><input type="text" id="lt-signpost" class="form-control"></div>
+                <div class="form-group"><label>सम्पर्क नं. (खाली भए नछापिने)</label><input type="text" id="lt-signphone" class="form-control"></div>
+              </div>
+            </div>
+            <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="lt-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);ltPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="lt-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);ltPreview()"></div></div>
+            <label class="gj-check"><input type="checkbox" id="lt-ref" onchange="ltPreview()"> प.सं. / च.नं. देखाउने (चलानी नं. सहित print गर्दा)</label>
+            <div class="gj-note">ℹ️ प्रयोग गर्न मिल्ने शब्द: <span id="lt-vars"></span> — संस्थाको विवरण <b>Administration → संस्था विवरण</b> बाट आउँछ। [ ] कोष्ठकभित्रको भाग आफ्नो विवरणले बदल्नुहोस्।</div>
+          </div>
+          <div class="gj-preview-wrap"><div class="gj-paper" id="lt-preview"></div></div>
+        </div>
+        <div class="form-actions" style="margin:12px 0 0;">
+          <button type="button" class="btn btn-ghost" id="lt-tpl-del" onclick="ltDeleteTemplate()" style="display:none">🗑 ढाँचा हटाउने</button>
+          <button type="button" class="btn btn-ghost" onclick="ltSaveTemplate()">⭐ ढाँचा Save</button>
+          <button type="button" class="btn btn-ghost" onclick="ltPrintNow(false)">🖨 Print / PDF</button>
+          <button type="button" class="btn" onclick="ltPrintNow(true)">📮 चलानी नं. सहित Print</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title title-row"><span>✉️ पत्र / निवेदन — ढाँचा छान्नुहोस्</span></div>
+        <div id="lt-gallery"></div>
+        <div class="rp-box">
+          <div class="ltg-h">📦 इजाजतपत्र नविकरण — ४ कागजात एकैचोटि</div>
+          <div class="rp-grid rp-3">
+            <div class="form-group"><label>मिति (BS)</label><input type="text" id="rp-date" class="form-control"></div>
+            <div class="form-group"><label>इजाजतपत्रको म्याद सकिने आ.व.</label><select id="rp-fy" class="form-control"></select></div>
+            <div class="form-group"><label>प्रगति विवरणको आ.व.</label><select id="rp-pfy" class="form-control"></select></div>
+          </div>
+          <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="rp-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="rp-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);"></div></div>
+          <label class="gj-check"><input type="checkbox" id="rp-list" checked> संलग्न कागजातको सूची पनि (५ औं पाना)</label>
+          <div class="imp-help">निवेदन · संचालक समितिको निर्णय · बार्षिक प्रगति बिवरण (संख्या system बाट) · प्रतिबद्धता/स्वघोषणा — एउटै print मा, हरेक नयाँ पानामा। कुनै एउटा सच्याउनुपर्ने भए माथिबाट छुट्टै खोल्नुहोस्।<br>बाहिरबाट ल्याउनुपर्ने: बैंक ग्यारेन्टी, कर चुक्ता, कम्पनी अध्यावधिक पत्र, वडाको कर रसिद, नविकरण दस्तुर भौचर, इजाजतपत्र र शेयर लगतको प्रतिलिपि।</div>
+          <div style="text-align:right;margin-top:10px"><button type="button" class="btn" style="width:auto" onclick="renewPackage()">🖨 नविकरणका सबै कागजात Print</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title title-row"><span>📮 चलानी किताब <b id="lt-count" class="cnt-pill">0</b></span></div>
+        <input type="text" id="lt-search" class="search-control" placeholder="Search च.नं., विषय, कसलाई..." oninput="renderLetters()">
+        <div style="overflow-x:auto;"><table><thead><tr><th>च.नं.</th><th>मिति</th><th>विषय</th><th>कसलाई</th><th>कसले</th><th></th></tr></thead><tbody id="lt-table"></tbody></table></div>
       </div>
     </div>
   </div>
@@ -1100,6 +1199,16 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
     <div class="form-group"><label>पद (optional)</label><input type="text" id="asg-job" class="form-control" list="dl-asg-job" placeholder="जस्तै: Electrician"></div>
     <div class="imp-help" style="margin:4px 0 14px;">FEIMS मा जुन कम्पनीको जुन Lot मा राख्ने हो त्यही छान्नुहोस्। Company र Country Lot बाट आफै आउँछ। यो विवरण <b>Ready For Labor Approval</b> अघि र DoFE सूचीका लागि अनिवार्य छ।</div>
     <div style="display:flex;gap:10px;justify-content:flex-end;"><button class="btn btn-ghost" style="width:auto;" onclick="closeAssign()">Cancel</button><button class="btn" style="width:auto;" onclick="saveAssign()">💾 Save</button></div>
+  </div>
+</div>
+
+<div class="modal" id="org-modal">
+  <div class="modal-content" style="max-width:860px;">
+    <div class="modal-header"><h2>🏢 संस्था विवरण (पत्रका लागि)</h2><span class="close-modal" onclick="document.getElementById('org-modal').style.display='none'">×</span></div>
+    <div class="imp-help" style="margin-bottom:12px;">यहाँको विवरण सबै पत्र (लिखित जवाफ, नविकरण, निवेदन) मा संस्थाको नाम, इजाजत नं., निवेदक र संचालकको रूपमा आफै जान्छ। बदलेपछि पुराना ढाँचा पनि आफै मिल्छन्।</div>
+    <div class="edit-grid" id="org-fields"></div>
+    <div style="height:12px"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;"><button class="btn btn-ghost" style="width:auto;" onclick="document.getElementById('org-modal').style.display='none'">Cancel</button><button class="btn" style="width:auto;" onclick="saveOrgSettings()">💾 Save</button></div>
   </div>
 </div>
 
@@ -1541,6 +1650,10 @@ async function refreshData(blocking){
     if(BSCAL_ERRORS.length && isAdmin()) alert('⚠️ BS_Calendar Sheet मा समस्या — त्यो वर्षदेखि पात्रो प्रयोग भएन:\n• ' + BSCAL_ERRORS.join('\n• '));
   }
   if(r.leadStats) leadStats = r.leadStats;
+  if(r.settings) orgSettings = r.settings;
+  if(r.settingLabels) settingLabels = r.settingLabels;
+  if(r.ltrcols && r.ltrrows) letters = r.ltrrows.map(row=>{ const o = {}; r.ltrcols.forEach((c,i)=>o[c] = row[i]==null ? '' : String(row[i])); return o; });
+  if(r.ltplcols && r.ltplrows) ltpls = r.ltplrows.map(row=>{ const o = {}; r.ltplcols.forEach((c,i)=>o[c] = row[i]==null ? '' : String(row[i])); return o; });
   workers.forEach(normRec); pres.forEach(normRec); (leads||[]).forEach(normRec);
   renderAll();
   loadCandHistory();   // अघिल्ला आ.व. का Candidates पछाडि (login रोकिँदैन)
@@ -1555,7 +1668,7 @@ async function loadCandHistory(){
   let n = 0; hw.forEach(w=>{ if(!have.has(w.id)){ normRec(w); workers.push(w); n++; } });
   if(n) renderAll();
 }
-function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); renderDash2(); fillLookups(); }
+function renderAll(){ renderDashboard(); renderWorkers(); renderPres(); renderReport(); renderActionCenter(); renderLeads(); renderGrievances(); renderMonitor(); renderDeparture(); renderMyTasks(); renderDash2(); fillLookups(); renderLetters(); }
 
 // ================= SIDEBAR (mobile toggle) =================
 function toggleSidebar(){
@@ -1599,7 +1712,7 @@ function switchTab(ev, id){
 
 // ================= ENTRY FORM (बटन थिचेपछि मात्र खुल्ने) =================
 let formHist = false, ignorePop = false;
-const PANEL_KEYS = ['w','l','p','wi','g','gj','ld','m'];
+const PANEL_KEYS = ['w','l','p','wi','g','gj','ld','m','lt'];
 function openEntryKey(){
   for(const k of PANEL_KEYS){ const c=document.getElementById(k+'-entry'); if(c && c.classList.contains('panel-on')) return k; }
   return null;
@@ -2082,6 +2195,15 @@ async function grvDelete(){
   else alert('⚠️ भएन: ' + ((r&&r.error)||''));
 }
 
+// ---------- छापिएको Letterhead कागजमा print: माथि/तल खाली ठाउँ (mm) — यही computer मा सम्झिने ----------
+const LH_GAP_DEF = { top:45, bot:25 };
+function lhGap(){ const g = Object.assign({}, LH_GAP_DEF); try{ const t = localStorage.getItem('lhTopMm'), b = localStorage.getItem('lhBotMm'); if(t!==null && !isNaN(+t)) g.top = Math.min(120, Math.max(0, +t)); if(b!==null && !isNaN(+b)) g.bot = Math.min(80, Math.max(0, +b)); }catch(e){} return g; }
+function setLhGap(t, b){ try{ if(t!==null && t!=='' && !isNaN(+t)) localStorage.setItem('lhTopMm', String(+t)); if(b!==null && b!=='' && !isNaN(+b)) localStorage.setItem('lhBotMm', String(+b)); }catch(e){} lhGapFill(); }
+function lhGapFill(){ const g = lhGap(); ['gj','lt','rp'].forEach(k=>{ const t = document.getElementById(k+'-top'), b = document.getElementById(k+'-bot'); if(t && document.activeElement!==t) t.value = g.top; if(b && document.activeElement!==b) b.value = g.bot; }); }
+// @page margin: माथि = letterhead को खाली ठाउँ, तल = नीलो पट्टीको ठाउँ, दायाँ 20mm, बायाँ 25mm
+function lhPageMargin(){ const g = lhGap(); return `${g.top}mm 20mm ${g.bot}mm 25mm`; }
+// Preview मा पनि त्यत्तिकै खाली देखाउने (A4 210mm ≈ preview को चौडाइ)
+function lhPreviewPad(el){ if(!el) return; const g = lhGap(), w = el.clientWidth || 640, px = w / 210; el.style.paddingTop = Math.round(g.top * px) + 'px'; el.style.paddingBottom = Math.round(g.bot * px) + 'px'; el.style.paddingLeft = Math.round(25 * px) + 'px'; el.style.paddingRight = Math.round(20 * px) + 'px'; }
 // ---------- LIKHIT JAWAB (लिखित जवाफ) ----------
 function jwVars(g){
   return {
@@ -2091,7 +2213,7 @@ function jwVars(g){
   };
 }
 function jwIntro(v){
-  return `उपरोक्त विषयमा तहाँ विभागबाट प्राप्त${v.ps?' प.सं. '+v.ps+',':''} चलानी नं. ${v.ch} मिति ${v.letterDate} को पत्रानुसार निज ${v.name} (रा.नं. ${v.pp}) ${v.country} स्थित ${v.company} कम्पनीमा${v.lot?' लट नं. '+v.lot+' मा':''} यस प्रा.लि. बाट वैदेशिक रोजगारमा गएको साँचो हो।`;
+  return `उपरोक्त विषयमा तहाँ विभागबाट प्राप्त${v.ps?' प.सं. '+v.ps+',':''} चलानी नं. ${v.ch} मिति ${v.letterDate} को पत्रानुसार निज ${v.name} (रा.नं. ${v.pp}) ${v.country} स्थित ${v.company} कम्पनीमा यस प्रा.लि. बाट वैदेशिक रोजगारमा गएको साँचो हो।`;
 }
 const JW_TEMPLATES = {
   in_job: { label:'कामदार विदेशमा — तलब/सुविधा नियमित', body:v=>[jwIntro(v),
@@ -2169,7 +2291,9 @@ const JW_CSS = `
   .lt-line{margin-bottom:2px;letter-spacing:1px;}`;
 function jwPreview(){
   const pv = document.getElementById('gj-preview'); if(!pv) return;
-  pv.innerHTML = `<div class="lt">${jwLetterHTML(jwCollect())}</div>`;
+  const c = jwCollect();
+  pv.innerHTML = `<div class="lt">${jwLetterHTML(c)}</div>`;
+  if(c.letterhead){ pv.style.padding = ''; } else { lhGapFill(); lhPreviewPad(pv); }
 }
 async function jwSave(extra, quiet){
   const g = grievances.find(x=>x.id===jawabGId); if(!g) return null;
@@ -2196,7 +2320,7 @@ async function jwPrint(){
   if(!win){ alert('Popup allow गर्नुहोस्।'); return; }
   win.document.write(`<!DOCTYPE html><html lang="ne"><head><meta charset="UTF-8"><title>Likhit Jawab ${gsEsc(g?g.caseNo:'')}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
-    <style>@page{size:A4;margin:22mm 20mm 20mm 25mm;} body{margin:0;} ${JW_CSS}</style></head>
+    <style>@page{size:A4;margin:${c.letterhead ? '22mm 20mm 20mm 25mm' : lhPageMargin()};} body{margin:0;} ${JW_CSS}</style></head>
     <body><div class="lt">${jwLetterHTML(c)}</div>
     <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.focus();window.print();},250);});<\/script>
     </body></html>`);
@@ -2204,7 +2328,400 @@ async function jwPrint(){
   jwSave(null, true);   // draft पनि पछाडि save
 }
 
+// ================= पत्र / निवेदन (Letters) — Letterhead, ढाँचा, चलानी किताब (2026-09) =================
+// लिखापढी गराउनुको सट्टा system बाटै पत्र बनाउने: संस्था विवरण Settings (Sheet) बाट, संख्या system कै data बाट।
+let orgSettings = {}, settingLabels = {}, letters = [], ltpls = [];
+const ORG_FALLBACK = { org_name_en:'Link Star Manpower Services Pvt. Ltd.', org_name_np:LS_NAME_NP, lic_no:'1025/068/069', regd_no:'', address_en:'', address_np:'टोखा-१०, काठमाडौं', tel:'', fax:'', email:'', web:'', signer_name:'', signer_post:'', signer_phone:'', directors:'', pan_no:'' };
+function ORG(k){ const v = orgSettings[k]; return (v !== undefined && v !== null && String(v).trim() !== '') ? String(v) : (ORG_FALLBACK[k] || ''); }
+function canLetters(){ return !!session && ['admin','manager','shram','documentation'].includes(session.role); }
+function directorsList(){ return ORG('directors').split(/\n|\\n/).map(x=>x.trim()).filter(Boolean).map(x=>{ const p = x.split('|'); return { name:(p[0]||'').trim(), post:(p[1]||'').trim() }; }); }
+// '2083-84' → '०८३/०८४'
+function fyNp(label){ const m = String(label||'').match(/^(\d{4})-(\d{2})$/); if(!m) return toNepDigits(label||''); const a = +m[1]; return toNepDigits(String(a).slice(-3) + '/' + String(a+1).slice(-3)); }
+function fyNext(label){ const m = String(label||'').match(/^(\d{4})-(\d{2})$/); if(!m) return label; const a = +m[1]+1; return a + '-' + String(a+1).slice(-2); }
+function fyPrev(label){ const m = String(label||'').match(/^(\d{4})-(\d{2})$/); if(!m) return label; const a = +m[1]-1; return a + '-' + String(a+1).slice(-2); }
+function fyEndYear(label){ const m = String(label||'').match(/^(\d{4})/); return m ? (+m[1]+1) : ''; }
+function fmtLetterDate(bs, style){ const t = toNepDigits(bs||''); return style==='slash' ? t.replace(/-/g,'/') + ' गते' : style==='slash_plain' ? t.replace(/-/g,'/') : t; }
 
+// ---------- Letterhead (३ तरिका: system ले छाप्ने / छापिएको letterhead paper / बिना letterhead) ----------
+const LH_MODES = [['sys','System ले Letterhead छाप्ने'],['paper','छापिएको Letterhead paper मा (माथि खाली ठाउँ)'],['none','Letterhead बिना (सादा कागज)']];
+function lhMode(){ return 'none'; }   // Letterhead नचाहिने (प्रा.लि.को छापिएको कागज वा सादा कागजमा print)
+function setLhMode(v){ try{ localStorage.setItem('ltLhMode', v); }catch(e){} }
+function lhOptions(sel){ return LH_MODES.map(([k,l])=>`<option value="${k}" ${k===sel?'selected':''}>${l}</option>`).join(''); }
+function logoSrc(){ return (document.querySelector('#sidebar .logo img')||{}).src || ''; }
+function lhHeadHTML(){
+  const esc = gsEsc, logo = logoSrc();
+  return `<div class="lh"><div class="lh-l">${logo?`<img src="${logo}" alt="">`:''}<div class="lh-lic">Govt. Lic. No. ${esc(ORG('lic_no'))}</div></div>
+    <div class="lh-r">${ORG('regd_no')?`<div class="lh-regd">Regd No: ${esc(ORG('regd_no'))}</div>`:''}<svg class="lh-name" viewBox="0 0 560 44" preserveAspectRatio="xMidYMid meet" aria-label="${esc(ORG('org_name_en'))}"><text x="280" y="35" text-anchor="middle" textLength="${Math.min(556, Math.max(200, ORG('org_name_en').length*15.5))}" lengthAdjust="spacingAndGlyphs">${esc(ORG('org_name_en'))}</text></svg>${ORG('address_en')?`<div class="lh-addr">${esc(ORG('address_en'))}</div>`:''}</div></div>
+    <div class="lh-rule"></div>`;
+}
+function lhFootHTML(){
+  const esc = gsEsc, a = [ORG('tel')?'Tel: '+ORG('tel'):'', ORG('fax')?'Fax: '+ORG('fax'):''].filter(Boolean).join(', '), b = [ORG('email')?'E-mail: '+ORG('email'):'', ORG('web')?'Web: '+ORG('web'):''].filter(Boolean).join(', ');
+  return (a||b) ? `<div class="lf"><div class="lf-rule"></div><div class="lf-bar">${esc(a)}${a&&b?'<br>':''}${esc(b)}</div></div>` : '';
+}
+const LT_CSS = `
+  .lt{font-family:'Kalimati','Noto Sans Devanagari','Mangal','Nirmala UI',sans-serif;color:#000;font-size:15px;line-height:1.8;position:relative;}
+  .lt-page{position:relative;}
+  .lh{display:flex;align-items:flex-start;gap:14px;}
+  .lh-l{width:118px;text-align:center;flex:none;} .lh-l img{width:76px;height:76px;object-fit:contain;display:block;margin:0 auto 2px;}
+  .lh-lic{font:11px/1.2 Arial,sans-serif;color:#1d3f8f;white-space:nowrap;}
+  .lh-r{flex:1;min-width:0;text-align:center;position:relative;padding-top:14px;}
+  .lh-regd{position:absolute;right:0;top:0;font:11px Arial,sans-serif;color:#333;}
+  .lh-name{display:block;width:100%;height:auto;max-height:46px;margin-top:4px;} .lh-name text{font:800 36px 'Roboto Slab','Rockwell','Georgia',serif;fill:#d7141a;}
+  .lh-addr{font:14px Arial,sans-serif;color:#1d2b57;margin-top:6px;}
+  .lh-rule{border-top:2px solid #1d3f8f;border-bottom:1px solid #1d3f8f;height:3px;margin:6px 0 16px;}
+  .lf{position:fixed;left:0;right:0;bottom:0;}
+  .lf-rule{border-top:1px solid #1d3f8f;border-bottom:2px solid #1d3f8f;height:3px;margin-bottom:2px;}
+  .lf-bar{background:#1d3f8f;color:#fff;text-align:center;font:bold 12px/1.5 Arial,sans-serif;padding:5px 8px;}
+  .lt-wm{position:fixed;left:50%;top:50%;width:360px;height:360px;transform:translate(-50%,-45%);opacity:.05;filter:grayscale(1);z-index:0;pointer-events:none;}
+  .lt-wm img{width:100%;height:100%;object-fit:contain;}
+  .lt-paper-gap{height:30mm;}
+  .lt-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;position:relative;z-index:1;}
+  .lt-ref{font-size:14px;line-height:1.6;} .lt-date{text-align:right;flex:1;}
+  .lt-to{margin-bottom:14px;position:relative;z-index:1;}
+  .lt-sub{text-align:center;font-weight:700;margin:10px 0 14px;} .lt-sub span{text-decoration:underline;text-underline-offset:4px;}
+  .lt-title{text-align:center;font-weight:700;font-size:17px;margin:4px 0 16px;} .lt-title span{text-decoration:underline;text-underline-offset:5px;}
+  .lt-sal{margin-bottom:4px;}
+  .lt-body{position:relative;z-index:1;} .lt-body p{text-align:justify;margin:0 0 12px;} .lt-body p.ind{text-indent:2.2em;}
+  .lt-body h4{font-size:15px;margin:14px 0 4px;text-decoration:underline;text-underline-offset:4px;}
+  .lt-tbl{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:15px;} .lt-tbl th,.lt-tbl td{border:1px solid #000;padding:6px 8px;text-align:center;vertical-align:middle;} .lt-tbl th{font-weight:400;}
+  .lt-tbl td.b{font-size:18px;}
+  .lt-list{margin:0 0 12px 0;padding-left:0;list-style:none;} .lt-list li{margin:0 0 6px;}
+  .lt-enc{margin:6px 0 0;}
+  .lt-sign{margin-top:44px;display:flex;justify-content:flex-end;position:relative;z-index:1;} .lt-sign>div{min-width:190px;text-align:left;}
+  .lt-sign .lab{font-weight:700;text-decoration:underline;text-underline-offset:4px;} .lt-sign .dots{letter-spacing:1px;margin:26px 0 0;}
+  .lt-signs{margin-top:50px;display:flex;justify-content:space-around;gap:20px;position:relative;z-index:1;} .lt-signs>div{text-align:center;min-width:160px;} .lt-signs .dots{letter-spacing:1px;}
+  .lt-pb{break-after:page;page-break-after:always;}`;
+
+// ---------- साझा पत्र renderer ----------
+// d = { kind:'letter'|'doc', date, dateStyle, ref:{no,fy}, to, subject, title, salutation, body, enc, sign:{label,name,post,phone}, signs:'directors', table:{...} }
+function ltBodyHTML(text, d){
+  const esc = gsEsc, out = [];
+  String(text||'').split(/\n\s*\n/).map(p=>p.replace(/\s+$/,'')).filter(p=>p.trim()).forEach(p=>{
+    const t = p.trim();
+    if(t === '{{प्रगति_तालिका}}'){ out.push(ltProgressTable(d.table||{})); return; }
+    if(/^#\s/.test(t)){ const lines = t.split('\n'); out.push(`<h4>${esc(lines[0].replace(/^#\s*/,''))}</h4>`); if(lines.length>1) out.push(`<p>${lines.slice(1).map(l=>ltInline(esc(l))).join('<br>')}</p>`); return; }
+    const ind = !/^[\d०-९]+[.)]/.test(t) && !/^\*\*/.test(t);
+    out.push(`<p class="${ind?'ind':''}">${ltInline(esc(t)).replace(/\n/g,'<br>')}</p>`);
+  });
+  return out.join('');
+}
+function ltInline(s){ return s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
+function ltProgressTable(t){
+  const n = v => toNepDigits(v===''||v==null ? '०' : v);
+  return `<table class="lt-tbl"><thead><tr><th style="width:9%">सि.नं.</th><th>पूर्व स्वीकृति लिएको संख्या</th><th>अन्तिम स्वीकृति लिएको संख्या</th><th>कामदार उडाएको संख्या</th><th>अन्तिम स्वीकृति लिएको तर उडान हुन बाँकी संख्या</th></tr></thead>
+    <tbody><tr><td>१</td><td class="b">${n(t.pre)}</td><td class="b">${n(t.fin)}</td><td class="b">${n(t.flown)}</td><td class="b">${n(t.pend)}</td></tr></tbody></table>`;
+}
+function ltDocHTML(d, mode){
+  const esc = gsEsc;
+  const head = mode==='sys' ? lhHeadHTML() : mode==='paper' ? '<div class="lt-paper-gap"></div>' : '';
+  const wm = (mode==='sys' && logoSrc()) ? `<div class="lt-wm"><img src="${logoSrc()}" alt=""></div>` : '';
+  const ref = d.ref && d.ref.no ? `<div class="lt-ref">प.सं.: ${esc(toNepDigits(d.ref.fy||''))}<br>च.नं.: ${esc(toNepDigits(d.ref.no))}</div>` : '<div></div>';
+  const date = d.date ? `<div class="lt-date">मिति: ${esc(fmtLetterDate(d.date, d.dateStyle))}</div>` : '';
+  let mid = '';
+  if(d.kind === 'doc'){
+    mid = (d.ref && d.ref.no || d.date ? `<div class="lt-meta">${ref}${date}</div>` : '') + `<div class="lt-title"><span>${esc(d.title||d.subject||'')}</span></div>`;
+  } else {
+    const to = String(d.to||'').split('\n').filter(l=>l.trim()).map(l=>esc(l.trim())).join('<br>');
+    mid = `<div class="lt-meta">${ref}${date}</div><div class="lt-to">${to}</div><div class="lt-sub"><span>विषय: ${esc(d.subject||'')}</span></div>${d.salutation===false?'':'<div class="lt-sal">महोदय,</div>'}`;
+  }
+  let sign = '';
+  if(d.signs === 'directors'){
+    sign = `<div class="lt-signs">${directorsList().map(x=>`<div><div class="dots">.............................</div>${esc(x.name)}<br><small>${esc(x.post)}</small></div>`).join('')}</div>`;
+  } else if(d.sign){
+    const s = d.sign;
+    sign = `<div class="lt-sign"><div><div class="lab">${esc(s.label||'निवेदक')}</div><div class="dots">.............................</div>${s.name?esc((s.prefix||'')+s.name):''}${s.post?(s.inline?' - ':'<br>')+esc(s.post):''}${s.org?'<br>'+esc(ORG('org_name_np')):''}${s.phone?'<br>सम्पर्क नं.: '+esc(toNepDigits(s.phone)):''}</div></div>`;
+  }
+  return `<div class="lt-page">${wm}${head}${mid}<div class="lt-body">${ltBodyHTML(d.body, d)}</div>${d.enc?`<div class="lt-enc"><b>संलग्न:</b> ${esc(d.enc)}</div>`:''}${sign}</div>`;
+}
+// Print window (एउटा वा धेरै पत्र — हरेक नयाँ page मा)
+function ltPrint(docs, mode, title){
+  const win = window.open('', '_blank');
+  if(!win){ alert('Popup allow गर्नुहोस्।'); return false; }
+  const margin = mode==='sys' ? '8mm 15mm 26mm 20mm' : lhPageMargin();
+  const pages = docs.map((d,i)=> ltDocHTML(d, mode) + (i<docs.length-1 ? '<div class="lt-pb"></div>' : '')).join('');
+  win.document.write(`<!DOCTYPE html><html lang="ne"><head><meta charset="UTF-8"><title>${gsEsc(title||'Letter')}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Roboto+Slab:wght@800&display=swap" rel="stylesheet">
+    <style>@page{size:A4;margin:${margin};} html{-webkit-print-color-adjust:exact;print-color-adjust:exact;} body{margin:0;} ${LT_CSS}</style></head>
+    <body><div class="lt">${pages}${mode==='sys'?lhFootHTML():''}</div>
+    <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.focus();window.print();},300);});<\/script>
+    </body></html>`);
+  win.document.close();
+  return true;
+}
+function ltPreviewInto(el, d, mode){
+  if(!el) return;
+  el.classList.toggle('lt-sysmode', mode==='sys');
+  el.innerHTML = `<div class="lt">${ltDocHTML(d, mode)}${mode==='sys'?lhFootHTML().replace('class="lf"','class="lf lf-prev"'):''}</div>`;
+  if(mode!=='sys'){ lhGapFill(); lhPreviewPad(el); }
+}
+
+// ---------- Built-in ढाँचा ----------
+const DOFE_DG = 'श्रीमान् महानिर्देशक ज्यू,\nवैदेशिक रोजगार विभाग,\nताहाचल, काठमाडौं।';
+const LTR_BUILTIN = {
+  renew_app: { name:'इजाजतपत्र नविकरण — निवेदन', group:'renew', kind:'letter', dateStyle:'slash', fyLabel:'म्याद सकिने आ.व.', fyDefault:'cur',
+    to:DOFE_DG, subject:'संस्थाको इजाजतपत्र नविकरण सम्बन्धमा।',
+    body:'उपरोक्त सम्बन्धमा यस {{संस्था}} इजाजतपत्र नं. ({{इजाजत_नं}}) को त्यस विभागबाट जारी भएको यस संस्थाको इजाजतपत्रको म्याद आ.व. {{आव}} को असार मसान्तमा सकिने हुँदा आगामी ३ वर्षको लागि नविकरण दस्तुर साथै आवश्यक कागजात यसै साथ संलग्न गरी नविकरणको लागि विनम्र अनुरोध गर्दछु।',
+    sign:{ label:'निवेदक', phone:true } },
+  renew_progress: { name:'बार्षिक प्रगति बिवरण (system बाट संख्या)', group:'renew', kind:'doc', fyLabel:'प्रगति विवरणको आ.व.', fyDefault:'prev', table:true, noDate:true,
+    title:'बार्षिक प्रगति बिवरण आ.व. {{आव}}',
+    body:'१. इजाजत प्राप्त कम्पनीको नाम :\n**{{संस्था}} (श्रम इ.प्र.नं {{इजाजत_नं}})**\n\n{{प्रगति_तालिका}}\n\nकम्पनीको पूरा ठेगाना : {{ठेगाना}}',
+    sign:{ label:'प्रमाणित गर्ने', prefix:'श्री ', inline:true } },
+  renew_minute: { name:'संचालक समितिको निर्णय (नविकरण)', group:'renew', kind:'doc', fyLabel:'म्याद सकिने आ.व.', fyDefault:'cur', noDate:true, signs:'directors',
+    title:'संचालक समितिको निर्णय',
+    body:'आज मिति {{मिति_गते}} का दिन यस कम्पनीको संचालक समितिको बैठक कम्पनीका अध्यक्ष श्री {{अध्यक्ष}} ज्यूको अध्यक्षतामा बसी निम्न बमोजिम निर्णय गरियो।\n\n# उपस्थिति\n{{संचालक_सूची}}\nयस प्रा.लि.मा {{संचालक_संख्या}} जना संचालक रहनु भएको तथा बैठकमा {{संचालक_संख्या}} जना उपस्थित हुनु भएकोले बैठक वैधानिक भएको ठहर गरी काम कारबाही अघि बढाइयो।\n\n# प्रस्तावहरू\n१. इजाजतपत्र नविकरण सम्बन्धमा\n२. विविध\n\nप्रस्ताव नं. १ उपर छलफल गर्दा यस कम्पनीको वैदेशिक रोजगार विभागबाट जारी भएको इजाजतपत्रको म्याद {{म्याद_सकिने}} मा समाप्त हुने भएकोले उक्त इजाजतपत्र ३ आर्थिक वर्षको लागि नविकरण गर्ने निर्णय गरियो।\n\nप्रस्ताव नं. २ उपर कुनै विषय नभएकोले बैठक यहीँ समाप्त गरियो।' },
+  renew_decl: { name:'प्रतिबद्धता / स्वघोषणा (नविकरण)', group:'renew', kind:'letter', dateStyle:'slash', fyLabel:'म्याद सकिने आ.व.', fyDefault:'cur', salutation:false,
+    to:DOFE_DG, subject:'प्रतिबद्धता/स्वघोषणा सम्बन्धमा।',
+    body:'यस इजाजत प्राप्त संस्था इजाजतपत्र नं. ({{इजाजत_नं}}) ले आ.व. {{अर्को_आव}} को लागि इजाजतपत्र नविकरण गर्दा पेश गरेको कागजातहरू वास्तविक हुन्, झुटा भए कानुन बमोजिम सहुँला बुझाउँला।',
+    sign:{ label:'निवेदक', phone:true } },
+  renew_list: { name:'नविकरण — संलग्न कागजातको सूची', group:'renew', kind:'doc', fyLabel:'म्याद सकिने आ.व.', fyDefault:'cur', noDate:false, dateStyle:'slash',
+    title:'इजाजतपत्र नविकरणका लागि संलग्न कागजातहरूको सूची',
+    body:'१. इजाजतपत्र नविकरणका लागि निवेदन\n२. संचालक समितिको निर्णयको प्रतिलिपि\n३. बार्षिक प्रगति बिवरण\n४. प्रतिबद्धता / स्वघोषणा पत्र\n५. बैंक ग्यारेन्टी (धरौटी) — म्याद थप भएको पत्र\n६. नविकरण दस्तुर जम्मा गरेको बैंक भौचर\n७. कर चुक्ता प्रमाणपत्र (आन्तरिक राजस्व कार्यालय)\n८. कम्पनी अध्यावधिक भएको पत्र (कम्पनी रजिष्ट्रारको कार्यालय)\n९. व्यवसाय कर / घर बहाल कर तिरेको रसिद (वडा कार्यालय)\n१०. इजाजतपत्रको प्रतिलिपि\n११. शेयरधनीको दर्ता लगत\n१२. [अन्य कागजात भए यहाँ थप्नुहोस्]',
+    sign:{ label:'पेश गर्ने' } },
+  general: { name:'सामान्य निवेदन (खाली)', group:'general', kind:'letter', dateStyle:'slash',
+    to:DOFE_DG, subject:'[विषय लेख्नुहोस्]', body:'उपरोक्त सम्बन्धमा [व्यहोरा लेख्नुहोस्]।\n\nअतः [अनुरोध लेख्नुहोस्] विनम्र अनुरोध गर्दछु।', sign:{ label:'निवेदक', phone:true } },
+  general_doc: { name:'सामान्य कागजात (शीर्षक + व्यहोरा)', group:'general', kind:'doc', title:'[शीर्षक]', body:'[व्यहोरा लेख्नुहोस्]', sign:{ label:'प्रमाणित गर्ने' } }
+};
+const LTR_GROUPS = [['renew','🔁 इजाजतपत्र नविकरण'],['general','📝 सामान्य'],['mine','⭐ आफ्नै ढाँचा (Save गरिएका)']];
+
+// ---------- Variables ({{...}}) ----------
+function ltVars(fyLabel, dateBs){
+  const dirs = directorsList(), chair = dirs[0] || { name:ORG('signer_name'), post:'संचालक अध्यक्ष' };
+  const ey = fyEndYear(fyLabel);
+  return {
+    'संस्था': ORG('org_name_np'), 'संस्था_EN': ORG('org_name_en'), 'इजाजत_नं': toNepDigits(ORG('lic_no')), 'दर्ता_नं': toNepDigits(ORG('regd_no')), 'PAN': toNepDigits(ORG('pan_no')),
+    'ठेगाना': ORG('address_np'), 'मिति': toNepDigits(dateBs||''), 'मिति_गते': toNepDigits(String(dateBs||'').replace(/-/g,'/')),
+    'आव': fyNp(fyLabel), 'अर्को_आव': fyNp(fyNext(fyLabel)), 'अघिल्लो_आव': fyNp(fyPrev(fyLabel)),
+    'म्याद_सकिने': ey ? toNepDigits(ey) + ' असार मसान्त' : '[मिति]',
+    'निवेदक': ORG('signer_name'), 'पद': ORG('signer_post'), 'फोन': toNepDigits(ORG('signer_phone')),
+    'अध्यक्ष': chair.name, 'संचालक_संख्या': toNepDigits(dirs.length || 1),
+    'संचालक_सूची': dirs.map((x,i)=>`${toNepDigits(i+1)}) श्री ${x.name} - ${x.post}`).join('\n')
+  };
+}
+function ltFill(text, vars){ return String(text||'').replace(/\{\{([^}]+)\}\}/g, (m,k)=> k==='प्रगति_तालिका' ? m : (vars[k.trim()] !== undefined ? vars[k.trim()] : m)); }
+const LT_VAR_HELP = ['संस्था','इजाजत_नं','दर्ता_नं','PAN','ठेगाना','मिति','आव','अर्को_आव','अघिल्लो_आव','म्याद_सकिने','निवेदक','पद','फोन','अध्यक्ष','संचालक_सूची'];
+
+// ---------- Editor ----------
+let ltCur = null;   // { key, builtin, tplId, refType, refId }
+function ltTemplate(key){
+  if(LTR_BUILTIN[key]) return Object.assign({ key }, LTR_BUILTIN[key]);
+  const t = ltpls.find(x=>x.id===key); if(!t) return null;
+  return { key, name:t.name, group:'mine', kind:t.kind||'letter', dateStyle:'slash', to:t.addressee, subject:t.subject, title:t.subject, body:t.body, sign:{ label:t.kind==='doc'?'प्रमाणित गर्ने':'निवेदक', phone:t.kind!=='doc' }, custom:true, fyLabel:'आ.व.', fyDefault:'cur' };
+}
+function ltFyDefault(t){ const cur = fiscalYearLabelOf(new Date()) || currentFY().label; return t && t.fyDefault==='prev' ? fyPrev(cur) : cur; }
+function ltFyOptions(sel){
+  const labs = FY_LIST.map(f=>f.label); const cur = fiscalYearLabelOf(new Date());
+  [fyPrev(fyPrev(cur)), fyPrev(cur), cur, fyNext(cur)].forEach(l=>{ if(l && !labs.includes(l)) labs.push(l); });
+  labs.sort();
+  return labs.map(l=>`<option value="${l}" ${l===sel?'selected':''}>${fyNp(l)}</option>`).join('');
+}
+function openLetter(key, opts){
+  if(!requireAccess(canLetters(),'पत्र / निवेदन')) return;
+  const t = ltTemplate(key); if(!t) return;
+  opts = opts || {};
+  ltCur = { key, tpl:t, refType: opts.refType||'', refId: opts.refId||'' };
+  switchTabById('tab-letters');
+  const fy = opts.fy || ltFyDefault(t), date = opts.date || todayBs(), vars = ltVars(fy, date);
+  document.getElementById('lt-name').textContent = t.name;
+  document.getElementById('lt-date').value = date;
+  document.getElementById('lt-fy').innerHTML = ltFyOptions(fy);
+  document.getElementById('lt-fy-label').textContent = t.fyLabel || 'आ.व.';
+  document.getElementById('lt-fy-wrap').style.display = (t.fyLabel || /\{\{(आव|अर्को_आव|अघिल्लो_आव|म्याद_सकिने)\}\}/.test(t.body+(t.title||'')+(t.subject||''))) ? '' : 'none';
+  const isDoc = t.kind === 'doc';
+  document.getElementById('lt-to-wrap').style.display = isDoc ? 'none' : '';
+  document.getElementById('lt-sub-label').textContent = isDoc ? 'शीर्षक (Title)' : 'विषय (Subject)';
+  document.getElementById('lt-to').value = ltFill(t.to||'', vars);
+  document.getElementById('lt-subject').value = ltFill(isDoc ? (t.title||'') : (t.subject||''), vars);
+  document.getElementById('lt-body').value = ltFill(t.body||'', vars);
+  document.getElementById('lt-enc').value = opts.enc || '';
+  const s = t.sign || {};
+  document.getElementById('lt-sign-wrap').style.display = t.signs==='directors' ? 'none' : '';
+  document.getElementById('lt-signlabel').value = s.label || 'निवेदक';
+  document.getElementById('lt-signer').value = ORG('signer_name');
+  document.getElementById('lt-signpost').value = t.key==='renew_progress' ? 'संचालक' : ORG('signer_post');
+  document.getElementById('lt-signphone').value = s.phone ? ORG('signer_phone') : '';
+  document.getElementById('lt-ref').checked = !isDoc;
+  document.getElementById('lt-tbl-wrap').style.display = t.table ? '' : 'none';
+  if(t.table) ltFillStats(fy);
+  document.getElementById('lt-tpl-del').style.display = t.custom ? '' : 'none';
+  document.getElementById('lt-vars').innerHTML = LT_VAR_HELP.map(v=>`<code>{{${v}}}</code>`).join(' ');
+  ltPreview();
+  toggleEntry('lt', true);
+}
+function ltFillStats(fyLabel){
+  const fy = FY_LIST.find(f=>f.label===fyLabel);
+  const box = document.getElementById('lt-tbl-note');
+  if(!fy){ ['pre','fin','flown','pend'].forEach(k=>document.getElementById('lt-t-'+k).value=''); box.innerHTML = '⚠️ यो आ.व. पात्रोमा छैन — संख्या हातैले भर्नुहोस्।'; return; }
+  const s = fyStats(fy);
+  document.getElementById('lt-t-pre').value = s.preM + s.preF;
+  document.getElementById('lt-t-fin').value = s.appIn.length;
+  document.getElementById('lt-t-flown').value = s.flownAll;
+  document.getElementById('lt-t-pend').value = s.pending;
+  box.innerHTML = `✓ आ.व. ${fyNp(fyLabel)} को संख्या system बाट आयो (Pre-Permission ${s.preIn.length} Lot)। पुराना आ.व.को data system मा अधुरो भए <b>हातैले मिलाउनुहोस्</b>।`;
+}
+function ltFyChanged(){
+  if(!ltCur) return;
+  const t = ltCur.tpl, fy = document.getElementById('lt-fy').value, vars = ltVars(fy, document.getElementById('lt-date').value.trim());
+  const isDoc = t.kind==='doc';
+  // आ.व. बदल्दा ढाँचाबाट फेरि भर्ने (हातैले लेखेको व्यहोरा हराउन सक्ने भएकाले सोध्ने)
+  if(confirm('आ.व. अनुसार विषय/व्यहोरा फेरि भर्ने? (हातैले बदलेको भए हराउँछ)')){
+    document.getElementById('lt-subject').value = ltFill(isDoc ? (t.title||'') : (t.subject||''), vars);
+    document.getElementById('lt-body').value = ltFill(t.body||'', vars);
+  }
+  if(t.table) ltFillStats(fy);
+  ltPreview();
+}
+function ltCollect(){
+  const t = ltCur ? ltCur.tpl : {};
+  const g = id => document.getElementById(id);
+  const d = { kind:t.kind||'letter', dateStyle:t.dateStyle||'slash', date: t.noDate ? '' : g('lt-date').value.trim(), to:g('lt-to').value, subject:g('lt-subject').value.trim(), title:g('lt-subject').value.trim(),
+    salutation: t.salutation, body:g('lt-body').value, enc:g('lt-enc').value.trim(), signs:t.signs||'',
+    sign: t.signs==='directors' ? null : { label:g('lt-signlabel').value.trim()||'निवेदक', name:g('lt-signer').value.trim(), post:g('lt-signpost').value.trim(), phone:g('lt-signphone').value.trim(), prefix:(t.sign&&t.sign.prefix)||'', inline:!!(t.sign&&t.sign.inline) } };
+  // निर्णयको मिति शीर्षकमा होइन व्यहोरामै हुन्छ; तर body मा {{मिति}} बाँकी भए भर्ने
+  const vars = ltVars(g('lt-fy').value, g('lt-date').value.trim());
+  d.body = ltFill(d.body, vars); d.subject = ltFill(d.subject, vars); d.title = d.subject; d.to = ltFill(d.to, vars);
+  if(t.table) d.table = { pre:g('lt-t-pre').value, fin:g('lt-t-fin').value, flown:g('lt-t-flown').value, pend:g('lt-t-pend').value };
+  return d;
+}
+function ltPreview(){
+  if(!ltCur) return;
+  const m = 'none';
+  const d = ltCollect();
+  if(document.getElementById('lt-ref').checked && d.kind==='letter') d.ref = { no:'…', fy:'…' };
+  ltPreviewInto(document.getElementById('lt-preview'), d, m);
+}
+function ltValidDate(){
+  const v = document.getElementById('lt-date').value.trim();
+  if(v && !parseBs(v)){ alert('⚠️ मिति (बि.सं.) मिलेन — जस्तै ' + todayBs()); return false; }
+  return true;
+}
+async function ltPrintNow(withChalani){
+  if(!ltCur || !ltValidDate()) return;
+  const d = ltCollect(), m = 'none';
+  if(withChalani){
+    const r = await ltRegister(d, ltCur.key, ltCur.refId);
+    if(!r) return;
+    d.ref = { no:r.chalaniNo, fy:r.fy };
+  }
+  ltPrint([d], m, d.subject);
+}
+// चलानी किताबमा दर्ता (Letters sheet) — चलानी नं. server ले आ.व. अनुसार दिन्छ
+async function ltRegister(d, type, refId){
+  const r = await api('addletter', { letter:{ dateBs:d.date || todayBs(), type:type||'', subject:d.subject || d.title, addressee:String(d.to||'').split('\n')[0] || '', content: JSON.stringify(d), refId:refId||'' } }, null, true);
+  if(!r || !r.ok){ alert('⚠️ चलानी दर्ता भएन: ' + ((r&&r.error)||'')); return null; }
+  letters.push(r.letter); renderLetters();
+  toast(`📮 चलानी नं. ${toNepDigits(r.letter.chalaniNo)} (${toNepDigits(r.letter.fy)})`);
+  return r.letter;
+}
+async function ltSaveTemplate(){
+  if(!ltCur) return;
+  const t = ltCur.tpl, isMine = !!t.custom;
+  const name = prompt('ढाँचाको नाम (पछि यही नामबाट छानिन्छ):', isMine ? t.name : (t.name + ' (मेरो)'));
+  if(!name) return;
+  const g = id => document.getElementById(id);
+  // संस्था विवरण फेरि {{…}} मा फर्काएर राख्ने — Settings बदलिँदा ढाँचा पनि आफै मिल्छ
+  const vars = ltVars(g('lt-fy').value, g('lt-date').value.trim());
+  const back = s => { let o = String(s||''); ['संस्था','इजाजत_नं','ठेगाना','निवेदक','फोन'].forEach(k=>{ const v = vars[k]; if(v && v.length>3) o = o.split(v).join('{{'+k+'}}'); }); return o; };
+  const tpl = { id: isMine && confirm('पुरानै ढाँचा बदल्ने? (Cancel = नयाँ ढाँचा)') ? t.key : '', name:name.trim(), kind:t.kind||'letter', subject:back(g('lt-subject').value), addressee:back(g('lt-to').value), body:back(g('lt-body').value) };
+  const r = await api('savetemplate', { template:tpl }, null, true);
+  if(!r || !r.ok){ alert('⚠️ Save भएन: ' + ((r&&r.error)||'')); return; }
+  const i = ltpls.findIndex(x=>x.id===r.template.id); if(i>=0) ltpls[i] = r.template; else ltpls.push(r.template);
+  renderLetters(); toast('⭐ ढाँचा save भयो: ' + r.template.name);
+}
+async function ltDeleteTemplate(){
+  if(!ltCur || !ltCur.tpl.custom) return;
+  if(!confirm('"' + ltCur.tpl.name + '" ढाँचा हटाउने?')) return;
+  const r = await api('deletetemplate', { id:ltCur.key }, null, true);
+  if(!r || !r.ok){ alert(r && r.error==='FORBIDDEN' ? '⛔ आफूले बनाएको ढाँचा मात्र हटाउन मिल्छ (वा Admin)।' : '⚠️ भएन: ' + ((r&&r.error)||'')); return; }
+  ltpls = ltpls.filter(x=>x.id!==ltCur.key); toggleEntry('lt', false); renderLetters();
+}
+
+// ---------- नविकरण प्याकेज: ४ कागजात एकैचोटि ----------
+function renewPackage(){
+  if(!requireAccess(canLetters(),'पत्र / निवेदन')) return;
+  const fy = document.getElementById('rp-fy').value, pfy = document.getElementById('rp-pfy').value, date = document.getElementById('rp-date').value.trim(), m = 'none';
+  if(date && !parseBs(date)){ alert('⚠️ मिति (बि.सं.) मिलेन — जस्तै ' + todayBs()); return; }
+  const mk = (key, f) => {
+    const t = LTR_BUILTIN[key], v = ltVars(f, date);
+    const d = { kind:t.kind, dateStyle:t.dateStyle||'slash', date: t.noDate ? '' : date, to:ltFill(t.to||'',v), subject:ltFill(t.kind==='doc'?t.title:t.subject, v), salutation:t.salutation, body:ltFill(t.body, v), signs:t.signs||'' };
+    d.title = d.subject;
+    if(!t.signs) d.sign = { label:t.sign.label, name:ORG('signer_name'), post: key==='renew_progress' ? 'संचालक' : (t.sign.phone ? '' : ORG('signer_post')), phone: t.sign.phone ? ORG('signer_phone') : '', prefix:t.sign.prefix||'', inline:!!t.sign.inline };
+    if(t.table){ const F = FY_LIST.find(x=>x.label===f); const s = F ? fyStats(F) : null; d.table = s ? { pre:s.preM+s.preF, fin:s.appIn.length, flown:s.flownAll, pend:s.pending } : {}; }
+    return d;
+  };
+  const docs = [mk('renew_app', fy), mk('renew_minute', fy), mk('renew_progress', pfy), mk('renew_decl', fy)];
+  if(document.getElementById('rp-list').checked) docs.push(mk('renew_list', fy));
+  ltPrint(docs, m, 'इजाजतपत्र नविकरण ' + fyNp(fy));
+}
+
+// ---------- चलानी किताब + ढाँचा सूची ----------
+function renderLetters(){
+  const gal = document.getElementById('lt-gallery'); if(!gal) return;
+  const all = Object.keys(LTR_BUILTIN).map(k=>Object.assign({ key:k }, LTR_BUILTIN[k])).concat(ltpls.map(t=>({ key:t.id, name:t.name, group:'mine', kind:t.kind })));
+  gal.innerHTML = LTR_GROUPS.map(([g,l])=>{
+    const items = all.filter(x=>x.group===g);
+    if(!items.length && g!=='mine') return '';
+    return `<div class="ltg"><div class="ltg-h">${l}</div><div class="ltg-b">${items.length ? items.map(x=>`<button type="button" class="ltg-i" onclick="openLetter('${gsEsc(x.key)}')"><span>${x.kind==='doc'?'📄':'✉️'}</span>${gsEsc(x.name)}</button>`).join('') : '<small style="color:var(--muted)">अहिलेसम्म छैन — कुनै पत्र खोलेर "⭐ ढाँचा Save" थिच्नुहोस्।</small>'}</div></div>`;
+  }).join('');
+  const rpf = document.getElementById('rp-fy');
+  if(rpf && !rpf.dataset.done){ const cur = fiscalYearLabelOf(new Date()); rpf.innerHTML = ltFyOptions(cur); document.getElementById('rp-pfy').innerHTML = ltFyOptions(fyPrev(cur)); document.getElementById('rp-date').value = todayBs(); lhGapFill(); rpf.dataset.done = '1'; }
+  const tb = document.getElementById('lt-table'); if(!tb) return;
+  const q = (document.getElementById('lt-search').value||'').trim().toLowerCase();
+  const rows = letters.slice().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)))
+    .filter(x=>!q || [x.chalaniNo, x.subject, x.addressee, x.createdBy, x.dateBs].join(' ').toLowerCase().includes(q));
+  tb.innerHTML = rows.length ? rows.slice(0, 200).map(x=>`<tr><td><b>${gsEsc(toNepDigits(x.chalaniNo))}</b><br><small style="color:var(--muted)">${gsEsc(toNepDigits(x.fy))}</small></td><td>${gsEsc(toNepDigits(x.dateBs))}</td><td>${gsEsc(x.subject)}</td><td><small>${gsEsc(x.addressee)}</small></td><td><small>${gsEsc(x.createdBy)}</small></td>
+      <td style="white-space:nowrap"><button class="btn btn-sm" onclick="ltReprint('${gsEsc(x.id)}')">🖨 Reprint</button>${isAdmin()?` <button class="btn btn-sm btn-ghost" onclick="ltDeleteLetter('${gsEsc(x.id)}')">🗑</button>`:''}</td></tr>`).join('')
+    : `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px;">${q?'भेटिएन':'चलानी किताब खाली छ — पत्र print गर्दा "📮 चलानी नं. सहित" थिच्नुहोस्।'}</td></tr>`;
+  const n = document.getElementById('lt-count'); if(n) n.textContent = letters.length;
+}
+function ltReprint(id){
+  const x = letters.find(l=>l.id===id); if(!x) return;
+  let d = null; try{ d = JSON.parse(x.content); }catch(e){}
+  if(!d){ alert('⚠️ यो पत्रको विवरण भेटिएन।'); return; }
+  d.ref = { no:x.chalaniNo, fy:x.fy };
+  ltPrint([d], lhMode(), x.subject);
+}
+async function ltDeleteLetter(id){
+  const x = letters.find(l=>l.id===id); if(!x) return;
+  if(!confirm(`चलानी नं. ${toNepDigits(x.chalaniNo)} — "${x.subject}" चलानी किताबबाट हटाउने?`)) return;
+  const r = await api('deleteletter', { id }, null, true);
+  if(r && r.ok){ letters = letters.filter(l=>l.id!==id); renderLetters(); } else alert('⚠️ भएन: ' + ((r&&r.error)||''));
+}
+
+// ---------- संस्था / Letterhead विवरण (Admin) ----------
+const ORG_FORM_KEYS = ['org_name_np','lic_no','regd_no','pan_no','address_np','signer_name','signer_post','signer_phone','directors'];
+function openOrgSettings(){
+  if(!requireAccess(isAdmin(),'संस्था विवरण')) return;
+  const box = document.getElementById('org-fields');
+  box.innerHTML = ORG_FORM_KEYS.map(k=>{
+    const lab = settingLabels[k] || k, v = orgSettings[k] !== undefined ? orgSettings[k] : '';
+    return k==='directors'
+      ? `<div class="form-group full"><label>${gsEsc(lab)}</label><textarea id="org-${k}" class="form-control" rows="3" oninput="orgPreview()">${gsEsc(v)}</textarea></div>`
+      : `<div class="form-group"><label>${gsEsc(lab)}</label><input type="text" id="org-${k}" class="form-control" value="${gsEsc(v)}" oninput="orgPreview()"></div>`;
+  }).join('');
+  orgPreview();
+  document.getElementById('org-modal').style.display = 'flex';
+}
+function orgPreview(){
+  const keep = orgSettings; const tmp = Object.assign({}, orgSettings);
+  ORG_FORM_KEYS.forEach(k=>{ const el = document.getElementById('org-'+k); if(el) tmp[k] = el.value; });
+  orgSettings = tmp;
+  const pv = document.getElementById('org-preview');
+  if(pv) pv.innerHTML = `<div class="lt">${lhHeadHTML()}<div style="height:40px"></div>${lhFootHTML().replace('class="lf"','class="lf lf-prev"')}</div>`;
+  orgSettings = keep;
+}
+async function saveOrgSettings(){
+  const sv = {}; ORG_FORM_KEYS.forEach(k=>{ const el = document.getElementById('org-'+k); if(el) sv[k] = el.value.trim(); });
+  const r = await api('savesettings', { settings:sv }, null, true);
+  if(!r || !r.ok){ alert('⚠️ Save भएन: ' + ((r&&r.error)||'')); return; }
+  orgSettings = r.settings || sv;
+  document.getElementById('org-modal').style.display = 'none';
+  renderLetters(); toast('✅ संस्था विवरण save भयो');
+}
+
+
+(function(){ const st = document.createElement('style'); st.id = 'lt-css'; st.textContent = ltScope(LT_CSS).replace(/\.lf\{position:fixed;/,'.lf{position:absolute;').replace(/\.lt-wm\{position:fixed;/,'.lt-wm{position:absolute;'); document.head.appendChild(st); })();
+
+function ltScope(css){ return css.split('}').map(r=>{ const k = r.indexOf('{'); if(k<0) return r; return r.slice(0,k).split(',').map(x=>x.trim() ? '#lt-preview '+x.trim() : x).join(',') + r.slice(k); }).join('}'); }
 // ================= APPLICANTS: विज्ञापन मिति + अस्वीकृत कारण + DoFE सूची (निर्देशन २०८३-०५-२९) =================
 const LEAD_NOT_SELECTED = ['Interview Failed','Medical Unfit','Offer Rejected','Cancelled','Rejected'];
 const LEAD_REASON_DEFAULT = { 'Interview Failed':'अन्तर्वार्तामा छनौट नभएको', 'Medical Unfit':'स्वास्थ्य परीक्षणमा अयोग्य (Medical Unfit)',
