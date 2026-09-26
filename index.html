@@ -880,7 +880,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>Body (व्यहोरा) — अनुच्छेद छुट्याउन खाली line राख्नुहोस्</label><textarea id="gj-body" class="form-control"></textarea></div>
             <div class="form-group"><label>Enclosure (सम्लग्न प्रमाण)</label><input type="text" id="gj-enc" class="form-control" placeholder="जस्तै: सम्बन्धित देशको भिसा कपी" ></div>
             <label class="gj-check"><input type="checkbox" id="gj-lh" onchange="jwPreview()"> Print with letterhead (company नाम/ठेगाना माथि)</label>
-            <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="gj-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);jwPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="gj-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);jwPreview()"></div></div>
+            <div class="gj-row lh-gap"><div class="form-group"><label>अक्षरको साइज (Font size)</label><select id="gj-fs" class="form-control" onchange="setLtFont(this.value);jwPreview()"><option value="11">11 pt</option><option value="12">12 pt</option><option value="13">13 pt (default)</option><option value="14">14 pt</option><option value="15">15 pt</option><option value="16">16 pt</option></select></div></div><div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="gj-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);jwPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="gj-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);jwPreview()"></div></div>
             <div class="gj-note">⚠ यो draft हो — कानुनी व्यहोरा Manager/कानुनी सल्लाहकारले जाँचेर मात्र विभागमा पेश गर्नुहोस्। [ ] कोष्ठकभित्रको भाग आफ्नो विवरणले बदल्नुहोस्।</div>
           </div>
           <div class="gj-preview-wrap"><div class="gj-paper" id="gj-preview"></div></div>
@@ -941,7 +941,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
                 <div class="form-group"><label>सम्पर्क नं. (खाली भए नछापिने)</label><input type="text" id="lt-signphone" class="form-control"></div>
               </div>
             </div>
-            <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="lt-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);ltPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="lt-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);ltPreview()"></div></div>
+            <div class="gj-row lh-gap"><div class="form-group"><label>अक्षरको साइज (Font size)</label><select id="lt-fs" class="form-control" onchange="setLtFont(this.value);ltPreview()"><option value="11">11 pt</option><option value="12">12 pt</option><option value="13">13 pt (default)</option><option value="14">14 pt</option><option value="15">15 pt</option><option value="16">16 pt</option></select></div></div><div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="lt-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);ltPreview()"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="lt-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);ltPreview()"></div></div>
             <label class="gj-check"><input type="checkbox" id="lt-ref" onchange="ltPreview()"> प.सं. / च.नं. देखाउने (चलानी नं. सहित print गर्दा)</label>
             <div class="gj-note">ℹ️ प्रयोग गर्न मिल्ने शब्द: <span id="lt-vars"></span> — संस्थाको विवरण <b>Administration → संस्था विवरण</b> बाट आउँछ। [ ] कोष्ठकभित्रको भाग आफ्नो विवरणले बदल्नुहोस्।</div>
           </div>
@@ -964,7 +964,7 @@ input:disabled, select:disabled, textarea:disabled{background:#f1f5f9;color:#94a
             <div class="form-group"><label>इजाजतपत्रको म्याद सकिने आ.व.</label><select id="rp-fy" class="form-control"></select></div>
             <div class="form-group"><label>प्रगति विवरणको आ.व.</label><select id="rp-pfy" class="form-control"></select></div>
           </div>
-          <div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="rp-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="rp-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);"></div></div>
+          <div class="gj-row lh-gap"><div class="form-group"><label>अक्षरको साइज (Font size)</label><select id="rp-fs" class="form-control" onchange="setLtFont(this.value);"><option value="11">11 pt</option><option value="12">12 pt</option><option value="13">13 pt (default)</option><option value="14">14 pt</option><option value="15">15 pt</option><option value="16">16 pt</option></select></div></div><div class="gj-row lh-gap"><div class="form-group"><label>Letterhead कागज: माथि खाली (mm)</label><input type="number" id="rp-top" class="form-control" min="0" max="120" step="1" onchange="setLhGap(this.value,null);"></div><div class="form-group"><label>तल खाली (mm)</label><input type="number" id="rp-bot" class="form-control" min="0" max="80" step="1" onchange="setLhGap(null,this.value);"></div></div>
           <label class="gj-check"><input type="checkbox" id="rp-list" checked> संलग्न कागजातको सूची पनि (५ औं पाना)</label>
           <div class="imp-help">निवेदन · संचालक समितिको निर्णय · बार्षिक प्रगति बिवरण (संख्या system बाट) · प्रतिबद्धता/स्वघोषणा — एउटै print मा, हरेक नयाँ पानामा। कुनै एउटा सच्याउनुपर्ने भए माथिबाट छुट्टै खोल्नुहोस्।<br>बाहिरबाट ल्याउनुपर्ने: बैंक ग्यारेन्टी, कर चुक्ता, कम्पनी अध्यावधिक पत्र, वडाको कर रसिद, नविकरण दस्तुर भौचर, इजाजतपत्र र शेयर लगतको प्रतिलिपि।</div>
           <div style="text-align:right;margin-top:10px"><button type="button" class="btn" style="width:auto" onclick="renewPackage()">🖨 नविकरणका सबै कागजात Print</button></div>
@@ -2199,11 +2199,15 @@ async function grvDelete(){
 const LH_GAP_DEF = { top:45, bot:25 };
 function lhGap(){ const g = Object.assign({}, LH_GAP_DEF); try{ const t = localStorage.getItem('lhTopMm'), b = localStorage.getItem('lhBotMm'); if(t!==null && !isNaN(+t)) g.top = Math.min(120, Math.max(0, +t)); if(b!==null && !isNaN(+b)) g.bot = Math.min(80, Math.max(0, +b)); }catch(e){} return g; }
 function setLhGap(t, b){ try{ if(t!==null && t!=='' && !isNaN(+t)) localStorage.setItem('lhTopMm', String(+t)); if(b!==null && b!=='' && !isNaN(+b)) localStorage.setItem('lhBotMm', String(+b)); }catch(e){} lhGapFill(); }
-function lhGapFill(){ const g = lhGap(); ['gj','lt','rp'].forEach(k=>{ const t = document.getElementById(k+'-top'), b = document.getElementById(k+'-bot'); if(t && document.activeElement!==t) t.value = g.top; if(b && document.activeElement!==b) b.value = g.bot; }); }
+function lhGapFill(){ ['gj','lt','rp'].forEach(k=>{ const f = document.getElementById(k+'-fs'); if(f) f.value = String(ltFontPt()); }); const g = lhGap(); ['gj','lt','rp'].forEach(k=>{ const t = document.getElementById(k+'-top'), b = document.getElementById(k+'-bot'); if(t && document.activeElement!==t) t.value = g.top; if(b && document.activeElement!==b) b.value = g.bot; }); }
+// अक्षरको साइज (pt) — print र preview दुवैमा; यही computer मा सम्झिने
+function ltFontPt(){ try{ const v = +localStorage.getItem('ltFontPt'); return (v>=9 && v<=20) ? v : 13; }catch(e){ return 13; } }
+function setLtFont(v){ try{ localStorage.setItem('ltFontPt', String(+v)); }catch(e){} }
+function ltFontCSS(){ const pt = ltFontPt(); return `.lt{font-size:${pt}pt !important;line-height:1.8 !important;} .lt-sub{font-size:${pt}pt;} .lt-title{font-size:${pt+2}pt;}`; }
 // @page margin: माथि = letterhead को खाली ठाउँ, तल = नीलो पट्टीको ठाउँ, दायाँ 20mm, बायाँ 25mm
 function lhPageMargin(){ const g = lhGap(); return `${g.top}mm 20mm ${g.bot}mm 25mm`; }
 // Preview मा पनि त्यत्तिकै खाली देखाउने (A4 210mm ≈ preview को चौडाइ)
-function lhPreviewPad(el){ if(!el) return; const g = lhGap(), w = el.clientWidth || 640, px = w / 210; el.style.paddingTop = Math.round(g.top * px) + 'px'; el.style.paddingBottom = Math.round(g.bot * px) + 'px'; el.style.paddingLeft = Math.round(25 * px) + 'px'; el.style.paddingRight = Math.round(20 * px) + 'px'; }
+function lhPreviewPad(el){ if(!el) return; const g = lhGap(), w = el.clientWidth || 640, px = w / 210; const lt = el.querySelector('.lt'); if(lt) lt.style.fontSize = (ltFontPt() * 96/72 * w/794).toFixed(2) + 'px'; el.style.paddingTop = Math.round(g.top * px) + 'px'; el.style.paddingBottom = Math.round(g.bot * px) + 'px'; el.style.paddingLeft = Math.round(25 * px) + 'px'; el.style.paddingRight = Math.round(20 * px) + 'px'; }
 // ---------- LIKHIT JAWAB (लिखित जवाफ) ----------
 function jwVars(g){
   return {
@@ -2293,7 +2297,7 @@ function jwPreview(){
   const pv = document.getElementById('gj-preview'); if(!pv) return;
   const c = jwCollect();
   pv.innerHTML = `<div class="lt">${jwLetterHTML(c)}</div>`;
-  if(c.letterhead){ pv.style.padding = ''; } else { lhGapFill(); lhPreviewPad(pv); }
+  if(c.letterhead){ pv.style.padding = ''; const lt = pv.querySelector('.lt'); if(lt) lt.style.fontSize = (ltFontPt() * 96/72 * (pv.clientWidth||640)/794).toFixed(2) + 'px'; } else { lhGapFill(); lhPreviewPad(pv); }
 }
 async function jwSave(extra, quiet){
   const g = grievances.find(x=>x.id===jawabGId); if(!g) return null;
@@ -2320,7 +2324,7 @@ async function jwPrint(){
   if(!win){ alert('Popup allow गर्नुहोस्।'); return; }
   win.document.write(`<!DOCTYPE html><html lang="ne"><head><meta charset="UTF-8"><title>Likhit Jawab ${gsEsc(g?g.caseNo:'')}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
-    <style>@page{size:A4;margin:${c.letterhead ? '22mm 20mm 20mm 25mm' : lhPageMargin()};} body{margin:0;} ${JW_CSS}</style></head>
+    <style>@page{size:A4;margin:${c.letterhead ? '22mm 20mm 20mm 25mm' : lhPageMargin()};} body{margin:0;} ${JW_CSS} ${ltFontCSS()}</style></head>
     <body><div class="lt">${jwLetterHTML(c)}</div>
     <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.focus();window.print();},250);});<\/script>
     </body></html>`);
@@ -2441,7 +2445,7 @@ function ltPrint(docs, mode, title){
   const pages = docs.map((d,i)=> ltDocHTML(d, mode) + (i<docs.length-1 ? '<div class="lt-pb"></div>' : '')).join('');
   win.document.write(`<!DOCTYPE html><html lang="ne"><head><meta charset="UTF-8"><title>${gsEsc(title||'Letter')}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Roboto+Slab:wght@800&display=swap" rel="stylesheet">
-    <style>@page{size:A4;margin:${margin};} html{-webkit-print-color-adjust:exact;print-color-adjust:exact;} body{margin:0;} ${LT_CSS}</style></head>
+    <style>@page{size:A4;margin:${margin};} html{-webkit-print-color-adjust:exact;print-color-adjust:exact;} body{margin:0;} ${LT_CSS} ${ltFontCSS()}</style></head>
     <body><div class="lt">${pages}${mode==='sys'?lhFootHTML():''}</div>
     <script>(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(function(){window.focus();window.print();},300);});<\/script>
     </body></html>`);
